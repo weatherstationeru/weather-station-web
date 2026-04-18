@@ -1138,6 +1138,15 @@ body {
   align-items: flex-end;
 }
 
+/* ── Desktop: move chat to bottom-LEFT so it never overlaps the weather cards ── */
+@media (min-width: 1024px) {
+  .chat-widget {
+    right: unset;
+    left: 4vw;
+    align-items: flex-start;
+  }
+}
+
 .chat-bubble {
   width: 60px;
   height: 60px;
