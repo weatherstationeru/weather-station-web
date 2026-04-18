@@ -17,8 +17,7 @@ import { fetchLatest, subscribeToLatest } from '../lib/weatherApi';
 import { sendChatMessage } from '../lib/chatApi';
 import type { ChatMessage } from '../lib/chatApi';
 import type { WeatherRow } from '../types/weather';
-import PrayerTimes from './components/PrayerTimes';
-import Sidebar from './components/Sidebar';
+import NavMenu from './components/NavMenu';
 
 // ─── Web Speech API types (not bundled in Next.js tslib by default) ───────────
 interface SpeechRecognitionResult {
@@ -347,10 +346,8 @@ export default function Dashboard() {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <>
-      {/* Prayer Times Widget */}
-      <PrayerTimes />
-      {/* Slide-out Sidebar */}
-      <Sidebar />
+      {/* Nav Menu (burger + prayer times + startup toast) */}
+      <NavMenu />
 
       {/* Chat Widget */}
       <div className="chat-widget">
