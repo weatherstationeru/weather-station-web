@@ -1021,6 +1021,17 @@ body {
 .navmenu-item--about { cursor: default; align-items: flex-start; }
 .navmenu-item--about .navmenu-item-icon { margin-top: 2px; }
 
+/* Link item (Team, etc.) — same look as other items but styled as an anchor */
+.navmenu-item--link {
+  text-decoration: none;
+  display: flex;
+  color: rgba(220, 235, 255, 0.78);
+}
+.navmenu-item--link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f0f6ff;
+}
+
 /* Inline prayer times list */
 .navmenu-prayer {
   background: rgba(255, 255, 255, 0.03);
@@ -1053,11 +1064,11 @@ body {
 .navmenu-prayer-msg--err { color: #f87171; font-style: normal; }
 .navmenu-prayer-city  { font-size: 11px; color: rgba(180, 205, 245, 0.35); padding: 4px 8px 2px; letter-spacing: 0.2px; }
 
-/* Prayer Times startup toast — top right */
+/* Prayer Times startup toast — emerges from next to burger button (top-left) */
 .prayer-toast {
   position: fixed;
   top: 4vh;
-  right: 4vw;
+  left: calc(4vw + 56px);  /* sits right of the 46px burger + 10px gap */
   z-index: 200;
   display: flex;
   align-items: center;
@@ -1077,6 +1088,7 @@ body {
   transform: translateZ(0);
   direction: rtl;
   pointer-events: none;
+  white-space: nowrap;
 }
 .prayer-toast-mosque { font-size: 17px; }
 
@@ -1753,4 +1765,142 @@ body {
     width: min(280px, 20vw);
     max-width: 340px;
   }
+}
+
+/* ===== /team PAGE ===== */
+
+/* Back button — top left, matches burger size */
+.team-back-btn {
+  position: fixed;
+  top: 4vh;
+  left: 4vw;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px 10px 12px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 0.5px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  color: rgba(220, 235, 255, 0.85);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: background 0.22s ease, color 0.22s ease;
+  will-change: transform;
+  transform: translateZ(0);
+}
+.team-back-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #f0f6ff;
+}
+
+/* Page layout */
+.team-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px 20px 60px;
+  min-height: 100vh;
+}
+
+/* Header */
+.team-header {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeUp 0.6s ease both;
+}
+.team-header-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+.team-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(36px, 7vw, 64px);
+  color: #fff;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin: 0 0 10px;
+}
+.team-subtitle {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+/* Card grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.1s;
+}
+
+/* Individual member card */
+.team-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 0.5px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 28px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  transition: transform 0.25s ease, background 0.2s;
+  will-change: transform;
+  transform: translateZ(0);
+}
+.team-card:hover {
+  background: var(--glass-hover);
+  transform: translateY(-3px) translateZ(0);
+}
+
+/* Placeholder style */
+.team-card--placeholder {
+  border-style: dashed;
+  opacity: 0.7;
+}
+
+/* Avatar circle */
+.team-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(96, 165, 250, 0.12);
+  border: 0.5px solid rgba(96, 165, 250, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #93c5fd;
+  margin-bottom: 4px;
+}
+
+.team-member-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.team-member-role {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+/* Coming-soon note */
+.team-coming-soon {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 13px;
+  color: var(--text-dim);
+  font-style: italic;
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.25s;
 }

@@ -7,13 +7,15 @@
  *  - Simple three-line burger icon (top-left, fixed, glass style)
  *  - Framer-motion dropdown panel when clicked
  *  - "Prayer Times" option inside the menu → expands inline prayer list
+ *  - "Team" link → navigates to /team
  *  - Click-outside closes the menu
- *  - 3-second startup toast "مواقيت الصلاة" (top-right, then auto-hides)
+ *  - 3-second startup toast "مواقيت الصلاة" animating from the menu button area
  *  - Fetches Cairo prayer times from aladhan API on mount
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface PrayerTimings {
@@ -94,15 +96,15 @@ export default function NavMenu() {
 
   return (
     <>
-      {/* ── Startup toast ─────────────────────────────────────────────────── */}
+      {/* ── Startup toast — emerges from menu button (top-left) ──────── */}
       <AnimatePresence>
         {showToast && (
           <motion.div
             className="prayer-toast"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{    opacity: 0, x: 30 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+            initial={{ opacity: 0, x: -20, y: -10, scale: 0.80 }}
+            animate={{ opacity: 1, x: 0,   y: 0,   scale: 1    }}
+            exit={{    opacity: 0, x: -20, y: -10, scale: 0.80 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 26 }}
             aria-live="polite"
           >
             <span className="prayer-toast-mosque">🕌</span>
@@ -208,13 +210,12 @@ export default function NavMenu() {
 
               <div className="navmenu-divider" />
 
-              {/* ── About ─────────────────────────────────────────────────── */}
-              <div className="navmenu-item navmenu-item--about">
-                <span className="navmenu-item-icon" aria-hidden="true">ℹ️</span>
-                <span className="navmenu-item-text navmenu-item-text--dim">
-                  ESP32 · Supabase · Real-time IoT dashboard
-                </span>
-              </div>
+              {/* ── Team ──────────────────────────────────────────── */}
+              <Link href="/team" className="navmenu-item navmenu-item--link" onClick={() => setIsMenuOpen(false)}>
+                <span className="navmenu-item-icon" aria-hidden="true">👥</span>
+                <span className="navmenu-item-text">Team</span>
+                <span className="navmenu-chevron" aria-hidden="true" style={{ fontSize: '12px', opacity: 0.5 }}>›</span>
+              </Link>
             </motion.div>
           )}
         </AnimatePresence>
