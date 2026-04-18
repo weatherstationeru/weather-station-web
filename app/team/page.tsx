@@ -4,30 +4,30 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Team — ERU Weather Station',
-  description: 'Meet the 12 team members behind the ERU Weather Station IoT dashboard.',
+  description: 'Meet the 12 engineers behind the ERU Weather Station IoT dashboard.',
 };
 
-// ── Team roster (strict order) ────────────────────────────────────────────────
+// ── Team roster ───────────────────────────────────────────────────────────────
 const TEAM = [
-  { id: 1,  name: 'Mohannad Abdelkawy' },
-  { id: 2,  name: 'Yousif Mohammad'    },
-  { id: 3,  name: 'Ahmed Soliman'      },
-  { id: 4,  name: 'Hamdy Mohammad'     },
-  { id: 5,  name: 'Helmy Ahmed'        },
-  { id: 6,  name: 'Ammar Ali'          },
-  { id: 7,  name: 'Michael Meseha'     },
-  { id: 8,  name: 'Mohammad Aboulela'  },
-  { id: 9,  name: 'Hassan Salah'       },
-  { id: 10, name: 'Omar Osmanly'       },
-  { id: 11, name: 'Ahmed Eltoukhy'     },
-  { id: 12, name: 'Ahmed Mohammad'     },
+  { id: 1,  name: 'ENG/ Mohannad Abdelkawy' },
+  { id: 2,  name: 'ENG/ Yousif Mohammad'    },
+  { id: 3,  name: 'ENG/ Ahmed Soliman'      },
+  { id: 4,  name: 'ENG/ Hamdy Mohammad'     },
+  { id: 5,  name: 'ENG/ Helmy Ahmed'        },
+  { id: 6,  name: 'ENG/ Ammar Ali'          },
+  { id: 7,  name: 'ENG/ Michael Meseha'     },
+  { id: 8,  name: 'ENG/ Mohammad Aboulela'  },
+  { id: 9,  name: 'ENG/ Hassan Salah'       },
+  { id: 10, name: 'ENG/ Omar Osmanly'       },
+  { id: 11, name: 'ENG/ Ahmed Eltoukhy'     },
+  { id: 12, name: 'ENG/ Ahmed Mohammad'     },
 ];
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function TeamPage() {
   return (
     <>
-      {/* ── Background video (same as dashboard) ──────────────────────────── */}
+      {/* ── Background video — GPU accelerated ───────────────────────────── */}
       <video
         className="bg-video"
         src="/bg-video.mp4"
@@ -35,10 +35,15 @@ export default function TeamPage() {
         muted
         loop
         playsInline
+        style={{
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
+          willChange: 'transform',
+        }}
       />
       <div className="bg-video-overlay" />
 
-      {/* ── Animated sky / decorative layers ─────────────────────────────── */}
+      {/* ── Decorative sky layers ─────────────────────────────────────────── */}
       <div className="sky-wrap" />
       <div className="stars" />
       <div className="aurora">
@@ -55,7 +60,7 @@ export default function TeamPage() {
       <div className="moon" />
       <div className="horizon-glow" />
 
-      {/* ── Back button ───────────────────────────────────────────────────── */}
+      {/* ── Fixed back button ─────────────────────────────────────────────── */}
       <Link href="/" className="team-back-btn" aria-label="Back to dashboard">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -69,43 +74,46 @@ export default function TeamPage() {
         <span>Dashboard</span>
       </Link>
 
-      {/* ── Main content ──────────────────────────────────────────────────── */}
+      {/* ── Main scroll container ─────────────────────────────────────────── */}
       <main className="team-page">
 
-        {/* Header */}
+        {/* Header — English only, sans-serif */}
         <header className="team-header">
           <span className="team-header-icon" aria-hidden="true">👥</span>
-          <h1 className="team-title">
-            فريق العمل<br />
-            <span className="team-title-en">Team Members</span>
-          </h1>
+          <h1 className="team-title">Team Members</h1>
           <p className="team-subtitle">
-            The 12 members behind the ERU Weather Station
+            The 12 engineers behind the ERU Weather Station
           </p>
         </header>
 
-        {/* Member grid */}
+        {/* Responsive 4-column member grid */}
         <div className="team-grid" role="list">
-          {TEAM.map(({ id, name }) => (
-            <article key={id} className="team-card" role="listitem">
-              {/* Avatar */}
-              <div className="team-avatar" aria-hidden="true">
-                <User size={32} strokeWidth={1.4} />
-              </div>
+          {TEAM.map(({ id, name }) => {
+            const [prefix, ...rest] = name.split(' ');
+            return (
+              <article key={id} className="team-card" role="listitem">
+                {/* Avatar ring */}
+                <div className="team-avatar" aria-hidden="true">
+                  <User size={30} strokeWidth={1.4} />
+                </div>
 
-              {/* Number badge */}
-              <span className="team-num">#{id.toString().padStart(2, '0')}</span>
+                {/* Sequential badge */}
+                <span className="team-num">#{id.toString().padStart(2, '0')}</span>
 
-              {/* Name */}
-              <h2 className="team-member-name">{name}</h2>
+                {/* Name — highlight "ENG/" prefix */}
+                <h2 className="team-member-name">
+                  <span className="team-name-prefix">{prefix}</span>{' '}
+                  {rest.join(' ')}
+                </h2>
 
-              {/* Role */}
-              <p className="team-member-role">ERU Weather Station</p>
-            </article>
-          ))}
+                {/* Role */}
+                <p className="team-member-role">ERU Weather Station</p>
+              </article>
+            );
+          })}
         </div>
 
-        {/* Bottom back button */}
+        {/* Bottom navigation */}
         <div className="team-footer">
           <Link href="/" className="team-back-btn team-back-btn--bottom">
             <svg
