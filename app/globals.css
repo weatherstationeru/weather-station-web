@@ -63,6 +63,35 @@ body {
 }
 
 /*
+ * Desktop: the 792KB video is too low-res for 1440p/4K monitors.
+ * Hide it and replace with a crisp CSS gradient so the background
+ * is always pixel-perfect at any screen size/resolution.
+ * All decorative layers (aurora, stars, clouds, moon) remain intact
+ * since they are CSS-drawn on top.
+ */
+@media (min-width: 1024px) {
+  .bg-video {
+    display: none;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;                /* below video slot (-1) and all UI */
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(29, 78, 216, 0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 80%, rgba(14, 165, 233, 0.10) 0%, transparent 50%),
+      linear-gradient(160deg, #080c12 0%, #0c1220 30%, #0d1529 60%, #0a0f1a 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    pointer-events: none;
+  }
+}
+
+/*
  * Overscroll fill: a fixed dark layer at z-index:-2, below the video.
  * This colours the iOS/Android rubber-band overscroll area dark
  * without touching html/body background (which would hide the video).
