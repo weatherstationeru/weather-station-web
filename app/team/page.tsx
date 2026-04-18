@@ -27,7 +27,10 @@ const TEAM = [
 export default function TeamPage() {
   return (
     <>
-      {/* ── Background video — GPU accelerated ───────────────────────────── */}
+      {/* ── Overscroll fill — dark bg for iOS/Android rubber-band ───── */}
+      <div className="bg-overscroll" />
+
+      {/* ── Background video — GPU accelerated via .bg-video CSS ─────── */}
       <video
         className="bg-video"
         src="/bg-video.mp4"
@@ -35,11 +38,6 @@ export default function TeamPage() {
         muted
         loop
         playsInline
-        style={{
-          transform: 'translateZ(0)',
-          backfaceVisibility: 'hidden',
-          willChange: 'transform',
-        }}
       />
       <div className="bg-video-overlay" />
 

@@ -22,9 +22,13 @@
   box-sizing: border-box;
 }
 
-html {
-  /* Prevent white overscroll flash on iOS / Android */
-  background-color: #060e1e;
+html, body {
+  /*
+   * MUST remain background-transparent — any opaque background-color here
+   * will paint OVER the fixed z-index:-1 background video and hide it.
+   * Dark overscroll color comes from the .overscroll-fill element instead.
+   */
+  background: transparent;
 }
 
 body {
@@ -32,15 +36,18 @@ body {
   min-height: 100vh;
   color: var(--text-primary);
   overflow-x: hidden;
-  /* Dark fallback — prevents white bar during mobile scroll overscroll */
-  background-color: #060e1e;
 }
 
 /* ===== BACKGROUND VIDEO ===== */
 .bg-video {
   position: fixed;
   inset: 0;
-  z-index: -4;
+  /*
+   * z-index:-1 keeps the video below all page content (default z-index:0)
+   * but ABOVE the html/body canvas background, so it remains visible
+   * even when a dark background-color is applied to html/body for overscroll.
+   */
+  z-index: -1;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -52,11 +59,28 @@ body {
   will-change: transform;
 }
 
-/* Darkening scrim — very light so video remains clear */
+/*
+ * Overscroll fill: a fixed dark layer at z-index:-2, below the video.
+ * This colours the iOS/Android rubber-band overscroll area dark
+ * without touching html/body background (which would hide the video).
+ */
+/*
+ * Overscroll fill: deepest layer — dark bg for mobile overscroll areas.
+ * z-index:-10 keeps it far below the video (-1) and all other layers.
+ */
+.bg-overscroll {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background: #060e1e;
+  pointer-events: none;
+}
+
+/* Darkening scrim — sits just above the video */
 .bg-video-overlay {
   position: fixed;
   inset: 0;
-  z-index: -3;
+  z-index: 1;   /* above video (-1) but below UI content (100+) */
   background: rgba(0, 0, 0, 0.10);
   pointer-events: none;
 }
@@ -65,7 +89,7 @@ body {
 .sky-wrap {
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: 2;   /* above video overlay (1), below UI (100+) */
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 45%, var(--sky-bot) 100%);
   transition: background 3s ease;
   /* Very low opacity — video is the dominant background */
@@ -75,8 +99,9 @@ body {
 .stars {
   position: fixed;
   inset: 0;
-  z-index: -3;
+  z-index: 2;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .stars::before,
@@ -110,7 +135,7 @@ body {
 .aurora {
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: 3;   /* above sky(2) and video(-1), below UI(100+) */
   pointer-events: none;
   overflow: hidden;
 }
@@ -164,7 +189,7 @@ body {
 .clouds {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 3;   /* same tier as aurora, above video(-1) */
   pointer-events: none;
   overflow: hidden;
 }
@@ -297,7 +322,7 @@ body {
   position: fixed;
   top: 60px;
   right: 80px;
-  z-index: -1;
+  z-index: 4;   /* slightly above aurora/clouds (3) */
   width: 90px;
   height: 90px;
   border-radius: 50%;
@@ -305,6 +330,7 @@ body {
   box-shadow: 0 0 0 12px rgba(255, 220, 100, 0.06), 0 0 0 28px rgba(255, 220, 100, 0.04), 0 0 60px 20px rgba(255, 200, 80, 0.1);
   opacity: 0.75;
   animation: moonPulse 6s ease-in-out infinite alternate;
+  pointer-events: none;
 }
 
 @keyframes moonPulse {
@@ -323,7 +349,7 @@ body {
   left: 0;
   right: 0;
   height: 200px;
-  z-index: -1;
+  z-index: 3;
   background: linear-gradient(to top, rgba(26, 90, 140, 0.3) 0%, transparent 100%);
   pointer-events: none;
 }

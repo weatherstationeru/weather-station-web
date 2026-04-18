@@ -415,6 +415,8 @@ export default function Dashboard() {
         )}
       </div>
 
+      {/* Overscroll fill — dark color shows in iOS/Android rubber-band areas */}
+      <div className="bg-overscroll" />
       {/* Background video */}
       <video
         className="bg-video"
