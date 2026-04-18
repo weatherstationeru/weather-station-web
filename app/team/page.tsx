@@ -20,76 +20,71 @@ const teamMembers = [
 
 export default function TeamPage() {
   return (
-    <main className="min-h-screen w-full bg-[#080c12] py-12 px-4 font-sans">
+    <main className="min-h-screen w-full bg-[#0a192f] p-8 font-sans text-white">
 
       {/* Back Button */}
-      <div className="max-w-[860px] mx-auto mb-6">
-        <Link href="/" className="text-[#6c8ebf] hover:text-white text-sm flex items-center gap-2 transition-colors w-fit">
+      <div className="max-w-5xl mx-auto mb-6">
+        <Link href="/" className="text-blue-300 hover:text-white transition-colors">
           ← Back to Dashboard
         </Link>
       </div>
 
-      {/* Main Container - Exact HTML Replica */}
-      <div className="bg-[#0d1117] rounded-[16px] py-10 px-8 max-w-[860px] mx-auto">
-
-        {/* Header */}
-        <div className="text-center mb-[8px]">
-          <h2 className="text-[28px] font-medium text-white m-0 tracking-tight">Meet the engineers</h2>
-          <p className="text-[13px] text-[#8b95a5] mt-[6px] mb-0">12 Mechatronics Engineers building the future.</p>
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[28px] mt-[32px]">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="flex items-start gap-[14px]">
-
-              {/* Avatar Logic: Images for 1-11, Initials for 12 */}
-              <div
-                className="shrink-0 flex items-center justify-center overflow-hidden rounded-full bg-[#1a2130]"
-                style={{ width: '82px', height: '82px', minWidth: '82px', border: `2.5px solid ${member.color}` }}
-              >
-                {member.id === 12 ? (
-                  <span className="text-[15px] font-medium text-[#c8d4e8] tracking-[0.5px]">
-                    {member.initials}
-                  </span>
-                ) : (
-                  <img
-                    src={`/team/${member.id}.jpeg`}
-                    alt={member.name}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-                  />
-                )}
-              </div>
-
-              {/* Info Details */}
-              <div className="flex-1 pt-[2px]">
-                <p className="text-[14px] font-medium text-white m-0 mb-[3px]">{member.name}</p>
-                <p className="text-[11.5px] text-[#6c8ebf] m-0 mb-[8px]">{member.role}</p>
-
-                <div className="h-[0.5px] bg-[#1e2a3a] m-0 mb-[10px]"></div>
-
-                {/* LinkedIn Icon */}
-                {member.linkedin ? (
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-[28px] h-[28px] rounded-full bg-[#1a2130] inline-flex items-center justify-center border-[0.5px] border-[#2a3a50] hover:bg-[#223050] transition-colors"
-                  >
-                    <svg viewBox="0 0 24 24" style={{ width: '14px', height: '14px', fill: '#8b95a5' }}>
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                  </a>
-                ) : (
-                  <span className="text-[11px] text-[#3a4a5a] italic">No LinkedIn</span>
-                )}
-              </div>
-
-            </div>
-          ))}
-        </div>
-
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h2 className="text-3xl font-bold text-white mb-2">Meet the engineers</h2>
+        <p className="text-slate-400">12 Mechatronics Engineers building the future.</p>
       </div>
+
+      {/* GRID & CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        {teamMembers.map((member) => (
+          <div
+            key={member.id}
+            className="flex flex-row items-center gap-6 p-6 bg-white/5 border border-white/10 rounded-2xl shadow-lg hover:bg-white/10 transition-all"
+          >
+            {/* Avatar / Image */}
+            <div
+              className="shrink-0 flex items-center justify-center overflow-hidden rounded-full bg-[#1a2130]"
+              style={{ width: '82px', height: '82px', minWidth: '82px', border: `2.5px solid ${member.color}` }}
+            >
+              {member.id === 12 ? (
+                <span className="text-[15px] font-medium text-[#c8d4e8] tracking-[0.5px]">
+                  {member.initials}
+                </span>
+              ) : (
+                <img
+                  src={`/team/${member.id}.jpeg`}
+                  alt={member.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                />
+              )}
+            </div>
+
+            {/* Text & Social */}
+            <div className="flex-1 flex flex-col items-start">
+              <h3 className="text-lg font-bold text-white m-0">{member.name}</h3>
+              <p className="text-sm text-blue-300 m-0 mb-3">{member.role}</p>
+
+              {member.linkedin ? (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="opacity-70 hover:opacity-100 transition-opacity"
+                  aria-label={`LinkedIn profile for ${member.name}`}
+                >
+                  <svg viewBox="0 0 24 24" style={{ width: '20px', height: '20px', fill: 'currentColor' }}>
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+              ) : (
+                <span className="text-xs text-slate-500 italic">No LinkedIn</span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
     </main>
   );
 }
