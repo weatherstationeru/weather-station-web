@@ -18,6 +18,7 @@ import { sendChatMessage } from '../lib/chatApi';
 import type { ChatMessage } from '../lib/chatApi';
 import type { WeatherRow } from '../types/weather';
 import PrayerTimes from './components/PrayerTimes';
+import Sidebar from './components/Sidebar';
 
 // ─── Web Speech API types (not bundled in Next.js tslib by default) ───────────
 interface SpeechRecognitionResult {
@@ -77,7 +78,6 @@ function uvAdvice(uv: number | null): string {
 
 export default function Dashboard() {
   // ── UI state ──────────────────────────────────────────────────────────────
-  const [isNavOpen, setIsNavOpen]   = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [skyColors, setSkyColors]   = useState({ top: '#0d2545', mid: '#1a4a7a', bot: '#2d6ea8' });
   const [moonOpacity, setMoonOpacity] = useState(0);
@@ -349,18 +349,8 @@ export default function Dashboard() {
     <>
       {/* Prayer Times Widget */}
       <PrayerTimes />
-      {/* Navigation */}
-      <div className="nav-container">
-        <div
-          className={`burger-menu ${isNavOpen ? 'active' : ''}`}
-          onClick={() => setIsNavOpen(!isNavOpen)}
-        >
-          <span></span><span></span><span></span>
-        </div>
-        <div className={`dropdown-menu ${isNavOpen ? 'active' : ''}`}>
-          <a href="#"><i className="fas fa-info-circle"></i> About</a>
-        </div>
-      </div>
+      {/* Slide-out Sidebar */}
+      <Sidebar />
 
       {/* Chat Widget */}
       <div className="chat-widget">
