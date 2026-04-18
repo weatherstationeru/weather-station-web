@@ -24,8 +24,23 @@ export default function TeamPage() {
 
       {/* Back Button */}
       <div style={{ maxWidth: '860px', margin: '0 auto 1.5rem' }}>
-        <Link href="/" style={{ color: '#6c8ebf', textDecoration: 'none', fontSize: '13px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
-          ← Back to Dashboard
+        <Link
+          href="/"
+          style={{
+            color: '#8b95a5',
+            textDecoration: 'none',
+            fontSize: '14px',
+            fontWeight: 500,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'color 0.2s ease',
+            display: 'inline-block',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = '#8b95a5')}
+        >
+          ← Back to Home
         </Link>
       </div>
 
