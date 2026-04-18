@@ -4,23 +4,23 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Team — ERU Weather Station',
-  description: 'Meet the 12 engineers behind the ERU Weather Station IoT dashboard.',
+  description: '12 Mechatronics Engineers building the future.',
 };
 
-// ── Team roster ───────────────────────────────────────────────────────────────
+// ── Team Data ────────────────────────────────────────────────────────────────
 const TEAM = [
-  { id: 1,  name: 'ENG/ Mohannad Abdelkawy', linkedIn: 'https://www.linkedin.com/in/mohannad-abdelkawy-56a1662b4/' },
-  { id: 2,  name: 'ENG/ Yousif Mohammad',    linkedIn: 'https://www.linkedin.com/in/yousif-ebaid-636471323' },
-  { id: 3,  name: 'ENG/ Ahmed Soliman',      linkedIn: 'https://www.linkedin.com/in/ahmed-soliman-4261053b8' },
-  { id: 4,  name: 'ENG/ Hamdy Mohammad',     linkedIn: 'https://www.linkedin.com/in/hamdy-mohamed-24a20b224' },
-  { id: 5,  name: 'ENG/ Helmy Ahmed',        linkedIn: 'https://www.linkedin.com/in/helmy-ahmed-79b383368' },
-  { id: 6,  name: 'ENG/ Ammar Ali',          linkedIn: 'https://www.linkedin.com/in/ammar-ali-8588923b2' },
-  { id: 7,  name: 'ENG/ Michael Meseha',     linkedIn: 'https://www.linkedin.com/in/michael-meseha-a9a2a3394' },
-  { id: 8,  name: 'ENG/ Mohammad Aboulela',  linkedIn: 'https://www.linkedin.com/in/mohamed-aboulela-ab8652285' },
-  { id: 9,  name: 'ENG/ Hassan Salah',       linkedIn: 'https://www.linkedin.com/in/hassan-salah-b1030b371' },
-  { id: 10, name: 'ENG/ Omar Osmanly',       linkedIn: null },
-  { id: 11, name: 'ENG/ Ahmed Eltoukhy',     linkedIn: 'https://www.linkedin.com/in/ahmed-hany-b6362a201' },
-  { id: 12, name: 'ENG/ Ahmed Mohammad',     linkedIn: null },
+  { id: 1,  name: 'ENG/ Mohannad Abdelkawy', linkedIn: 'https://www.linkedin.com/in/mohannad-abdelkawy-56a1662b4/', image: '/team/1.jpeg' },
+  { id: 2,  name: 'ENG/ Yousif Mohammad',    linkedIn: 'https://www.linkedin.com/in/yousif-ebaid-636471323', image: '/team/2.jpeg' },
+  { id: 3,  name: 'ENG/ Ahmed Soliman',      linkedIn: 'https://www.linkedin.com/in/ahmed-soliman-4261053b8', image: '/team/3.jpeg' },
+  { id: 4,  name: 'ENG/ Hamdy Mohammad',     linkedIn: 'https://www.linkedin.com/in/hamdy-mohamed-24a20b224', image: '/team/4.jpeg' },
+  { id: 5,  name: 'ENG/ Helmy Ahmed',        linkedIn: 'https://www.linkedin.com/in/helmy-ahmed-79b383368', image: '/team/5.jpeg' },
+  { id: 6,  name: 'ENG/ Ammar Ali',          linkedIn: 'https://www.linkedin.com/in/ammar-ali-8588923b2', image: '/team/6.jpeg' },
+  { id: 7,  name: 'ENG/ Michael Meseha',     linkedIn: 'https://www.linkedin.com/in/michael-meseha-a9a2a3394', image: '/team/7.jpeg' },
+  { id: 8,  name: 'ENG/ Mohammad Aboulela',  linkedIn: 'https://www.linkedin.com/in/mohamed-aboulela-ab8652285', image: '/team/8.jpeg' },
+  { id: 9,  name: 'ENG/ Hassan Salah',       linkedIn: 'https://www.linkedin.com/in/hassan-salah-b1030b371', image: '/team/9.jpeg' },
+  { id: 10, name: 'ENG/ Omar Osmanly',       linkedIn: null, image: '/team/10.jpeg' },
+  { id: 11, name: 'ENG/ Ahmed Eltoukhy',     linkedIn: 'https://www.linkedin.com/in/ahmed-hany-b6362a201', image: '/team/11.jpeg' },
+  { id: 12, name: 'ENG/ Ahmed Mohammad',     linkedIn: null, image: null }, // No image, uses User icon
 ];
 
 // ── Page ─────────────────────────────────────────────────────────────────────
@@ -83,33 +83,44 @@ export default function TeamPage() {
         </header>
 
         {/* Responsive member grid */}
-        <div className="team-grid" role="list">
-          {TEAM.map(({ id, name, linkedIn }) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-8 mx-auto" role="list">
+          {TEAM.map(({ id, name, linkedIn, image }) => {
             const [prefix, ...rest] = name.split(' ');
             return (
-              <article key={id} className="team-card-horizontal" role="listitem">
+              <article 
+                key={id} 
+                className="flex flex-row items-center gap-6 text-left relative overflow-hidden bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] hover:bg-white/10 transition-all duration-500 transform-gpu p-6 lg:p-8" 
+                style={{ transform: 'translateZ(0)', backfaceVisibility: 'hidden', willChange: 'transform' }}
+                role="listitem"
+              >
                 
                 {/* ── Image / Icon on Left ── */}
-                {id < 12 ? (
-                  <img src={`/team/${id}.jpg`} alt={name} className="team-avatar-img" />
-                ) : (
-                  <div className="team-avatar" aria-hidden="true">
-                    <User size={28} strokeWidth={1.5} />
-                  </div>
-                )}
+                <div className="shrink-0 w-[72px] h-[72px] lg:w-[82px] lg:h-[82px] rounded-full overflow-hidden border-2 border-white/20 flex items-center justify-center bg-white/5 drop-shadow-xl z-10 transition-transform duration-500 hover:scale-105">
+                  {image ? (
+                    <img src={image} alt={name} className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="text-blue-300 w-8 h-8 opacity-80" strokeWidth={1.5} />
+                  )}
+                </div>
 
                 {/* ── Text Content ── */}
-                <div className="team-card-content">
-                  <h2 className="team-member-name">
-                    <span className="team-name-prefix">{prefix}</span>{' '}
+                <div className="flex-1 z-10">
+                  <h2 className="text-[17px] font-semibold text-white mb-1 leading-snug">
+                    <span className="text-blue-400 font-extrabold drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]">{prefix}</span>{' '}
                     {rest.join(' ')}
                   </h2>
-                  <p className="team-member-role">ERU Weather Station Team</p>
+                  <p className="text-sm text-blue-200/80 m-0">ERU Weather Station Team</p>
                 </div>
 
                 {/* ── LinkedIn Icon on Right ── */}
                 {linkedIn && (
-                  <a href={linkedIn} target="_blank" rel="noopener noreferrer" className="team-linkedin" aria-label={`LinkedIn profile for ${name}`}>
+                  <a 
+                    href={linkedIn} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-[#93c5fd] hover:text-[#0077b5] hover:bg-[#0077b5]/15 hover:border-[#0077b5]/30 transition-all duration-300 z-10" 
+                    aria-label={`LinkedIn profile for ${name}`}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20" height="20" viewBox="0 0 24 24" fill="none"
@@ -121,6 +132,9 @@ export default function TeamPage() {
                     </svg>
                   </a>
                 )}
+
+                {/* Subtle light shimmer overlay for card */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
               </article>
             );
