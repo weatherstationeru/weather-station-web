@@ -30,16 +30,14 @@ export default function TeamPage() {
       {/* ── Overscroll fill — dark bg for iOS/Android rubber-band ───── */}
       <div className="bg-overscroll" />
 
-      {/* ── Background video — GPU accelerated via .bg-video CSS ─────── */}
-      <video
+      {/* ── Background image ─────── */}
+      <img
         className="bg-video"
-        src="/bg-video.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
+        src="/pic.jpg"
+        alt="Team Background"
       />
-      <div className="bg-video-overlay" />
+      {/* Dark scrim over background image: bg-black/40 */}
+      <div className="bg-video-overlay" style={{ background: 'rgba(0, 0, 0, 0.4)' }} />
 
       {/* ── Decorative sky layers ─────────────────────────────────────────── */}
       <div className="sky-wrap" />
@@ -84,28 +82,44 @@ export default function TeamPage() {
           </p>
         </header>
 
-        {/* Responsive 4-column member grid */}
+        {/* Responsive member grid */}
         <div className="team-grid" role="list">
           {TEAM.map(({ id, name }) => {
             const [prefix, ...rest] = name.split(' ');
             return (
-              <article key={id} className="team-card" role="listitem">
-                {/* Avatar ring */}
-                <div className="team-avatar" aria-hidden="true">
-                  <User size={30} strokeWidth={1.4} />
+              <article key={id} className="team-card-horizontal" role="listitem">
+                
+                {/* ── Image / Icon on Left ── */}
+                {id < 12 ? (
+                  <img src={`/team/${id}.jpg`} alt={name} className="team-avatar-img" />
+                ) : (
+                  <div className="team-avatar" aria-hidden="true">
+                    <User size={28} strokeWidth={1.5} />
+                  </div>
+                )}
+
+                {/* ── Text Content ── */}
+                <div className="team-card-content">
+                  <h2 className="team-member-name">
+                    <span className="team-name-prefix">{prefix}</span>{' '}
+                    {rest.join(' ')}
+                  </h2>
+                  <p className="team-member-role">ERU Weather Station Team</p>
                 </div>
 
-                {/* Sequential badge */}
-                <span className="team-num">#{id.toString().padStart(2, '0')}</span>
+                {/* ── LinkedIn Icon on Right ── */}
+                <a href="#" className="team-linkedin" aria-label={`LinkedIn profile for ${name}`}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+                  >
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
 
-                {/* Name — highlight "ENG/" prefix */}
-                <h2 className="team-member-name">
-                  <span className="team-name-prefix">{prefix}</span>{' '}
-                  {rest.join(' ')}
-                </h2>
-
-                {/* Role */}
-                <p className="team-member-role">ERU Weather Station</p>
               </article>
             );
           })}
