@@ -39,7 +39,7 @@ export default function TeamPage() {
         </div>
 
         {/* Responsive grid — 2 cols on wide screens, 1 col on small */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.75rem', marginTop: '2rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.75rem', marginTop: '2rem', width: '100%', padding: '1rem' }}>
           {teamMembers.map((member) => (
             <div key={member.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
 

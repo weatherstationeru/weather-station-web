@@ -20,6 +20,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  max-width: 100%;
 }
 
 html, body {
@@ -29,6 +30,8 @@ html, body {
    * Dark overscroll color comes from the .overscroll-fill element instead.
    */
   background: transparent;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
