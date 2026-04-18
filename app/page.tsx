@@ -425,7 +425,19 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Background layers */}
+      {/* Background video */}
+      <video
+        className="bg-video"
+        src="/bg-video.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+      {/* Dark scrim over video — keeps text readable */}
+      <div className="bg-video-overlay" />
+
+      {/* Sky / animated layers on top of video */}
       <div className="sky-wrap" style={{
         '--sky-top': skyColors.top,
         '--sky-mid': skyColors.mid,
