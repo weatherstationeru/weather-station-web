@@ -39,6 +39,10 @@ body {
   object-fit: cover;
   object-position: center;
   pointer-events: none;
+  /* GPU acceleration — eliminates video jitter */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Darkening scrim — very light so video remains clear */
@@ -486,7 +490,7 @@ body {
 /* ===== CARD GRID ===== */
 .card-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;   /* single column on mobile */
   gap: 12px;
   margin-top: 12px;
 }
@@ -503,6 +507,10 @@ body {
   cursor: default;
   transition: transform 0.25s ease, background 0.2s;
   animation: fadeUp 0.7s ease both;
+  /* GPU acceleration — eliminates card hover jitter */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .weather-card::before {
@@ -527,7 +535,7 @@ body {
 
 .weather-card:hover {
   background: var(--glass-hover);
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
 }
 
 .card-header {
@@ -859,6 +867,8 @@ body {
   cursor: pointer;
   transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease, border-radius 0.25s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .sidebar-trigger-btn:hover {
@@ -884,7 +894,8 @@ body {
   left: 0;
   bottom: 0;
   z-index: 130;
-  width: min(300px, 82vw);
+  width: 80vw;            /* 80% on mobile */
+  max-width: 320px;        /* capped on desktop */
   background: rgba(6, 14, 30, 0.72);
   border-right: 0.5px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(32px) saturate(200%);
@@ -894,6 +905,9 @@ body {
   box-shadow: 6px 0 40px rgba(0, 0, 0, 0.5), 1px 0 0 rgba(255,255,255,0.06) inset;
   overflow-y: auto;
   overflow-x: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Subtle right-edge shimmer */
@@ -1551,6 +1565,8 @@ body {
   cursor: pointer;
   transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .prayer-toggle-btn:hover {
@@ -1719,4 +1735,98 @@ body {
   border-radius: 6px;
   padding: 2px 6px;
   margin-left: 4px;
+}
+
+/* ===================================================================
+   MOBILE PERFORMANCE & LAYOUT  (≤ 768px)
+   - Reduce heavy backdrop-blurs to save GPU/battery
+   - Single-column card grid
+   - Smaller fixed buttons
+   - Disable non-essential animations
+=================================================================== */
+@media (max-width: 768px) {
+
+  /* ── Card grid: 1 col on phones, 2 col on landscape/tablet ─────── */
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* 2 columns for small landscape / larger phone */
+  @media (min-width: 480px) {
+    .card-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* ── Reduce glass card blur on mobile ───────────────────────────── */
+  .weather-card {
+    backdrop-filter: blur(6px) saturate(120%);
+    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    /* Remove fadeUp animation on mobile — causes layout paint */
+    animation: none;
+    /* ↑ still use transform for GPU layer */
+    transform: translateZ(0);
+  }
+
+  /* Disable hover lift on touch devices */
+  .weather-card:hover {
+    transform: translateZ(0);
+  }
+
+  /* ── Reduce aurora & stars opacity on mobile ────────────────────── */
+  .aurora-band {
+    opacity: 0.08;
+    filter: blur(40px);
+  }
+
+  .stars::before,
+  .stars::after {
+    animation-duration: 8s; /* slower twinkle */
+  }
+
+  /* ── Reduce sidebar blur on mobile ─────────────────────────────── */
+  .sidebar-panel {
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+
+  /* ── Reduce prayer popup blur on mobile ────────────────────────── */
+  .prayer-popup {
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    /* Keep it from touching the top buttons */
+    max-height: calc(100svh - 120px);
+    overflow-y: auto;
+  }
+
+  /* ── Fixed UI buttons: slightly smaller on tight screens ───────── */
+  .sidebar-trigger-btn,
+  .prayer-toggle-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* ── Background video: no blur layer needed on mobile ──────────── */
+  .sky-wrap {
+    opacity: 0.15; /* even lighter sky on mobile */
+  }
+
+  /* ── Large temp text: scale down for phone ──────────────────────── */
+  .current-temp {
+    font-size: clamp(64px, 20vw, 110px);
+  }
+
+  /* ── App padding: tighter on mobile ────────────────────────────── */
+  .app {
+    padding: 100px 14px 40px; /* top pad ensures content clears fixed buttons */
+  }
+}
+
+/* On genuine desktop (≥ 900px) sidebar shrinks to ≤20% of screen */
+@media (min-width: 900px) {
+  .sidebar-panel {
+    width: min(280px, 20vw);
+    max-width: 340px;
+  }
 }

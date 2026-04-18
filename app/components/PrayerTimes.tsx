@@ -87,7 +87,7 @@ export default function PrayerTimes() {
     setAutoShown(true);
     setIsOpen(true);
 
-    const timer = setTimeout(() => setIsOpen(false), 5000);
+    const timer = setTimeout(() => setIsOpen(false), 3000);
     return () => clearTimeout(timer);
   }, [loading, autoShown]);
 
