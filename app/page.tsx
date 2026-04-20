@@ -18,7 +18,6 @@ import { sendChatMessage } from '../lib/chatApi';
 import type { ChatMessage } from '../lib/chatApi';
 import type { WeatherRow } from '../types/weather';
 import NavMenu from './components/NavMenu';
-import StarTrailsBackground from './components/StarTrailsBackground';
 import { SendHorizontal, Loader2 } from 'lucide-react';
 
 // ─── Web Speech API types (not bundled in Next.js tslib by default) ───────────
@@ -80,6 +79,8 @@ function uvAdvice(uv: number | null): string {
 export default function Dashboard() {
   // ── UI state ──────────────────────────────────────────────────────────────
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [skyColors, setSkyColors]   = useState({ top: '#0d2545', mid: '#1a4a7a', bot: '#2d6ea8' });
+  const [moonOpacity, setMoonOpacity] = useState(0);
 
   // ── Live data state ───────────────────────────────────────────────────────
   const [liveData, setLiveData]         = useState<WeatherRow | null>(null);
@@ -287,6 +288,29 @@ export default function Dashboard() {
     };
   }, [handleNewData]);
 
+  // ── Dynamic sky background ─────────────────────────────────────────────────
+  useEffect(() => {
+    const hour = new Date().getHours();
+    const isDay     = hour > 6  && hour < 19;
+    const isSunrise = hour >= 5 && hour <= 8;
+    const isSunset  = hour >= 17 && hour <= 20;
+
+    let top: string, mid: string, bot: string, mOpacity: number;
+
+    if (isSunrise) {
+      top = '#0f1a2e'; mid = '#2d3a5c'; bot = '#8b4a2c'; mOpacity = 0.3;
+    } else if (isSunset) {
+      top = '#1a1a3e'; mid = '#4a2050'; bot = '#c0502a'; mOpacity = 0.5;
+    } else if (isDay) {
+      top = '#0d2545'; mid = '#1a4a7a'; bot = '#2d6ea8'; mOpacity = 1;
+    } else {
+      top = '#050c18'; mid = '#0a1628'; bot = '#0f2040'; mOpacity = 0.75;
+    }
+
+    setSkyColors({ top, mid, bot });
+    setMoonOpacity(mOpacity);
+  }, []);
+
   // ── Derived display values ─────────────────────────────────────────────────
   // Safe accessors with sensible fallbacks when data hasn't arrived yet.
   //
@@ -322,10 +346,7 @@ export default function Dashboard() {
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
-    <div className="relative overflow-x-hidden min-h-screen bg-[#05070a]">
-      {/* 4K Animated Night Sky Long Exposure Background */}
-      <StarTrailsBackground />
-
+    <>
       {/* Nav Menu (burger + prayer times + startup toast) */}
       <NavMenu />
 
@@ -416,6 +437,41 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+
+      {/* Overscroll fill — dark color shows in iOS/Android rubber-band areas */}
+      <div className="bg-overscroll" />
+      {/* Background video */}
+      <video
+        className="bg-video"
+        src="/bg-video.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+      {/* Dark scrim over video — keeps text readable */}
+      <div className="bg-video-overlay" />
+
+      {/* Sky / animated layers on top of video */}
+      <div className="sky-wrap" style={{
+        '--sky-top': skyColors.top,
+        '--sky-mid': skyColors.mid,
+        '--sky-bot': skyColors.bot,
+      } as React.CSSProperties}></div>
+      <div className="stars"></div>
+      <div className="aurora">
+        <div className="aurora-band"></div>
+        <div className="aurora-band"></div>
+        <div className="aurora-band"></div>
+      </div>
+      <div className="clouds">
+        <div className="cloud c1"></div>
+        <div className="cloud c2"></div>
+        <div className="cloud c3"></div>
+        <div className="cloud c4"></div>
+      </div>
+      <div className="moon" style={{ opacity: moonOpacity }}></div>
+      <div className="horizon-glow"></div>
 
       {/* ── Main Content ─────────────────────────────────────────────────── */}
       <div className="app">
@@ -608,6 +664,6 @@ export default function Dashboard() {
         </div>
 
       </div>
-    </div>
+    </>
   );
 }
