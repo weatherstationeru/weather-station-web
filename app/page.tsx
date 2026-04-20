@@ -18,6 +18,7 @@ import { sendChatMessage } from '../lib/chatApi';
 import type { ChatMessage } from '../lib/chatApi';
 import type { WeatherRow } from '../types/weather';
 import NavMenu from './components/NavMenu';
+import { SendHorizontal, Loader2 } from 'lucide-react';
 
 // ─── Web Speech API types (not bundled in Next.js tslib by default) ───────────
 interface SpeechRecognitionResult {
@@ -384,14 +385,41 @@ export default function Dashboard() {
               <i className={`fas ${isListening ? 'fa-stop' : 'fa-microphone'}`}></i>
             </button>
 
-            <input
-              type="text"
-              placeholder={isListening ? 'Listening…' : 'Ask something…'}
-              value={chatInput}
-              disabled={isChatLoading || isListening}
-              onChange={(e) => setChatInput(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            />
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', flex: 1, minWidth: 0 }}>
+              <input
+                type="text"
+                placeholder={isListening ? 'Listening…' : 'Ask something…'}
+                value={chatInput}
+                disabled={isChatLoading || isListening}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                style={{ paddingRight: '44px', width: '100%', boxSizing: 'border-box' }}
+              />
+              <button
+                onClick={handleSend}
+                disabled={isChatLoading}
+                className="hover:bg-blue-500/20 hover:border-blue-500/50 transition-all"
+                style={{
+                  position: 'absolute',
+                  right: '4px',
+                  width: '34px',
+                  height: '34px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                {isChatLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                ) : (
+                  <SendHorizontal className="w-4 h-4 text-white" style={{ marginLeft: '-1px' }} />
+                )}
+              </button>
+            </div>
 
             {/* Speaker toggle — mute/unmute AI voice */}
             <button
@@ -400,11 +428,6 @@ export default function Dashboard() {
               title={ttsEnabled ? 'Mute AI voice' : 'Unmute AI voice'}
             >
               <i className={`fas ${isSpeaking ? 'fa-volume-high' : ttsEnabled ? 'fa-volume-low' : 'fa-volume-xmark'}`}></i>
-            </button>
-
-            {/* Send button */}
-            <button onClick={handleSend} disabled={isChatLoading}>
-              <i className={`fas ${isChatLoading ? 'fa-spinner fa-spin' : 'fa-paper-plane'}`}></i>
             </button>
           </div>
         </div>
