@@ -486,7 +486,7 @@ export default function Dashboard() {
             <i className="fas fa-location-dot"></i>
             <span>{d.city}</span>
           </div>
-          <div className="current-temp">{d.temp}{liveData ? '°' : ''}</div>
+          <div className="current-temp">{liveData ? liveData.temp.toFixed(1) : '--'}{liveData ? '°' : ''}</div>
           <div className="condition">
             {isLoading ? 'Loading…' : liveData ? 'Live Reading' : 'No data'}
           </div>
@@ -572,7 +572,7 @@ export default function Dashboard() {
                   <div className="compass-ring"></div>
                   <div
                     className="compass-arrow"
-                    style={{ transform: `translate(-50%, 0) rotate(${d.windDir ?? 0}deg)` }}
+                    style={{ transform: `translate(-50%, 0) rotate(${(d.windDir ?? 0) + 180}deg)` }}
                   ></div>
                   <div className="compass-dot"></div>
                   <span className="compass-lbl cn">N</span>
