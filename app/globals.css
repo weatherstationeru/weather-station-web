@@ -2074,3 +2074,401 @@ body {
   animation: fadeUp 0.7s ease both;
   animation-delay: 0.65s;
 }
+
+
+/* =====================================================================
+   HERO OPENING — Cinematic full-screen landing overlay
+   ===================================================================== */
+
+.hero-opening {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;                /* above everything */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── Background video (reuses the same asset) ── */
+.hero-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: translateZ(0) scale(1.05);
+  filter: brightness(0.55) saturate(1.2);
+  pointer-events: none;
+}
+
+/* Gradient scrim — darkens edges, focuses attention on center */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 0%, rgba(4, 8, 20, 0.55) 70%),
+    linear-gradient(180deg, rgba(4, 8, 20, 0.40) 0%, rgba(4, 8, 20, 0.20) 40%, rgba(4, 8, 20, 0.60) 100%);
+  pointer-events: none;
+}
+
+/* ── Floating particles ── */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-particles span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(150, 200, 255, 0.5);
+  border-radius: 50%;
+  animation: heroFloat linear infinite;
+  opacity: 0;
+}
+.hero-particles span:nth-child(1) { left: 10%; bottom: -10%; animation-duration: 14s; animation-delay: 0s;   width: 2px; height: 2px; }
+.hero-particles span:nth-child(2) { left: 25%; bottom: -10%; animation-duration: 18s; animation-delay: 2s;   width: 3px; height: 3px; }
+.hero-particles span:nth-child(3) { left: 42%; bottom: -10%; animation-duration: 12s; animation-delay: 4s;   width: 2px; height: 2px; }
+.hero-particles span:nth-child(4) { left: 58%; bottom: -10%; animation-duration: 16s; animation-delay: 1s;   width: 4px; height: 4px; }
+.hero-particles span:nth-child(5) { left: 73%; bottom: -10%; animation-duration: 20s; animation-delay: 3s;   width: 2px; height: 2px; }
+.hero-particles span:nth-child(6) { left: 85%; bottom: -10%; animation-duration: 15s; animation-delay: 5s;   width: 3px; height: 3px; }
+.hero-particles span:nth-child(7) { left: 35%; bottom: -10%; animation-duration: 22s; animation-delay: 6s;   width: 2px; height: 2px; }
+.hero-particles span:nth-child(8) { left: 65%; bottom: -10%; animation-duration: 17s; animation-delay: 1.5s; width: 3px; height: 3px; }
+
+@keyframes heroFloat {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-110vh) translateX(30px); opacity: 0; }
+}
+
+/* ── Center content container ── */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+  padding: 0 24px;
+  /* All children start invisible and animate in via the --in class */
+}
+
+/* ── Logo ── */
+.hero-logo-wrap {
+  position: relative;
+  margin-bottom: 28px;
+  opacity: 0;
+  transform: scale(0.7) translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition-delay: 0.2s;
+}
+.hero-content--in .hero-logo-wrap {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.hero-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 24px;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 24px rgba(96, 165, 250, 0.3));
+}
+
+/* Pulsing glow behind logo */
+.hero-logo-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 160px;
+  height: 160px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.25) 0%, transparent 70%);
+  animation: heroLogoGlow 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes heroLogoGlow {
+  0%   { opacity: 0.5; transform: translate(-50%, -50%) scale(0.9); }
+  100% { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ── Title ── */
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 72px;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: #ffffff;
+  margin: 0 0 12px;
+  text-shadow: 0 4px 60px rgba(96, 165, 250, 0.35), 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero-title-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.hero-title-line--1 { transition-delay: 0.5s; }
+.hero-title-line--2 { transition-delay: 0.7s; }
+.hero-content--in .hero-title-line {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Subtitle ── */
+.hero-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: rgba(200, 220, 255, 0.7);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 0.9s;
+}
+.hero-content--in .hero-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── University name ── */
+.hero-university {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(180, 205, 245, 0.45);
+  letter-spacing: 1px;
+  margin: 0 0 32px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 1.05s;
+}
+.hero-content--in .hero-university {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Live temperature pill ── */
+.hero-temp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 40px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  margin-bottom: 36px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 1.2s;
+}
+.hero-content--in .hero-temp-pill {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-temp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 8px #4ade80;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+.hero-temp-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(240, 246, 255, 0.9);
+  letter-spacing: 0.5px;
+}
+
+/* ── CTA Button ── */
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.25), rgba(52, 211, 153, 0.18));
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: 16px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 4px 24px rgba(96, 165, 250, 0.20),
+    0 0 0 0.5px rgba(255, 255, 255, 0.08) inset;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  /* transition already includes transform — stagger via the --in class */
+}
+.hero-content--in .hero-cta {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.4s;
+}
+
+/* Shimmer sweep on hover */
+.hero-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.08) 60%,
+    transparent 100%
+  );
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.hero-cta:hover::before {
+  left: 100%;
+}
+
+.hero-cta:hover {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.38), rgba(52, 211, 153, 0.28));
+  border-color: rgba(96, 165, 250, 0.55);
+  box-shadow:
+    0 8px 40px rgba(96, 165, 250, 0.35),
+    0 0 0 0.5px rgba(255, 255, 255, 0.12) inset;
+  transform: translateY(-2px);
+}
+
+.hero-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(96, 165, 250, 0.20);
+}
+
+.hero-cta svg {
+  transition: transform 0.3s ease;
+}
+.hero-cta:hover svg {
+  transform: translateX(3px);
+}
+
+/* ── Scroll/Tap hint at bottom ── */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  transition-delay: 2s;
+}
+.hero-scroll-hint--in {
+  opacity: 1;
+}
+
+.hero-scroll-hint span {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(200, 220, 255, 0.4);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.hero-scroll-chevron {
+  animation: heroChevronBounce 2s ease-in-out infinite;
+  color: rgba(200, 220, 255, 0.35);
+}
+@keyframes heroChevronBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+/* ── Responsive: smaller screens ── */
+@media (max-width: 600px) {
+  .hero-logo {
+    width: 90px;
+    height: 90px;
+  }
+  .hero-logo-glow {
+    width: 120px;
+    height: 120px;
+  }
+  .hero-title {
+    font-size: 52px;
+    letter-spacing: -1px;
+  }
+  .hero-subtitle {
+    font-size: 13px;
+    letter-spacing: 1.5px;
+  }
+  .hero-university {
+    font-size: 11px;
+  }
+  .hero-temp-pill {
+    padding: 8px 18px;
+  }
+  .hero-temp-text {
+    font-size: 13px;
+  }
+  .hero-cta {
+    padding: 12px 28px;
+    font-size: 14px;
+  }
+}
+
+/* ── Desktop: slightly larger logo & title ── */
+@media (min-width: 1024px) {
+  .hero-logo {
+    width: 140px;
+    height: 140px;
+  }
+  .hero-logo-glow {
+    width: 200px;
+    height: 200px;
+  }
+  .hero-title {
+    font-size: 88px;
+    letter-spacing: -3px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+
+  /* On desktop, show the video in the hero even though it's hidden for the dashboard */
+  .hero-bg-video {
+    display: block !important;
+  }
+}
