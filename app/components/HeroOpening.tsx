@@ -100,9 +100,9 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
               Egyptian Russian University&nbsp;&nbsp;·&nbsp;&nbsp;Mechatronics Engineering
             </p>
 
-            {/* Supervision */}
+            {/* Supervision — premium gold badge */}
             <p className="hero-supervision">
-              Under supervision by Prof. Omar Fathy
+              ✦&nbsp;Under Supervision by Prof. Omar Fathy&nbsp;✦
             </p>
 
             {/* Live temperature teaser */}

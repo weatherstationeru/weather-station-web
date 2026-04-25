@@ -2262,20 +2262,86 @@ body {
   transform: translateY(0);
 }
 
-/* ── Supervision line ── */
+/* ── Supervision badge (premium highlighted) ── */
 .hero-supervision {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  font-style: italic;
-  color: rgba(240, 180, 41, 0.65);
-  letter-spacing: 0.5px;
-  margin: 0 0 32px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.6px;
+  margin: 0 0 28px;
+  padding: 9px 20px;
+  border-radius: 40px;
+
+  /* Gold gradient text */
+  background: linear-gradient(
+    90deg,
+    #f0b429 0%,
+    #fde68a 40%,
+    #f0b429 65%,
+    #d97706 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% auto;
+  animation: heroSupervisionShimmer 3s linear infinite;
+
+  /* Glowing pill container (uses box-shadow on ::before trick via wrapper) */
+  position: relative;
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   transition-delay: 1.1s;
 }
+
+/* Gold glass border + glow via pseudo-element */
+.hero-supervision::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: rgba(240, 180, 41, 0.08);
+  border: 1px solid rgba(240, 180, 41, 0.35);
+  box-shadow:
+    0 0 16px rgba(240, 180, 41, 0.20),
+    0 0 40px rgba(240, 180, 41, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  pointer-events: none;
+}
+
+/* Shimmer sweep overlay */
+.hero-supervision::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 40px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.10) 45%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.10) 55%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: heroShimmerSweep 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heroSupervisionShimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes heroShimmerSweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .hero-content--in .hero-supervision {
   opacity: 1;
   transform: translateY(0);
