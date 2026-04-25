@@ -100,10 +100,16 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
               Egyptian Russian University&nbsp;&nbsp;·&nbsp;&nbsp;Mechatronics Engineering
             </p>
 
-            {/* Supervision — premium gold badge */}
-            <p className="hero-supervision">
-              ✦&nbsp;Under Supervision by Prof. Omar Fathy&nbsp;✦
-            </p>
+            {/* Professor photo + supervision badge */}
+            <div className="hero-prof-wrap">
+              <div className="hero-prof-avatar">
+                <img src="/prof.jpg" alt="Prof. Omar Fathy" className="hero-prof-img" />
+                <div className="hero-prof-ring" />
+              </div>
+              <p className="hero-supervision">
+                ✦&nbsp;Under Supervision by Prof. Omar Fathy&nbsp;✦
+              </p>
+            </div>
 
             {/* Live temperature teaser */}
             <div className="hero-temp-pill">
