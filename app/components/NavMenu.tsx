@@ -16,6 +16,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useLanguage } from './LanguageProvider';
+import type { Lang } from '../../lib/i18n';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface PrayerTimings {
@@ -51,6 +53,7 @@ function getActive(timings: PrayerTimings): keyof PrayerTimings | null {
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function NavMenu() {
+  const { t, lang, setLang } = useLanguage();
   const [isMenuOpen,   setIsMenuOpen]   = useState(false);
   const [showPrayer,   setShowPrayer]   = useState(false);
   const [showToast,    setShowToast]    = useState(false);
@@ -158,7 +161,7 @@ export default function NavMenu() {
               {/* ── Live Dashboard ────────────────────────────────────────── */}
               <div className="navmenu-item navmenu-item--active" aria-current="page">
                 <span className="navmenu-item-icon" aria-hidden="true">📡</span>
-                <span className="navmenu-item-text">Live Dashboard</span>
+                <span className="navmenu-item-text">{t('navDashboard')}</span>
               </div>
 
               {/* ── Prayer Times trigger ──────────────────────────────────── */}
@@ -168,7 +171,7 @@ export default function NavMenu() {
                 aria-expanded={showPrayer}
               >
                 <span className="navmenu-item-icon" aria-hidden="true">🕌</span>
-                <span className="navmenu-item-text">Prayer Times</span>
+                <span className="navmenu-item-text">{t('navPrayer')}</span>
                 <span className="navmenu-chevron" aria-hidden="true">
                   {showPrayer ? '▴' : '▾'}
                 </span>
@@ -217,12 +220,30 @@ export default function NavMenu() {
 
               <div className="navmenu-divider" />
 
-              {/* ── Team ──────────────────────────────────────────── */}
+              {/* ── Team ── */}
               <Link href="/team" className="navmenu-item navmenu-item--link" onClick={() => setIsMenuOpen(false)}>
                 <span className="navmenu-item-icon" aria-hidden="true">👥</span>
-                <span className="navmenu-item-text">Team</span>
+                <span className="navmenu-item-text">{t('navTeam')}</span>
                 <span className="navmenu-chevron" aria-hidden="true" style={{ fontSize: '12px', opacity: 0.5 }}>›</span>
               </Link>
+
+              <div className="navmenu-divider" />
+
+              {/* ── Language Switcher ── */}
+              <div className="navmenu-lang">
+                <span className="navmenu-lang-label">🌐 {t('language')}</span>
+                <div className="navmenu-lang-btns">
+                  {(['en', 'ar', 'ru'] as Lang[]).map((l) => (
+                    <button
+                      key={l}
+                      className={`navmenu-lang-btn ${lang === l ? 'navmenu-lang-btn--active' : ''}`}
+                      onClick={() => setLang(l)}
+                    >
+                      {l === 'en' ? '🇬🇧 EN' : l === 'ar' ? '🇪🇬 عربي' : '🇷🇺 RU'}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

@@ -16,6 +16,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from './LanguageProvider';
 
 interface HeroOpeningProps {
   /** Current temperature from live data, or null while loading */
@@ -25,6 +26,7 @@ interface HeroOpeningProps {
 }
 
 export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps) {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(true);
   const [ready, setReady]     = useState(false); // controls staggered entrance
 
@@ -97,7 +99,7 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
 
             {/* University name */}
             <p className="hero-university">
-              Egyptian Russian University&nbsp;&nbsp;·&nbsp;&nbsp;Mechatronics Engineering
+              {t('heroUniversity')}
             </p>
 
             {/* Professor photo + supervision badge */}
@@ -107,7 +109,7 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
                 <div className="hero-prof-ring" />
               </div>
               <p className="hero-supervision">
-                ✦&nbsp;Under Supervision by Prof. Omar Fathy&nbsp;✦
+                ✦&nbsp;{t('heroSupervision')}&nbsp;✦
               </p>
             </div>
 
@@ -115,17 +117,17 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
             <div className="hero-temp-pill">
               <span className="hero-temp-dot" />
               {isLoading ? (
-                <span className="hero-temp-text">Connecting…</span>
+                <span className="hero-temp-text">{t('connecting')}</span>
               ) : currentTemp !== null ? (
-                <span className="hero-temp-text">{currentTemp.toFixed(1)}°C&nbsp;&nbsp;·&nbsp;&nbsp;Live</span>
+                <span className="hero-temp-text">{currentTemp.toFixed(1)}°C&nbsp;&nbsp;·&nbsp;&nbsp;{t('heroLive')}</span>
               ) : (
-                <span className="hero-temp-text">Awaiting data…</span>
+                <span className="hero-temp-text">{t('awaitingData')}</span>
               )}
             </div>
 
             {/* CTA Button */}
             <button className="hero-cta" onClick={dismiss}>
-              <span>Enter Dashboard</span>
+              <span>{t('heroEnter')}</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />
@@ -141,7 +143,7 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && dismiss()}
           >
-            <span>Tap to enter</span>
+            <span>{t('heroTap')}</span>
             <div className="hero-scroll-chevron">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m6 9 6 6 6-6" />

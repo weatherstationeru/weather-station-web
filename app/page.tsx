@@ -19,6 +19,8 @@ import type { ChatMessage } from '../lib/chatApi';
 import type { WeatherRow } from '../types/weather';
 import NavMenu from './components/NavMenu';
 import HeroOpening from './components/HeroOpening';
+import { useLanguage } from './components/LanguageProvider';
+import type { TranslationKey } from '../lib/i18n';
 import { SendHorizontal, Loader2 } from 'lucide-react';
 
 // ─── Web Speech API types (not bundled in Next.js tslib by default) ───────────
@@ -55,29 +57,28 @@ function degToCompass(deg: number | null): string {
   return dirs[Math.round(deg / 22.5) % 16];
 }
 
-/** Derive a human-readable UV category label (scale 0–12). */
-function uvCategory(uv: number | null): string {
-  if (uv === null) return '--';
-  if (uv <= 2)  return 'Low';       // 0–2
-  if (uv <= 5)  return 'Moderate'; // 3–5
-  if (uv <= 7)  return 'High';     // 6–7
-  if (uv <= 10) return 'Very High'; // 8–10
-  return 'Extreme';                 // 11–12
+/** Returns a translation key for the UV category (scale 0–12). */
+function uvCategoryKey(uv: number): TranslationKey {
+  if (uv <= 2)  return 'uvLow';
+  if (uv <= 5)  return 'uvModerate';
+  if (uv <= 7)  return 'uvHigh';
+  if (uv <= 10) return 'uvVeryHigh';
+  return 'uvExtreme';
 }
 
-/** Derive sun-safety advice from the UV index. */
-function uvAdvice(uv: number | null): string {
-  if (uv === null) return '--';
-  if (uv <= 2) return 'No protection needed';
-  if (uv <= 5) return 'Use sunscreen';
-  if (uv <= 7) return 'Seek shade midday';
-  if (uv <= 10) return 'Avoid the sun';
-  return 'Stay indoors';
+/** Returns a translation key for sun-safety advice. */
+function uvAdviceKey(uv: number): TranslationKey {
+  if (uv <= 2) return 'uvNoProtection';
+  if (uv <= 5) return 'uvUseSunscreen';
+  if (uv <= 7) return 'uvSeekShade';
+  if (uv <= 10) return 'uvAvoidSun';
+  return 'uvStayIndoors';
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function Dashboard() {
+  const { t, lang } = useLanguage();
   // ── UI state ──────────────────────────────────────────────────────────────
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [skyColors, setSkyColors]   = useState({ top: '#0d2545', mid: '#1a4a7a', bot: '#2d6ea8' });
@@ -322,28 +323,25 @@ export default function Dashboard() {
   const normalizedUv = rawUv !== null ? rawUv / 100 : null;
 
   const d = {
-    city:        'Badr, Egypt',
     temp:        liveData?.temp       ?? '--',
     humidity:    liveData?.humidity   ?? '--',
     rainfall:    liveData?.rainfall   ?? '--',
-    uvIndex:     normalizedUv,                       // 0–12 scale
+    uvIndex:     normalizedUv,
     windSpeed:   liveData?.wind_speed ?? '--',
     windDir:     liveData?.wind_dir   ?? null,
     pressure:    liveData?.pressure   ?? '--',
-    // Derived fields — all use the normalized UV value
-    uvCat:       uvCategory(normalizedUv),
-    uvTip:       uvAdvice(normalizedUv),
     windDirText: degToCompass(liveData?.wind_dir ?? null),
   };
 
   // ── Status footer text ─────────────────────────────────────────────────────
+  const locale = lang === 'ar' ? 'ar-EG' : lang === 'ru' ? 'ru-RU' : 'en-US';
   const footerText = isLoading
-    ? 'Loading…'
+    ? t('loading')
     : dataError
     ? `⚠ ${dataError}`
     : lastUpdated
-    ? `Updated ${lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}${isLive ? ' · Live' : ''}`
-    : 'No data yet';
+    ? `${t('updated')} ${lastUpdated.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}${isLive ? ` · ${t('live')}` : ''}`
+    : t('noDataYet');
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -484,20 +482,20 @@ export default function Dashboard() {
         <div className="location-header">
           <div className="location-pill">
             <i className="fas fa-location-dot"></i>
-            <span>{d.city}</span>
+                        <span>{t('city')}</span>
           </div>
           <div className="current-temp">{liveData?.temp != null ? liveData.temp.toFixed(1) : '--'}{liveData?.temp != null ? '°' : ''}</div>
           <div className="condition">
-            {isLoading ? 'Loading…' : liveData ? 'Live Reading' : 'No data'}
+            {isLoading ? t('loading') : liveData ? t('liveReading') : t('noData')}
           </div>
           <div className="hi-low">
             <span>
               <i className="hi-dot fas fa-circle"></i>
-              Humidity:&nbsp;<span>{d.humidity}{liveData ? '%' : ''}</span>
+              {t('humidity')}:&nbsp;<span>{d.humidity}{liveData ? '%' : ''}</span>
             </span>
             <span>
               <i className="lo-dot fas fa-circle"></i>
-              Rain:&nbsp;<span>{d.rainfall}{liveData ? ' mm' : ''}</span>
+              {t('rain')}:&nbsp;<span>{d.rainfall}{liveData ? ' mm' : ''}</span>
             </span>
           </div>
         </div>
@@ -506,21 +504,21 @@ export default function Dashboard() {
         <div className="section-wrap">
           <div className="section-label">
             <i className="fas fa-gauge-high" style={{ marginRight: '6px', opacity: 0.7 }}></i>
-            Live Conditions
+            {t('liveConditions')}
           </div>
           <div className="card-grid">
 
             {/* UV Index */}
             <div className="weather-card">
               <div className="card-header">
-                <i className="fas fa-sun" style={{ color: 'var(--accent-warm)' }}></i> UV Index
+                <i className="fas fa-sun" style={{ color: 'var(--accent-warm)' }}></i> {t('uvIndex')}
               </div>
               <div>
                 <span className="card-value-large">
                   {normalizedUv != null ? normalizedUv.toFixed(1) : '--'}
                 </span>
               </div>
-              <div className="card-sub">{d.uvCat}</div>
+              <div className="card-sub">{normalizedUv != null ? t(uvCategoryKey(normalizedUv)) : '--'}</div>
               <div className="uv-bar-wrap">
                 <div className="uv-track">
                   <div
@@ -528,15 +526,15 @@ export default function Dashboard() {
                     style={{ width: `${Math.min(((normalizedUv ?? 0) / 12) * 100, 100)}%` }}
                   ></div>
                 </div>
-                <div className="uv-labels"><span>0</span><span>12 · Extreme</span></div>
+                <div className="uv-labels"><span>0</span><span>12 · {t('uvExtreme')}</span></div>
               </div>
-              <div className="card-sub" style={{ marginTop: '4px' }}>{d.uvTip}</div>
+              <div className="card-sub" style={{ marginTop: '4px' }}>{normalizedUv != null ? t(uvAdviceKey(normalizedUv)) : '--'}</div>
             </div>
 
             {/* Rainfall */}
             <div className="weather-card">
               <div className="card-header">
-                <i className="fas fa-droplet" style={{ color: 'var(--accent-blue)' }}></i> Rainfall
+                <i className="fas fa-droplet" style={{ color: 'var(--accent-blue)' }}></i> {t('rainfall')}
               </div>
               <div>
                 <span className="card-value-large">
@@ -544,12 +542,12 @@ export default function Dashboard() {
                 </span>
                 <span className="card-unit">mm</span>
               </div>
-              <div className="card-sub">Current reading</div>
+              <div className="card-sub">{t('currentReading')}</div>
               <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '0.5px solid rgba(255,255,255,0.07)' }}>
-                <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>Last updated</div>
+                <div style={{ fontSize: '12px', color: 'var(--text-dim)' }}>{t('lastUpdated')}</div>
                 <div style={{ fontSize: '15px', fontWeight: 500, marginTop: '3px' }}>
                   {lastUpdated
-                    ? lastUpdated.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                    ? lastUpdated.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
                     : '--'}
                 </div>
               </div>
@@ -558,7 +556,7 @@ export default function Dashboard() {
             {/* Wind */}
             <div className="weather-card">
               <div className="card-header">
-                <i className="fas fa-wind" style={{ color: 'var(--accent-teal)' }}></i> Wind
+                <i className="fas fa-wind" style={{ color: 'var(--accent-teal)' }}></i> {t('wind')}
               </div>
               <div className="wind-speed-row">
                 <span className="card-value-large">
@@ -566,7 +564,7 @@ export default function Dashboard() {
                 </span>
                 <span className="card-unit">km/h</span>
               </div>
-              <div className="gust-tag">Dir: {d.windDirText}</div>
+              <div className="gust-tag">{t('windDir')}: {d.windDirText}</div>
               <div className="compass-wrap">
                 <div className="compass">
                   <div className="compass-ring"></div>
@@ -589,7 +587,7 @@ export default function Dashboard() {
             {/* Humidity */}
             <div className="weather-card">
               <div className="card-header">
-                <i className="fas fa-tint" style={{ color: 'var(--accent-blue)' }}></i> Humidity
+                <i className="fas fa-tint" style={{ color: 'var(--accent-blue)' }}></i> {t('humidity')}
               </div>
               <div>
                 <span className="card-value-large">
@@ -597,7 +595,7 @@ export default function Dashboard() {
                 </span>
                 <span className="card-unit">%</span>
               </div>
-              <div className="card-sub">Relative humidity</div>
+              <div className="card-sub">{t('relativeHumidity')}</div>
               <div className="humidity-track">
                 <div className="humidity-fill" style={{ width: `${liveData?.humidity ?? 0}%` }}></div>
               </div>
@@ -607,7 +605,7 @@ export default function Dashboard() {
             {/* Pressure */}
             <div className="weather-card">
               <div className="card-header">
-                <i className="fas fa-gauge-high" style={{ color: 'rgba(200,220,255,.7)' }}></i> Pressure
+                <i className="fas fa-gauge-high" style={{ color: 'rgba(200,220,255,.7)' }}></i> {t('pressure')}
               </div>
               <div>
                 <span className="card-value-large">
@@ -622,32 +620,32 @@ export default function Dashboard() {
                 <div className="trend-bar" style={{ height: '22px' }}></div>
                 <div className="trend-bar" style={{ height: '20px' }}></div>
               </div>
-              <div className="card-sub">Steady</div>
+              <div className="card-sub">{t('steady')}</div>
             </div>
 
             {/* Temperature Detail */}
             <div className="weather-card">
               <div className="card-header">
-                <i className="fas fa-thermometer-half" style={{ color: 'var(--accent-warm)' }}></i> Temperature
+                <i className="fas fa-thermometer-half" style={{ color: 'var(--accent-warm)' }}></i> {t('temperature')}
               </div>
               <div>
                 <span className="card-value-large">
                   {liveData?.temp != null ? liveData.temp.toFixed(1) : '--'}°
                 </span>
               </div>
-              <div className="card-sub">Sensor reading</div>
+              <div className="card-sub">{t('sensorReading')}</div>
               <div className="sun-row">
                 <div className="sun-item">
                   <i className="fas fa-sunrise"></i>
                   <div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Sunrise</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{t('sunrise')}</div>
                     <div style={{ fontSize: '13px', fontWeight: 500 }}>6:42</div>
                   </div>
                 </div>
                 <div className="sun-item moon-item">
                   <i className="fas fa-sunset"></i>
                   <div>
-                    <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Sunset</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-dim)' }}>{t('sunset')}</div>
                     <div style={{ fontSize: '13px', fontWeight: 500 }}>19:24</div>
                   </div>
                 </div>
@@ -664,7 +662,7 @@ export default function Dashboard() {
             className="footer-dot"
             style={{ background: isLive ? '#4ade80' : lastUpdated ? '#fbbf24' : '#6b7280' }}
           ></span>
-          {footerText}&nbsp;·&nbsp;ERU Weather Station
+          {footerText}&nbsp;·&nbsp;{t('eruStation')}
         </div>
 
       </div>
