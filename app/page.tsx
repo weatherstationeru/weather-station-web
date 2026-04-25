@@ -36,14 +36,14 @@ interface ISpeechRecognition extends EventTarget {
   interimResults: boolean;
   maxAlternatives: number;
   onresult: ((e: SpeechRecognitionEvent) => void) | null;
-  onerror:  (() => void) | null;
-  onend:    (() => void) | null;
+  onerror: (() => void) | null;
+  onend: (() => void) | null;
   start(): void;
-  stop():  void;
+  stop(): void;
 }
 declare global {
   interface Window {
-    SpeechRecognition?:       new () => ISpeechRecognition;
+    SpeechRecognition?: new () => ISpeechRecognition;
     webkitSpeechRecognition?: new () => ISpeechRecognition;
   }
 }
@@ -53,15 +53,15 @@ declare global {
 /** Convert a wind direction in degrees to a compass label. */
 function degToCompass(deg: number | null): string {
   if (deg === null) return '--';
-  const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
   return dirs[Math.round(deg / 22.5) % 16];
 }
 
 /** Returns a translation key for the UV category (scale 0–12). */
 function uvCategoryKey(uv: number): TranslationKey {
-  if (uv <= 2)  return 'uvLow';
-  if (uv <= 5)  return 'uvModerate';
-  if (uv <= 7)  return 'uvHigh';
+  if (uv <= 2) return 'uvLow';
+  if (uv <= 5) return 'uvModerate';
+  if (uv <= 7) return 'uvHigh';
   if (uv <= 10) return 'uvVeryHigh';
   return 'uvExtreme';
 }
@@ -81,26 +81,26 @@ export default function Dashboard() {
   const { t, lang } = useLanguage();
   // ── UI state ──────────────────────────────────────────────────────────────
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [skyColors, setSkyColors]   = useState({ top: '#0d2545', mid: '#1a4a7a', bot: '#2d6ea8' });
+  const [skyColors, setSkyColors] = useState({ top: '#0d2545', mid: '#1a4a7a', bot: '#2d6ea8' });
   const [moonOpacity, setMoonOpacity] = useState(0);
 
   // ── Live data state ───────────────────────────────────────────────────────
-  const [liveData, setLiveData]         = useState<WeatherRow | null>(null);
-  const [isLoading, setIsLoading]       = useState(true);
-  const [dataError, setDataError]       = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated]   = useState<Date | null>(null);
-  const [isLive, setIsLive]             = useState(false); // true once realtime connects
+  const [liveData, setLiveData] = useState<WeatherRow | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [dataError, setDataError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [isLive, setIsLive] = useState(false); // true once realtime connects
 
   // ── Chat state ────────────────────────────────────────────────────────────
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: 'assistant', content: 'Hello! I am your AI weather assistant. How can I help you today?' },
   ]);
-  const [chatInput, setChatInput]         = useState('');
+  const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
-  const [isListening, setIsListening]     = useState(false);  // mic active
-  const [isSpeaking, setIsSpeaking]       = useState(false);  // TTS playing
-  const [ttsEnabled, setTtsEnabled]       = useState(true);   // user toggle
-  const chatBodyRef    = useRef<HTMLDivElement>(null);
+  const [isListening, setIsListening] = useState(false);  // mic active
+  const [isSpeaking, setIsSpeaking] = useState(false);  // TTS playing
+  const [ttsEnabled, setTtsEnabled] = useState(true);   // user toggle
+  const chatBodyRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
 
   // ── Text-to-Speech helper ─────────────────────────────────────────────────
@@ -149,14 +149,14 @@ export default function Dashboard() {
       }
 
       window.speechSynthesis.cancel();
-      const utter      = new SpeechSynthesisUtterance(text);
-      utter.voice      = chosen;          // null = system default (better than nothing)
-      utter.lang       = 'en-US';
-      utter.rate       = 0.88;            // slightly slower → sounds more considered
-      utter.pitch      = 0.95;            // slightly lower → warmer, less robotic
-      utter.volume     = 1.0;
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.voice = chosen;          // null = system default (better than nothing)
+      utter.lang = 'en-US';
+      utter.rate = 0.88;            // slightly slower → sounds more considered
+      utter.pitch = 0.95;            // slightly lower → warmer, less robotic
+      utter.volume = 1.0;
       utter.onstart = () => setIsSpeaking(true);
-      utter.onend   = () => setIsSpeaking(false);
+      utter.onend = () => setIsSpeaking(false);
       utter.onerror = () => setIsSpeaking(false);
       window.speechSynthesis.speak(utter);
     };
@@ -180,9 +180,9 @@ export default function Dashboard() {
     if (!SR) { alert('Speech recognition is not supported in this browser.'); return; }
 
     const recognition = new SR();
-    recognition.lang             = 'en-US';
-    recognition.interimResults   = false;
-    recognition.maxAlternatives  = 1;
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
     recognition.onresult = (e: SpeechRecognitionEvent) => {
       const transcript = e.results[0][0].transcript;
@@ -190,7 +190,7 @@ export default function Dashboard() {
       setIsListening(false);
     };
     recognition.onerror = () => setIsListening(false);
-    recognition.onend   = () => setIsListening(false);
+    recognition.onend = () => setIsListening(false);
 
     recognitionRef.current = recognition;
     recognition.start();
@@ -293,9 +293,9 @@ export default function Dashboard() {
   // ── Dynamic sky background ─────────────────────────────────────────────────
   useEffect(() => {
     const hour = new Date().getHours();
-    const isDay     = hour > 6  && hour < 19;
+    const isDay = hour > 6 && hour < 19;
     const isSunrise = hour >= 5 && hour <= 8;
-    const isSunset  = hour >= 17 && hour <= 20;
+    const isSunset = hour >= 17 && hour <= 20;
 
     let top: string, mid: string, bot: string, mOpacity: number;
 
@@ -319,17 +319,17 @@ export default function Dashboard() {
   // UV NOTE: The ESP32 stores the raw sensor reading (0–1200 scale).
   // We divide by 100 here to convert to the standard UV index (0–12).
   // Raw data in Supabase is intentionally left untouched.
-  const rawUv        = liveData?.uv_index ?? null;
+  const rawUv = liveData?.uv_index ?? null;
   const normalizedUv = rawUv !== null ? rawUv / 100 : null;
 
   const d = {
-    temp:        liveData?.temp       ?? '--',
-    humidity:    liveData?.humidity   ?? '--',
-    rainfall:    liveData?.rainfall   ?? '--',
-    uvIndex:     normalizedUv,
-    windSpeed:   liveData?.wind_speed ?? '--',
-    windDir:     liveData?.wind_dir   ?? null,
-    pressure:    liveData?.pressure   ?? '--',
+    temp: liveData?.temp ?? '--',
+    humidity: liveData?.humidity ?? '--',
+    rainfall: liveData?.rainfall ?? '--',
+    uvIndex: normalizedUv,
+    windSpeed: liveData?.wind_speed ?? '--',
+    windDir: liveData?.wind_dir ?? null,
+    pressure: liveData?.pressure ?? '--',
     windDirText: degToCompass(liveData?.wind_dir ?? null),
   };
 
@@ -338,10 +338,10 @@ export default function Dashboard() {
   const footerText = isLoading
     ? t('loading')
     : dataError
-    ? `⚠ ${dataError}`
-    : lastUpdated
-    ? `${t('updated')} ${lastUpdated.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}${isLive ? ` · ${t('live')}` : ''}`
-    : t('noDataYet');
+      ? `⚠ ${dataError}`
+      : lastUpdated
+        ? `${t('updated')} ${lastUpdated.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}${isLive ? ` · ${t('live')}` : ''}`
+        : t('noDataYet');
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -482,7 +482,7 @@ export default function Dashboard() {
         <div className="location-header">
           <div className="location-pill">
             <i className="fas fa-location-dot"></i>
-                        <span>{t('city')}</span>
+            <span>{t('city')}</span>
           </div>
           <div className="current-temp">{liveData?.temp != null ? liveData.temp.toFixed(1) : '--'}{liveData?.temp != null ? '°' : ''}</div>
           <div className="condition">
