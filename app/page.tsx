@@ -486,7 +486,7 @@ export default function Dashboard() {
             <i className="fas fa-location-dot"></i>
             <span>{d.city}</span>
           </div>
-          <div className="current-temp">{liveData ? liveData.temp.toFixed(1) : '--'}{liveData ? '°' : ''}</div>
+          <div className="current-temp">{liveData?.temp != null ? liveData.temp.toFixed(1) : '--'}{liveData?.temp != null ? '°' : ''}</div>
           <div className="condition">
             {isLoading ? 'Loading…' : liveData ? 'Live Reading' : 'No data'}
           </div>
