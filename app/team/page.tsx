@@ -6,10 +6,10 @@ import Link from 'next/link';
 const teamMembers = [
   { id: 1, initials: 'MA', name: 'Mohannad Abdelkawy', role: 'Mechatronics Engineering', color: '#6c63ff', linkedin: 'https://www.linkedin.com/in/mohannad-abdelkawy-56a1662b4/' },
   { id: 2, initials: 'YM', name: 'Yousif Mohammad', role: 'Mechatronics Engineering', color: '#2a8a6e', linkedin: 'https://www.linkedin.com/in/yousif-ebaid-636471323' },
-  { id: 3, initials: 'AS', name: 'Ahmed Soliman', role: 'Mechatronics Engineering', color: '#3a7bd5', linkedin: 'https://www.linkedin.com/in/ahmed-soliman-4261053b8' },
+  { id: 6, initials: 'AA', name: 'Ammar Ali', role: 'Mechatronics Engineering', color: '#993356', linkedin: 'https://www.linkedin.com/in/ammar-ali-8588923b2' },
   { id: 4, initials: 'HM', name: 'Hamdy Mohammad', role: 'Mechatronics Engineering', color: '#c05a2e', linkedin: 'https://www.linkedin.com/in/hamdy-mohamed-24a20b224' },
   { id: 5, initials: 'HA', name: 'Helmy Ahmed', role: 'Mechatronics Engineering', color: '#b07015', linkedin: 'https://www.linkedin.com/in/helmy-ahmed-79b383368' },
-  { id: 6, initials: 'AA', name: 'Ammar Ali', role: 'Mechatronics Engineering', color: '#993356', linkedin: 'https://www.linkedin.com/in/ammar-ali-8588923b2' },
+  { id: 3, initials: 'AS', name: 'Ahmed Soliman', role: 'Mechatronics Engineering', color: '#3a7bd5', linkedin: 'https://www.linkedin.com/in/ahmed-soliman-4261053b8' },
   { id: 7, initials: 'MM', name: 'Michael Meseha', role: 'Mechatronics Engineering', color: '#6c63ff', linkedin: 'https://www.linkedin.com/in/michael-meseha-a9a2a3394' },
   { id: 8, initials: 'MA', name: 'Mohammad Aboulela', role: 'Mechatronics Engineering', color: '#2a8a6e', linkedin: 'https://www.linkedin.com/in/mohamed-aboulela-ab8652285' },
   { id: 9, initials: 'HS', name: 'Hassan Salah', role: 'Mechatronics Engineering', color: '#3a7bd5', linkedin: 'https://www.linkedin.com/in/hassan-salah-b1030b371' },
