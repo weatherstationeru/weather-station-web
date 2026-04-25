@@ -29,7 +29,14 @@ const PRAYERS: { key: keyof PrayerTimings; label: string; icon: string }[] = [
   { key: 'Isha',    label: 'Isha',    icon: '🌃' },
 ];
 
-function fmt(t: string) { return t.slice(0, 5); }
+/** Convert "HH:MM" (24h) to "h:MM AM/PM" (12h). */
+function fmt(t: string) {
+  const [hStr, mStr] = t.slice(0, 5).split(':');
+  let h = parseInt(hStr, 10);
+  const suffix = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12; // 0 → 12, 13 → 1, etc.
+  return `${h}:${mStr} ${suffix}`;
+}
 
 function getActive(timings: PrayerTimings): keyof PrayerTimings | null {
   const now = new Date();

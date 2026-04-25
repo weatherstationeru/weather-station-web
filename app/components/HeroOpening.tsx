@@ -100,6 +100,11 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
               Egyptian Russian University&nbsp;&nbsp;·&nbsp;&nbsp;Mechatronics Engineering
             </p>
 
+            {/* Supervision */}
+            <p className="hero-supervision">
+              Under supervision by Prof. Omar Fathy
+            </p>
+
             {/* Live temperature teaser */}
             <div className="hero-temp-pill">
               <span className="hero-temp-dot" />
@@ -122,8 +127,14 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
             </button>
           </div>
 
-          {/* Bottom scroll hint */}
-          <div className={`hero-scroll-hint ${ready ? 'hero-scroll-hint--in' : ''}`}>
+          {/* Bottom scroll hint — clickable to dismiss */}
+          <div
+            className={`hero-scroll-hint ${ready ? 'hero-scroll-hint--in' : ''}`}
+            onClick={dismiss}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && dismiss()}
+          >
             <span>Tap to enter</span>
             <div className="hero-scroll-chevron">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
