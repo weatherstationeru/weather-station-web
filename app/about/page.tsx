@@ -93,13 +93,16 @@ export default function AboutPage() {
 
       {/* ── Tab navigation ── */}
       <nav className="about-tabs" aria-label="Page sections">
-        {(['overview', 'technology', 'timeline'] as const).map((tab) => (
+        {(['overview', 'hardware', 'technology', 'timeline'] as const).map((tab) => (
           <button
             key={tab}
             className={`about-tab ${activeSection === tab ? 'about-tab--active' : ''}`}
             onClick={() => setActiveSection(tab)}
           >
-            {tab === 'overview' ? '📋 Overview' : tab === 'technology' ? '⚙️ Technology' : '🗓️ Timeline'}
+            {tab === 'overview' ? '📋 Overview'
+              : tab === 'hardware' ? '🔧 Hardware'
+              : tab === 'technology' ? '⚙️ Technology'
+              : '🗓️ Timeline'}
           </button>
         ))}
       </nav>
@@ -251,6 +254,453 @@ export default function AboutPage() {
         </div>
       )}
 
+
+      {/* ══════════════════════════════════════════ HARDWARE ══ */}
+      {activeSection === 'hardware' && (
+        <div className="about-section">
+
+          {/* ── Bento Grid: System Overview ── */}
+          <h2 className="about-section-title">System Architecture</h2>
+          <p className="about-section-sub">A self-contained, solar-powered IoT node that streams live environmental data to the cloud — no human intervention required.</p>
+
+          <div className="hw-bento">
+
+            {/* Card 1 – Mission */}
+            <div className="hw-bento-card hw-bento-card--wide hw-bento-card--accent">
+              <div className="hw-bento-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Autonomous Operation</h3>
+              <p className="hw-bento-desc">Powered by a 5 V solar panel → TP4056 charger → 18650 Li-ion battery → MT3608 boost converter (tuned to 5.0 V). Runs continuously with zero external power. Deep-sleep between transmissions extends battery life.</p>
+            </div>
+
+            {/* Card 2 – Sensors */}
+            <div className="hw-bento-card">
+              <div className="hw-bento-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 14h7v7h-7z"/></svg>
+              </div>
+              <h3 className="hw-bento-title">6-Sensor Array</h3>
+              <ul className="hw-bento-list">
+                <li>🌡️ AHT20 — Temperature &amp; Humidity (I²C, 3.3 V)</li>
+                <li>🔵 BMP280 — Barometric Pressure ±1.0 hPa (I²C)</li>
+                <li>☀️ GY-ML8511 — UV Index (Analog, GPIO32)</li>
+                <li>💨 A3144 ×4 — Wind Vane N/E/S/W (Hall, 5 V)</li>
+                <li>🌀 A3144 ×1 — Anemometer Speed (Hall, GPIO34)</li>
+                <li>🌧️ A3144 ×1 — Rain Gauge tips (Hall, GPIO35)</li>
+              </ul>
+            </div>
+
+            {/* Card 3 – Wireless */}
+            <div className="hw-bento-card hw-bento-card--purple">
+              <div className="hw-bento-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+              </div>
+              <h3 className="hw-bento-title">ESP-NOW Wireless</h3>
+              <p className="hw-bento-desc">Proprietary 2.4 GHz peer-to-peer link — no Wi-Fi router needed. Ultra-low latency, minimal overhead. Outdoor node transmits to Indoor Gateway ESP32 which bridges to cloud via HTTPS.</p>
+            </div>
+
+            {/* Card 4 – Power Live Status */}
+            <div className="hw-bento-card hw-bento-card--power">
+              <div className="hw-bento-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Power System</h3>
+              <div className="hw-power-chain">
+                <span className="hw-power-node">☀️ Solar 5 V</span>
+                <span className="hw-power-arrow">→</span>
+                <span className="hw-power-node">🔋 TP4056</span>
+                <span className="hw-power-arrow">→</span>
+                <span className="hw-power-node">⚡ MT3608</span>
+                <span className="hw-power-arrow">→</span>
+                <span className="hw-power-node">🟢 5.0 V Rail</span>
+              </div>
+              <div className="hw-power-rails">
+                <div className="hw-power-rail hw-power-rail--5v"><span>5 V Rail</span><span>Hall VCC · ESP32 VIN · Shifter HV</span></div>
+                <div className="hw-power-rail hw-power-rail--3v"><span>3.3 V Rail</span><span>AHT20 · BMP280 · GY-ML8511 · Shifter LV</span></div>
+                <div className="hw-power-rail hw-power-rail--gnd"><span>GND Rail</span><span>All sensor grounds · Battery (−)</span></div>
+              </div>
+            </div>
+
+            {/* Card 5 – Cloud Stack */}
+            <div className="hw-bento-card hw-bento-card--wide">
+              <div className="hw-bento-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Data Flow: Node → Cloud</h3>
+              <div className="hw-flow-row">
+                {['Outdoor ESP32\n+ Sensors','ESP-NOW\nWireless','Indoor Gateway\nESP32 + TFT','Wi-Fi HTTPS','Node.js\nAPI Server','Supabase\nPostgreSQL'].map((label, i, arr) => (
+                  <div key={i} className="hw-flow-step">
+                    <div className="hw-flow-bubble">{label.split('\n').map((l, j) => <span key={j}>{l}</span>)}</div>
+                    {i < arr.length - 1 && <div className="hw-flow-arr">→</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>{/* /hw-bento */}
+
+          {/* ── GPIO Pin Mapping Table ── */}
+          <h2 className="about-section-title" style={{ marginTop: '40px' }}>GPIO Pin Mapping</h2>
+          <p className="about-section-sub">Interactive pin assignment table — hover rows to highlight. All Hall signals pass through 5V→3.3V level shifters before reaching the ESP32.</p>
+
+          <div className="hw-table-wrap">
+            <table className="hw-table">
+              <thead>
+                <tr>
+                  <th>Signal</th>
+                  <th>ESP32 Pin</th>
+                  <th>Sensor / Module</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { signal: '3.3 V Supply', pin: '3V3', module: 'AHT20 VCC, BMP280 VCC, UV VIN, Shifter LV', notes: '10 μF decouple between 3.3V–GND' },
+                  { signal: '5 V Supply', pin: 'VIN (or 5V)', module: 'TP4056 OUT+, Shifter HV, Hall VCC pins', notes: 'Boost module tuned to 5.00 V' },
+                  { signal: 'Ground', pin: 'GND', module: 'All sensor grounds, GND pins', notes: 'Common reference' },
+                  { signal: 'I²C SDA', pin: 'GPIO21', module: 'AHT20, BMP280 (SDA)', notes: 'Also connect to pull-ups (board)' },
+                  { signal: 'I²C SCL', pin: 'GPIO22', module: 'AHT20, BMP280 (SCL)', notes: '' },
+                  { signal: 'UV Sensor EN', pin: '3.3V (tie high)', module: 'GY-ML8511', notes: 'Always high (active)' },
+                  { signal: 'UV Sensor OUT', pin: 'GPIO32 (ADC)', module: 'GY-ML8511', notes: 'Analog input 0–3.3 V range' },
+                  { signal: 'Wind North', pin: 'GPIO25', module: 'Hall A3144 #1 (N)', notes: 'via Shifter1 LV1' },
+                  { signal: 'Wind East', pin: 'GPIO26', module: 'Hall A3144 #2 (E)', notes: 'via Shifter1 LV2' },
+                  { signal: 'Wind South', pin: 'GPIO27', module: 'Hall A3144 #3 (S)', notes: 'via Shifter1 LV3' },
+                  { signal: 'Wind West', pin: 'GPIO14', module: 'Hall A3144 #4 (W)', notes: 'via Shifter1 LV4' },
+                  { signal: 'Anemometer', pin: 'GPIO34', module: 'Hall A3144 #5 (speed)', notes: 'via Shifter2 LV1' },
+                  { signal: 'Rain Gauge', pin: 'GPIO35', module: 'Hall A3144 #6 (rain)', notes: 'via Shifter2 LV2' },
+                  { signal: 'Hall Pull-ups', pin: '5 V', module: '10 kΩ (one per A3144)', notes: 'One between VCC and OUT each — MANDATORY' },
+                ].map((row, i) => (
+                  <tr key={i} className="hw-table-row">
+                    <td className="hw-td hw-td--signal">{row.signal}</td>
+                    <td className="hw-td hw-td--pin"><code>{row.pin}</code></td>
+                    <td className="hw-td">{row.module}</td>
+                    <td className="hw-td hw-td--note">{row.notes}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* ── Sensor Interfacing ── */}
+          <h2 className="about-section-title" style={{ marginTop: '40px' }}>Sensor Interfacing &amp; Level Shifting</h2>
+          <div className="hw-bento hw-bento--3col">
+
+            <div className="hw-bento-card">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <h3 className="hw-bento-title">I²C Digital (3.3 V)</h3>
+              <p className="hw-bento-desc"><strong>AHT20</strong> — 2.2–5.5 V VDD, 10 μF decoupling cap on VDD-GND, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
+              <p className="hw-bento-desc" style={{marginTop:'8px'}}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V, 10 μF decoupling. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
+            </div>
+
+            <div className="hw-bento-card">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Analog UV (GY-ML8511)</h3>
+              <p className="hw-bento-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate. OUT → GPIO32 ADC. 0.1 μF decoupling on VDD.</p>
+            </div>
+
+            <div className="hw-bento-card hw-bento-card--warn">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Hall A3144 — CRITICAL</h3>
+              <p className="hw-bento-desc">Unipolar open-collector switches, 4.5–24 V operation. Run at 5 V for clean digital signals. <strong>10 kΩ pull-up between VCC and OUT is MANDATORY</strong> — without it, output floats and data is noisy. 0.01–0.1 μF cap between VCC-GND per sensor.</p>
+              <p className="hw-bento-desc" style={{marginTop:'8px'}}>ESP32 GPIOs are NOT 5 V tolerant → two 4-channel BSS138 level shifters translate HV (5 V) to LV (3.3 V) for each Hall signal. I²C bus bypasses shifters (already 3.3 V).</p>
+            </div>
+
+          </div>
+
+          {/* ── Software Logic ── */}
+          <h2 className="about-section-title" style={{ marginTop: '40px' }}>Firmware &amp; Software Logic</h2>
+          <div className="hw-bento hw-bento--3col">
+
+            <div className="hw-bento-card">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Outdoor Node (C++)</h3>
+              <p className="hw-bento-desc">setup(): init I²C + ESP-NOW. loop(): read AHT20/BMP280 via I²C, read UV ADC, count anemometer pulses, decode wind vane magnets, count rain tips. Package into struct → <code>esp_now_send()</code> to Gateway MAC → <code>esp_sleep()</code> 10 s.</p>
+            </div>
+
+            <div className="hw-bento-card">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Indoor Gateway (C++)</h3>
+              <p className="hw-bento-desc">Boot → connect Wi-Fi + init TFT + register ESP-NOW receiver. On packet callback: parse readings → update TFT display (optionally render QR) → HTTP POST to Node.js REST API (HTTPS, API key auth) → optional SD card backup.</p>
+            </div>
+
+            <div className="hw-bento-card hw-bento-card--accent">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Node.js + Supabase</h3>
+              <p className="hw-bento-desc"><strong>Node.js (Express):</strong> POST /addReading endpoint (API-key protected) → inserts row into Supabase <code>sensor_data</code> table. Minimal code — Supabase auto-generates REST endpoints.</p>
+              <p className="hw-bento-desc" style={{marginTop:'8px'}}><strong>Table columns:</strong> id, device_id, timestamp, temperature, humidity, pressure, uv_index, wind_speed, wind_direction, rainfall. Dashboards subscribe via Supabase Realtime WebSocket.</p>
+            </div>
+
+          </div>
+
+          {/* ── Safety Checklist ── */}
+          <h2 className="about-section-title" style={{ marginTop: '40px' }}>Safety &amp; Testing Checklist</h2>
+          <div className="hw-checklist">
+            {[
+              { icon: '⚡', label: 'Electrical Safety', detail: 'Verify battery polarity. No exposed wires. Multimeter: 5 V rail exactly 5.0 V, 3.3 V rail stable.' },
+              { icon: '🔩', label: 'Component Ratings', detail: 'A3144 outputs MUST have 10 kΩ pull-ups to 5 V. UV sensor EN pin tied HIGH (3.3 V).' },
+              { icon: '📡', label: 'Sensor Function', detail: 'I²C scan: confirm AHT20 (0x38) + BMP280 (0x76/0x77) respond. UV: shine lamp → read ADC. Hall: move magnet → observe GPIO toggle in Serial.' },
+              { icon: '💻', label: 'Software Sanity', detail: 'POST fake data to Node.js endpoint (curl/Postman) before trusting ESP32. Check gateway TFT displays updates.' },
+              { icon: '🌧️', label: 'Environmental Protection', detail: 'Outdoor electronics in waterproof box with silicone-sealed cable entries. Conformal coating recommended on PCB.' },
+            ].map((item, i) => (
+              <div key={i} className="hw-check-item">
+                <div className="hw-check-icon">{item.icon}</div>
+                <div>
+                  <div className="hw-check-label">{item.label}</div>
+                  <div className="hw-check-detail">{item.detail}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Deployment & Improvements ── */}
+          <div className="hw-bento hw-bento--2col" style={{ marginTop: '32px' }}>
+
+            <div className="hw-bento-card">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Deployment &amp; Maintenance</h3>
+              <ul className="hw-bento-list">
+                <li>🧭 Mount anemometer in clear, unobstructed area. Align magnets with true N/S/E/W.</li>
+                <li>☀️ Keep solar panel clean. Full sun recharges 18650 daily under light load.</li>
+                <li>📡 OTA firmware updates via gateway Wi-Fi. Send heartbeats to Node.js for uptime monitoring.</li>
+                <li>📊 Use Supabase dashboard or Grafana (Postgres source) for visualization &amp; alerts.</li>
+                <li>🔧 Inspect solder joints every few months. Replace 18650 after ~2 years (below 2.9 V).</li>
+              </ul>
+            </div>
+
+            <div className="hw-bento-card hw-bento-card--purple">
+              <div className="hw-bento-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </div>
+              <h3 className="hw-bento-title">Suggested Improvements</h3>
+              <ul className="hw-bento-list">
+                <li>💤 Deep sleep between transmissions (wake on timer or rain-bucket interrupt).</li>
+                <li>🌿 Add BH1750 light sensor or CO₂ sensor via spare I²C pins.</li>
+                <li>🎛️ Software calibration: BMP280 pressure offset + AHT20 humidity offset in EEPROM.</li>
+                <li>📶 Multi-station mesh via ESP-NOW broadcast or switch to LoRaWAN for long range.</li>
+                <li>🏠 Fabricate proper Stevenson screen (ventilated white box) for accurate air temp.</li>
+              </ul>
+            </div>
+
+          </div>
+
+          {/* ══════════════════════════════════ ROADMAP TO V2.0 ══ */}
+          <div className="rm-header">
+            <div className="rm-badge">
+              <span className="rm-badge-dot" />
+              V2.0 Roadmap
+            </div>
+            <h2 className="rm-title">Roadmap to V2.0</h2>
+            <p className="rm-subtitle">
+              The next evolution of the ERU Weather Station — from passive sensing to active automation,
+              predictive intelligence, and large-scale industrial deployment.
+            </p>
+          </div>
+
+          {/* Category labels row */}
+          <div className="rm-categories">
+            {[
+              { color: '#f59e0b', label: 'Automation' },
+              { color: '#60a5fa', label: 'Analytics' },
+              { color: '#34d399', label: 'Applications' },
+              { color: '#f472b6', label: 'Industrial' },
+            ].map(c => (
+              <span key={c.label} className="rm-cat-pill" style={{ '--cat-color': c.color } as React.CSSProperties}>
+                {c.label}
+              </span>
+            ))}
+          </div>
+
+          {/* Horizontal scroll showcase */}
+          <div className="rm-scroll-track">
+
+            {/* ── AUTOMATION cards ── */}
+            <div className="rm-card rm-card--amber rm-card--priority" data-category="Automation">
+              <div className="rm-card-glow" />
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--amber">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M2 12h4m12 0h4M12 2v4m0 12v4"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Automation · Priority</div>
+                  <h3 className="rm-card-title">Actuator Node</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Add a dedicated indoor ESP32 wired to a 5 V relay module. When the outdoor node detects high humidity or extreme temperature, the Node.js backend sends a command back to the hardware — automatically switching fans, humidifiers, or exhaust vents. Closes the automation loop entirely.</p>
+              <div className="rm-card-tags">
+                {['Relay Module', 'Node.js Commands', 'Closed-Loop'].map(t => <span key={t} className="rm-tag">{t}</span>)}
+              </div>
+            </div>
+
+            <div className="rm-card rm-card--amber rm-card--priority" data-category="Automation">
+              <div className="rm-card-glow" />
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--amber">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Automation · Priority</div>
+                  <h3 className="rm-card-title">Hardware-in-the-Loop</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">The ultimate mechatronics integration. Attach a servo motor to the indoor gateway to physically react to outdoor conditions — adjusting window vents on temperature drop, or triggering relays when wind spikes. Transforms the station from observer to actor.</p>
+              <div className="rm-card-tags">
+                {['Servo Motor', 'Relay Control', 'Physical Automation'].map(t => <span key={t} className="rm-tag">{t}</span>)}
+              </div>
+            </div>
+
+            {/* ── ANALYTICS cards ── */}
+            <div className="rm-card rm-card--blue rm-card--priority" data-category="Analytics">
+              <div className="rm-card-glow rm-card-glow--blue" />
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--blue">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Analytics · Priority</div>
+                  <h3 className="rm-card-title">Predictive Analytics Microservice</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Build a Python microservice using Pandas to pull historical data from Supabase via API. Calculate trend averages, predict battery drain during cloudy weeks, and forecast local temperature drops. Push predictions back to the dashboard as an intelligent weather layer.</p>
+              <div className="rm-card-tags">
+                {['Python / Pandas', 'Supabase API', 'ML Forecasting'].map(t => <span key={t} className="rm-tag rm-tag--blue">{t}</span>)}
+              </div>
+            </div>
+
+            {/* ── APPLICATIONS cards ── */}
+            <div className="rm-card rm-card--green" data-category="Applications">
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Applications</div>
+                  <h3 className="rm-card-title">Hyper-Local Accuracy</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Commercial weather apps average data from distant stations. This station provides ground-truth readings for your exact street — capturing temperature micro-drops, wind spikes, and local humidity shifts that generic apps completely miss.</p>
+              <div className="rm-card-tags">
+                {['Microclimates', 'Street-Level Data'].map(t => <span key={t} className="rm-tag rm-tag--green">{t}</span>)}
+              </div>
+            </div>
+
+            <div className="rm-card rm-card--green" data-category="Applications">
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Applications</div>
+                  <h3 className="rm-card-title">Precision Agriculture</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Deploy modular ESP nodes across a garden or greenhouse. Add soil moisture and sun exposure sensors to dictate exactly when to activate irrigation. In arid climates, knowing precise evaporation rate prevents over-watering and saves critical resources.</p>
+              <div className="rm-card-tags">
+                {['Soil Moisture', 'Irrigation Control', 'Greenhouse'].map(t => <span key={t} className="rm-tag rm-tag--green">{t}</span>)}
+              </div>
+            </div>
+
+            <div className="rm-card rm-card--green" data-category="Applications">
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Applications</div>
+                  <h3 className="rm-card-title">Indoor/Outdoor Comfort</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Place one node outside, one inside. Calculate the real-time temperature/humidity delta. Dashboard alerts you the moment it is cooler outside than inside — telling you precisely when to open windows for free natural cooling instead of running AC.</p>
+              <div className="rm-card-tags">
+                {['Dual Node', 'HVAC Optimization', 'Delta Alerts'].map(t => <span key={t} className="rm-tag rm-tag--green">{t}</span>)}
+              </div>
+            </div>
+
+            <div className="rm-card rm-card--green" data-category="Applications">
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Applications</div>
+                  <h3 className="rm-card-title">Dust &amp; Air Quality Defense</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Add a PM2.5/PM10 particulate sensor to detect rising dust levels before they are visible. The system closes windows automatically or sends an alert — protecting occupants and equipment during dust storms common in arid regions.</p>
+              <div className="rm-card-tags">
+                {['PM2.5 Sensor', 'Air Quality', 'Auto-Alert'].map(t => <span key={t} className="rm-tag rm-tag--green">{t}</span>)}
+              </div>
+            </div>
+
+            {/* ── INDUSTRIAL cards ── */}
+            <div className="rm-card rm-card--pink rm-card--priority" data-category="Industrial">
+              <div className="rm-card-glow rm-card-glow--pink" />
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--pink">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/><path d="M12 7v4m-2-2h4"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Industrial · Priority</div>
+                  <h3 className="rm-card-title">Smart Manufacturing &amp; Predictive Maintenance</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Replace weather sensors with vibration or high-heat probes. Magnetically attach solar-powered nodes to factory motors. ESP-NOW transmits telemetry to a central Node.js server — flagging abnormal heat signatures before equipment failure halts production. Mirrors Siemens IIoT methodology.</p>
+              <div className="rm-card-tags">
+                {['Vibration Sensors', 'IIoT', 'Predictive Alerts', 'Siemens-style'].map(t => <span key={t} className="rm-tag rm-tag--pink">{t}</span>)}
+              </div>
+            </div>
+
+            <div className="rm-card rm-card--pink" data-category="Industrial">
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--pink">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Industrial</div>
+                  <h3 className="rm-card-title">Large-Scale Infrastructure Monitoring</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Equip nodes with CO/NO₂ gas sensors and deploy at intervals through tunnel networks or bridges. Because ESP-NOW requires no central Wi-Fi router, nodes relay critical air quality data down the chain. Dangerous fume buildup triggers heavy-duty ventilation automatically.</p>
+              <div className="rm-card-tags">
+                {['Gas Sensors (CO/NO₂)', 'Tunnel Networks', 'Mesh Relay'].map(t => <span key={t} className="rm-tag rm-tag--pink">{t}</span>)}
+              </div>
+            </div>
+
+            <div className="rm-card rm-card--pink" data-category="Industrial">
+              <div className="rm-card-top">
+                <div className="rm-card-icon rm-card-icon--pink">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div>
+                  <div className="rm-card-cat">Industrial</div>
+                  <h3 className="rm-card-title">Distributed Agricultural Automation</h3>
+                </div>
+              </div>
+              <p className="rm-card-desc">Deploy dozens of deep-sleep, off-grid nodes across large agricultural sectors. Soil moisture and pH probes identify which zones are drying. The system actuates only the specific irrigation valves for those dry sectors — saving massive water and power at commercial scale.</p>
+              <div className="rm-card-tags">
+                {['Soil pH / Moisture', 'Valve Actuation', 'Off-Grid Scale'].map(t => <span key={t} className="rm-tag rm-tag--pink">{t}</span>)}
+              </div>
+            </div>
+
+          </div>{/* /rm-scroll-track */}
+
+          <p className="rm-scroll-hint">← Scroll to explore all improvements →</p>
+
+        </div>
+      )}
 
       {/* ══════════════════════════════════════════ TECHNOLOGY ══ */}
       {activeSection === 'technology' && (
