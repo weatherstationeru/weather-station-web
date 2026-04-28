@@ -232,3 +232,29 @@ export async function fetchLast24HoursReadings(): Promise<ApiResult<WeatherRow[]
 
   return result;
 }
+
+/**
+ * fetchAllForDate
+ * ---------------
+ * Fetches all readings for a specific UTC date (YYYY-MM-DD).
+ * Used for data archiving and export functionality.
+ *
+ * @param dateStr - The date string in YYYY-MM-DD format.
+ */
+export async function fetchAllForDate(dateStr: string): Promise<ApiResult<WeatherRow[]>> {
+  const startOfDay = new Date(`${dateStr}T00:00:00.000Z`).toISOString();
+  const endOfDay = new Date(`${dateStr}T23:59:59.999Z`).toISOString();
+
+  return safeQuery<WeatherRow[]>(async () => {
+    // We don't use range here because we want all rows for the day.
+    // Be mindful of very large datasets, but for 1 reading/5mins = 288 rows.
+    const result = await supabase
+      .from(TABLE)
+      .select('*')
+      .gte('created_at', startOfDay)
+      .lte('created_at', endOfDay)
+      .order('created_at', { ascending: true });
+    
+    return result;
+  });
+}

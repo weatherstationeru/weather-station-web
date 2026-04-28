@@ -131,15 +131,23 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Mission card */}
+          {/* Executive Summary card */}
           <div className="about-card about-card--highlight">
-            <div className="about-card-icon">🎯</div>
+            <div className="about-card-icon">🚀</div>
             <div>
-              <h2 className="about-card-title">Mission</h2>
+              <h2 className="about-card-title">Executive Summary</h2>
+              <p className="about-card-text" style={{ marginBottom: '16px' }}>
+                The <strong>Smart Solar-Powered IoT Weather Station</strong> is a self-contained, autonomous sensor network node
+                designed to monitor and log local weather conditions with zero human intervention. Powered by a 5 V solar panel and
+                a single 18650 Li-ion battery, it continuously measures temperature, humidity, pressure, UV intensity, wind
+                speed/direction, and rainfall.
+              </p>
+              <img src="/about/outdoor_station.png" alt="Simulated Outdoor Station" className="hw-bento-img" style={{ marginBottom: '16px' }} />
               <p className="about-card-text">
-                To design, build, and deploy a fully autonomous weather monitoring system that streams
-                real-time environmental data from a physical IoT device to a polished web dashboard —
-                bridging embedded systems, cloud engineering, and modern frontend development.
+                Using an <strong>ESP32 microcontroller</strong>, it gathers data from multiple sensors, transmits readings wirelessly
+                to an indoor gateway via <strong>ESP-NOW</strong>, and logs them in a Supabase cloud database for real-time
+                visualization. It serves as a scalable platform for precision agriculture, distributed meteorological sensing,
+                and environmental IoT applications.
               </p>
             </div>
           </div>
@@ -280,6 +288,9 @@ export default function AboutPage() {
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 14h7v7h-7z"/></svg>
               </div>
               <h3 className="hw-bento-title">6-Sensor Array</h3>
+              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
+                <img src="/about/sensor_array.png" alt="Sensor Array Circuit" className="hw-bento-img" />
+              </p>
               <ul className="hw-bento-list">
                 <li>🌡️ AHT20 — Temperature &amp; Humidity (I²C, 3.3 V)</li>
                 <li>🔵 BMP280 — Barometric Pressure ±1.0 hPa (I²C)</li>
@@ -314,6 +325,9 @@ export default function AboutPage() {
                 <span className="hw-power-arrow">→</span>
                 <span className="hw-power-node">🟢 5.0 V Rail</span>
               </div>
+              <div style={{ marginBottom: '16px' }}>
+                <img src="/about/power_flow.png" alt="Power System Diagram" className="hw-bento-img" />
+              </div>
               <div className="hw-power-rails">
                 <div className="hw-power-rail hw-power-rail--5v"><span>5 V Rail</span><span>Hall VCC · ESP32 VIN · Shifter HV</span></div>
                 <div className="hw-power-rail hw-power-rail--3v"><span>3.3 V Rail</span><span>AHT20 · BMP280 · GY-ML8511 · Shifter LV</span></div>
@@ -327,6 +341,9 @@ export default function AboutPage() {
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
               </div>
               <h3 className="hw-bento-title">Data Flow: Node → Cloud</h3>
+              <div style={{ margin: '16px 0' }}>
+                <img src="/about/system_architecture.png" alt="System Architecture Diagram" className="hw-bento-img" />
+              </div>
               <div className="hw-flow-row">
                 {['Outdoor ESP32\n+ Sensors','ESP-NOW\nWireless','Indoor Gateway\nESP32 + TFT','Wi-Fi HTTPS','Node.js\nAPI Server','Supabase\nPostgreSQL'].map((label, i, arr) => (
                   <div key={i} className="hw-flow-step">
@@ -390,7 +407,10 @@ export default function AboutPage() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
               </div>
               <h3 className="hw-bento-title">I²C Digital (3.3 V)</h3>
-              <p className="hw-bento-desc"><strong>AHT20</strong> — 2.2–5.5 V VDD, 10 μF decoupling cap on VDD-GND, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
+              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
+                <img src="/about/dht_bmp.png" alt="DHT22 and BMP280 Sensors" className="hw-bento-img" />
+              </p>
+              <p className="hw-bento-desc"><strong>AHT20 / DHT22</strong> — 2.2–5.5 V VDD, 10 μF decoupling cap on VDD-GND, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
               <p className="hw-bento-desc" style={{marginTop:'8px'}}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V, 10 μF decoupling. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
             </div>
 
@@ -399,6 +419,9 @@ export default function AboutPage() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
               </div>
               <h3 className="hw-bento-title">Analog UV (GY-ML8511)</h3>
+              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
+                <img src="/about/uv_sensor.png" alt="ML8511 UV Sensor" className="hw-bento-img" />
+              </p>
               <p className="hw-bento-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate. OUT → GPIO32 ADC. 0.1 μF decoupling on VDD.</p>
             </div>
 
@@ -407,6 +430,9 @@ export default function AboutPage() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
               </div>
               <h3 className="hw-bento-title">Hall A3144 — CRITICAL</h3>
+              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
+                <img src="/about/hall_sensor.png" alt="A3144E Hall Sensor" className="hw-bento-img" />
+              </p>
               <p className="hw-bento-desc">Unipolar open-collector switches, 4.5–24 V operation. Run at 5 V for clean digital signals. <strong>10 kΩ pull-up between VCC and OUT is MANDATORY</strong> — without it, output floats and data is noisy. 0.01–0.1 μF cap between VCC-GND per sensor.</p>
               <p className="hw-bento-desc" style={{marginTop:'8px'}}>ESP32 GPIOs are NOT 5 V tolerant → two 4-channel BSS138 level shifters translate HV (5 V) to LV (3.3 V) for each Hall signal. I²C bus bypasses shifters (already 3.3 V).</p>
             </div>
