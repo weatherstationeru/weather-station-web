@@ -227,6 +227,13 @@ export default function NavMenu() {
                 <span className="navmenu-chevron" aria-hidden="true" style={{ fontSize: '12px', opacity: 0.5 }}>›</span>
               </Link>
 
+              {/* ── About ── */}
+              <Link href="/about" className="navmenu-item navmenu-item--link" onClick={() => setIsMenuOpen(false)}>
+                <span className="navmenu-item-icon" aria-hidden="true">ℹ️</span>
+                <span className="navmenu-item-text">{t('navAbout')}</span>
+                <span className="navmenu-chevron" aria-hidden="true" style={{ fontSize: '12px', opacity: 0.5 }}>›</span>
+              </Link>
+
               <div className="navmenu-divider" />
 
               {/* ── Language Switcher ── */}

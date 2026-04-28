@@ -60,8 +60,16 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
         >
           {/* Background layers — video + gradient scrim */}
           <video
-            className="hero-bg-video"
+            className="hero-bg-video bg-video-mobile"
             src="/bg-video.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+          <video
+            className="hero-bg-video bg-video-desktop"
+            src="/pc.mp4"
             autoPlay
             muted
             loop
@@ -104,10 +112,7 @@ export default function HeroOpening({ currentTemp, isLoading }: HeroOpeningProps
 
             {/* Professor photo + supervision badge */}
             <div className="hero-prof-wrap">
-              <div className="hero-prof-avatar">
-                <img src="/prof.jpg" alt="Prof. Omar Fathy" className="hero-prof-img" />
-                <div className="hero-prof-ring" />
-              </div>
+
               <p className="hero-supervision">
                 ✦&nbsp;{t('heroSupervision')}&nbsp;✦
               </p>

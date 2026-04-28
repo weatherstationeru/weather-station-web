@@ -52,6 +52,7 @@ export const translations = {
     navDashboard: 'Live Dashboard',
     navPrayer: 'Prayer Times',
     navTeam: 'Team',
+    navAbout: 'About',
     // Language picker
     language: 'Language',
     // Hero
@@ -104,6 +105,7 @@ export const translations = {
     navDashboard: 'اللوحة المباشرة',
     navPrayer: 'أوقات الصلاة',
     navTeam: 'الفريق',
+    navAbout: 'حول المشروع',
     language: 'اللغة',
     heroSubtitle: 'رصد جوي آني · بدر، مصر',
     heroUniversity: 'الجامعة المصرية الروسية · هندسة الميكاترونيكس',
@@ -154,6 +156,7 @@ export const translations = {
     navDashboard: 'Прямой эфир',
     navPrayer: 'Времена молитв',
     navTeam: 'Команда',
+    navAbout: 'О проекте',
     language: 'Язык',
     heroSubtitle: 'IoT-метеорология · Бадр, Египет',
     heroUniversity: 'Египетско-Российский университет · Мехатроника',

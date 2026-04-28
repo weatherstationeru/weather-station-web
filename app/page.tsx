@@ -442,10 +442,19 @@ export default function Dashboard() {
 
       {/* Overscroll fill — dark color shows in iOS/Android rubber-band areas */}
       <div className="bg-overscroll" />
-      {/* Background video */}
+      {/* Background video (Mobile) */}
       <video
-        className="bg-video"
+        className="bg-video bg-video-mobile"
         src="/bg-video.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+      {/* Background video (Tablet & PC) */}
+      <video
+        className="bg-video bg-video-desktop"
+        src="/pc.mp4"
         autoPlay
         muted
         loop
