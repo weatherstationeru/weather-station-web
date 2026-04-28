@@ -108,6 +108,26 @@ export default function AboutPage() {
       {activeSection === 'overview' && (
         <div className="about-section">
 
+          {/* ── Project Explainer Video ── */}
+          <div className="about-video-card">
+            <div className="about-video-header">
+              <span className="about-video-badge">🎬 Project Video</span>
+              <h2 className="about-video-title">Watch the Full Explainer</h2>
+              <p className="about-video-sub">
+                A cinematic overview of the ERU Weather Station — hardware, software, and live data pipeline.
+              </p>
+            </div>
+            <div className="about-video-frame-wrap">
+              <iframe
+                className="about-video-iframe"
+                src="https://www.youtube.com/embed/lqFAkYpyXcI?rel=0&modestbranding=1&color=white"
+                title="ERU Weather Station – Project Explainer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
           {/* Mission card */}
           <div className="about-card about-card--highlight">
             <div className="about-card-icon">🎯</div>
