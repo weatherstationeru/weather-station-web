@@ -381,7 +381,7 @@ body {
 .app {
   max-width: 420px;
   margin: 0 auto;
-  padding: 48px 18px 48px;
+  padding: 82px 18px 48px;
   min-height: 100vh;
   transition: max-width 0.4s ease, padding 0.4s ease;
 }
@@ -902,350 +902,629 @@ body {
   animation-delay: 0.50s;
 }
 
-/* ===== NAV MENU (burger + dropdown) ===== */
+/* ===== NAVBAR ===== */
 
-/* Fixed burger button — top left */
-.navmenu-wrap {
+.navbar {
   position: fixed;
-  top: 4vh;
-  left: 4vw;
+  top: 0; left: 0; right: 0;
   z-index: 120;
-}
-
-.navmenu-burger {
-  position: relative;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.10);
-  border: 0.5px solid rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  color: #f0f6ff;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: background 0.25s ease, border-radius 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+  padding: 0 28px;
+  background: rgba(5, 12, 30, 0.50);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset,
+              0 4px 24px rgba(0, 0, 0, 0.28);
+  transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
   will-change: transform;
   transform: translateZ(0);
 }
 
-.navmenu-burger:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 18px;
-  box-shadow: 0 6px 22px rgba(96, 165, 250, 0.30);
+.navbar--scrolled {
+  background: rgba(3, 8, 22, 0.82);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset,
+              0 8px 36px rgba(0, 0, 0, 0.48);
+  border-bottom-color: rgba(255, 255, 255, 0.13);
 }
 
-/* Three bars */
-.burger-bar {
-  display: block;
-  width: 20px;
-  height: 2px;
-  background: rgba(240, 246, 255, 0.90);
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
-  transform-origin: center;
-}
-
-/* Morph to X when open */
-.navmenu-burger--open .burger-bar:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-
-.navmenu-burger--open .burger-bar:nth-child(2) {
-  opacity: 0;
-  width: 0;
-}
-
-.navmenu-burger--open .burger-bar:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* Dropdown panel */
-.navmenu-panel {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  min-width: 240px;
-  background: rgba(8, 16, 36, 0.75);
-  border: 0.5px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.50),
-    0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-/* Top shimmer edge */
-.navmenu-panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
-  pointer-events: none;
-}
-
-/* Brand header strip */
-.navmenu-header {
+/* ── Brand ──────────────────────────────────────────────────────────────────── */
+.navbar-brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px 10px;
+  gap: 10px;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
-.navmenu-brand {
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(220, 238, 255, 0.80);
-  letter-spacing: 0.3px;
+.navbar-brand-logo {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(96,165,250,0.25), rgba(52,211,153,0.18));
+  border: 0.5px solid rgba(96,165,250,0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(96,165,250,0.15);
 }
 
-.navmenu-live-dot {
-  width: 7px;
-  height: 7px;
+.navbar-brand-logo-dot {
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #4ade80;
-  box-shadow: 0 0 6px #4ade80;
-  animation: navLivePulse 2s ease-in-out infinite;
+  box-shadow: 0 0 10px #4ade80, 0 0 20px rgba(74,222,128,0.4);
+  animation: navLivePulse 2.4s ease-in-out infinite;
 }
 
 @keyframes navLivePulse {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.5;
-    transform: scale(0.7);
-  }
+  0%, 100% { opacity: 1;   transform: scale(1);   box-shadow: 0 0 10px #4ade80, 0 0 20px rgba(74,222,128,0.4); }
+  50%       { opacity: 0.6; transform: scale(0.75); box-shadow: 0 0 6px #4ade80; }
 }
 
-/* Hairline divider */
-.navmenu-divider {
-  height: 0.5px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.10) 40%, rgba(255, 255, 255, 0.10) 60%, transparent);
-  margin: 0 14px;
+.navbar-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }
 
-/* Menu item — shared base */
-.navmenu-item {
+.navbar-brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: rgba(225, 242, 255, 0.94);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.navbar-brand-clock {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(147, 197, 253, 0.70);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.6px;
+  line-height: 1;
+}
+
+/* ── Nav links (center) ─────────────────────────────────────────────────────── */
+.navbar-links {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 11px 18px;
-  font-size: 14px;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 13px;
   font-weight: 500;
-  color: rgba(220, 235, 255, 0.78);
-  transition: background 0.2s;
-  cursor: default;
+  color: rgba(200, 220, 255, 0.65);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  overflow: visible;
 }
 
-.navmenu-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #f0f6ff;
+.navbar-link:hover {
+  color: rgba(230, 242, 255, 0.92);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* Active state (current page) */
-.navmenu-item--active {
+.navbar-link--active {
   color: #93c5fd;
-  background: rgba(96, 165, 250, 0.08);
+  background: rgba(96, 165, 250, 0.10);
+}
+.navbar-link--active:hover {
+  background: rgba(96, 165, 250, 0.16);
+  color: #bfdbfe;
 }
 
-.navmenu-item--active:hover {
-  background: rgba(96, 165, 250, 0.12);
-}
-
-/* Button-style item (Prayer Times) */
-.navmenu-item--btn {
-  width: 100%;
+.navbar-link--btn {
   border: none;
   background: none;
   font-family: inherit;
-  cursor: pointer;
-  text-align: left;
 }
 
-.navmenu-item--on {
-  color: #93c5fd;
-  background: rgba(96, 165, 250, 0.08);
-}
-
-.navmenu-item-icon {
-  font-size: 15px;
+.navbar-link-icon {
+  font-size: 14px;
   line-height: 1;
   flex-shrink: 0;
 }
 
-.navmenu-item-text {
-  flex: 1;
+.navbar-link-label {
+  line-height: 1;
 }
 
-.navmenu-item-text--dim {
-  font-size: 12px;
-  color: rgba(180, 205, 245, 0.50);
-  font-weight: 400;
-  line-height: 1.4;
+/* Animated underline (Framer Motion layoutId) */
+.navbar-link-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #60a5fa, #34d399);
+  box-shadow: 0 0 8px rgba(96,165,250,0.6);
 }
 
-.navmenu-chevron {
+/* Chevron arrow */
+.navbar-chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid rgba(180, 205, 245, 0.45);
+  border-bottom: 1.5px solid rgba(180, 205, 245, 0.45);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.22s ease, border-color 0.2s;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+.navbar-chevron--up {
+  transform: rotate(-135deg) translateY(-2px);
+  border-color: #93c5fd;
+}
+
+/* "Next in Xm" badge on the prayer button */
+.navbar-next-badge {
   font-size: 10px;
-  color: rgba(180, 205, 245, 0.50);
-  transition: transform 0.2s;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.14);
+  border: 0.5px solid rgba(52, 211, 153, 0.30);
+  border-radius: 6px;
+  padding: 2px 6px;
+  line-height: 1.4;
+  flex-shrink: 0;
+  margin-left: 2px;
 }
 
-.navmenu-item--about {
-  cursor: default;
-  align-items: flex-start;
+/* ── Prayer popover ─────────────────────────────────────────────────────────── */
+.navbar-prayer-wrap {
+  position: relative;
 }
 
-.navmenu-item--about .navmenu-item-icon {
-  margin-top: 2px;
+.navbar-prayer-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  background: rgba(4, 11, 30, 0.88);
+  border: 0.5px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.60),
+              0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
+  will-change: transform, opacity;
 }
 
-/* Link item (Team, etc.) — same look as other items but styled as an anchor */
-.navmenu-item--link {
-  text-decoration: none;
-  display: flex;
-  color: rgba(220, 235, 255, 0.78);
+/* Caret pointer */
+.navbar-prayer-panel::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: rgba(4, 11, 30, 0.88);
+  border-top: 0.5px solid rgba(255,255,255,0.13);
+  border-left: 0.5px solid rgba(255,255,255,0.13);
+  border-radius: 2px 0 0 0;
 }
 
-.navmenu-item--link:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #f0f6ff;
+.navbar-prayer-shimmer {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20), transparent);
+  pointer-events: none;
 }
 
-/* Inline prayer times list */
-.navmenu-prayer {
-  background: rgba(255, 255, 255, 0.03);
-  border-top: 0.5px solid rgba(255, 255, 255, 0.07);
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
-  padding: 6px 10px;
-}
-
-.navmenu-prayer-row {
+.navbar-prayer-header {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 8px;
-  border-radius: 10px;
-  transition: background 0.15s;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  gap: 8px;
 }
 
-.navmenu-prayer-row:hover {
+.navbar-prayer-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.navbar-prayer-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(225, 240, 255, 0.92);
+  letter-spacing: 0.2px;
+}
+
+.navbar-prayer-city-tag {
+  font-size: 11px;
+  color: rgba(170, 200, 245, 0.50);
+  letter-spacing: 0.2px;
+}
+
+.navbar-prayer-next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.navbar-prayer-next-label {
+  font-size: 10px;
+  color: rgba(52, 211, 153, 0.70);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.navbar-prayer-next-time {
+  font-size: 16px;
+  font-weight: 700;
+  color: #34d399;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.3px;
+}
+
+.navbar-prayer-divider {
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09) 40%, rgba(255,255,255,0.09) 60%, transparent);
+  margin: 0 14px 6px;
+}
+
+.navbar-prayer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  transition: background 0.15s;
+  cursor: default;
+}
+
+.navbar-prayer-row:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.navmenu-prayer-row--active {
-  background: rgba(96, 165, 250, 0.12);
-  border: 0.5px solid rgba(96, 165, 250, 0.25);
+.navbar-prayer-row--active {
+  background: rgba(96, 165, 250, 0.10);
 }
 
-.navmenu-prayer-icon {
-  font-size: 14px;
-  width: 20px;
+.navbar-prayer-row--next {
+  background: rgba(52, 211, 153, 0.06);
+}
+
+.navbar-prayer-icon {
+  font-size: 15px;
+  width: 22px;
   text-align: center;
   flex-shrink: 0;
 }
 
-.navmenu-prayer-label {
+.navbar-prayer-label {
   flex: 1;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(220, 235, 255, 0.80);
+  color: rgba(210, 230, 255, 0.78);
 }
 
-.navmenu-prayer-time {
-  font-size: 13px;
+.navbar-prayer-time {
+  font-size: 12.5px;
   font-weight: 500;
-  color: rgba(200, 220, 255, 0.65);
+  color: rgba(180, 210, 255, 0.60);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 
-.navmenu-prayer-row--active .navmenu-prayer-label {
+.navbar-prayer-row--active .navbar-prayer-label { color: #93c5fd; font-weight: 600; }
+.navbar-prayer-row--active .navbar-prayer-time  { color: #bfdbfe; font-weight: 600; }
+.navbar-prayer-row--next .navbar-prayer-label   { color: #6ee7b7; }
+.navbar-prayer-row--next .navbar-prayer-time    { color: #34d399; }
+
+.navbar-prayer-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  border-radius: 5px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+
+.navbar-prayer-badge--now {
   color: #93c5fd;
-  font-weight: 600;
+  background: rgba(96, 165, 250, 0.18);
+  border: 0.5px solid rgba(96, 165, 250, 0.35);
 }
 
-.navmenu-prayer-row--active .navmenu-prayer-time {
+.navbar-prayer-badge--next {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.15);
+  border: 0.5px solid rgba(52, 211, 153, 0.30);
+}
+
+.navbar-prayer-msg {
+  font-size: 12px;
+  color: rgba(190, 215, 255, 0.45);
+  font-style: italic;
+  padding: 10px 16px 14px;
+}
+
+.navbar-prayer-msg--err { color: #f87171; font-style: normal; }
+
+.navbar-prayer-loading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px 14px;
+  font-size: 12px;
+  color: rgba(190, 215, 255, 0.50);
+  font-style: italic;
+}
+
+.navbar-prayer-spinner {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid rgba(96,165,250,0.25);
+  border-top-color: #60a5fa;
+  border-radius: 50%;
+  animation: navSpinner 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes navSpinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Right section ──────────────────────────────────────────────────────────── */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Language switcher ──────────────────────────────────────────────────────── */
+.navbar-lang {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-lang-track {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 0.5px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 3px;
+}
+
+.navbar-lang-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 9px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(190, 215, 255, 0.55);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.navbar-lang-btn:hover {
+  color: rgba(225, 240, 255, 0.85);
+}
+
+.navbar-lang-btn--active {
   color: #bfdbfe;
   font-weight: 600;
 }
 
-.navmenu-prayer-badge {
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  color: #93c5fd;
+/* Animated pill highlight behind active lang */
+.navbar-lang-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 9px;
   background: rgba(96, 165, 250, 0.20);
-  border: 0.5px solid rgba(96, 165, 250, 0.38);
-  border-radius: 5px;
-  padding: 2px 5px;
+  border: 0.5px solid rgba(96, 165, 250, 0.35);
+  z-index: -1;
 }
 
-.navmenu-prayer-msg {
-  font-size: 12px;
-  color: rgba(200, 220, 255, 0.50);
-  font-style: italic;
-  padding: 8px 8px 4px;
-}
-
-.navmenu-prayer-msg--err {
-  color: #f87171;
-  font-style: normal;
-}
-
-.navmenu-prayer-city {
+.navbar-lang-code {
   font-size: 11px;
-  color: rgba(180, 205, 245, 0.35);
-  padding: 4px 8px 2px;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
 }
 
-/* Prayer Times startup toast — emerges from next to burger button (top-left) */
+/* ── Hamburger (mobile only) ────────────────────────────────────────────────── */
+.navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  padding: 0 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.navbar-hamburger:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.navbar-hamburger-bar {
+  display: block;
+  height: 1.5px;
+  border-radius: 2px;
+  background: rgba(210, 230, 255, 0.75);
+  transition: transform 0.25s ease, opacity 0.25s ease, width 0.25s ease;
+  transform-origin: center;
+}
+
+.navbar-hamburger--open .navbar-hamburger-bar:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.navbar-hamburger--open .navbar-hamburger-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar-hamburger--open .navbar-hamburger-bar:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* ── Mobile slide-down panel ────────────────────────────────────────────────── */
+.navbar-mobile-panel {
+  position: fixed;
+  top: 64px;
+  left: 0; right: 0;
+  z-index: 115;
+  background: rgba(3, 8, 24, 0.92);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.10);
+  padding: 8px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.50);
+}
+
+.navbar-mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(200, 220, 255, 0.72);
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.18s, color 0.18s;
+}
+
+.navbar-mobile-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0f6ff;
+}
+
+.navbar-mobile-link--active {
+  background: rgba(96, 165, 250, 0.12);
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.navbar-mobile-divider {
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 8px 0;
+}
+
+.navbar-mobile-lang {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+/* ── Startup toast ──────────────────────────────────────────────────────────── */
 .prayer-toast {
   position: fixed;
-  top: 4vh;
-  left: calc(4vw + 56px);
-  /* sits right of the 46px burger + 10px gap */
+  top: 74px;
+  right: 28px;
   z-index: 200;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  background: rgba(10, 22, 48, 0.70);
-  border: 0.5px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border-radius: 40px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #f0f6ff;
-  letter-spacing: 0.5px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(4, 12, 32, 0.80);
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.42),
+              0 0 0 0.5px rgba(255,255,255,0.04) inset;
   will-change: transform, opacity;
   transform: translateZ(0);
-  direction: rtl;
   pointer-events: none;
   white-space: nowrap;
 }
 
-.prayer-toast-mosque {
-  font-size: 17px;
+.prayer-toast-mosque { font-size: 18px; }
+
+.prayer-toast-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prayer-toast-ar {
+  font-size: 14px;
+  font-weight: 600;
+  color: #f0f6ff;
+  direction: rtl;
+  letter-spacing: 0.3px;
+}
+
+.prayer-toast-sub {
+  font-size: 11px;
+  color: #34d399;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* ── Mobile breakpoint ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; height: 58px; }
+  .navbar-links { display: none; }
+  .navbar-hamburger { display: flex; }
+  .navbar-brand-clock { display: none; }
+  .navbar-lang-track { display: none; }
+  .navbar-mobile-panel { top: 58px; }
+  .prayer-toast { right: 16px; }
+}
+
+/* ── Tablet ──────────────────────────────────────────────────────────────────── */
+@media (min-width: 769px) {
+  .navbar-hamburger { display: none; }
+  .navbar-mobile-panel { display: none !important; }
 }
 
 .chat-widget {
@@ -2238,71 +2517,19 @@ body {
 
 
 /* =====================================================================
-   LANGUAGE SWITCHER
-   ===================================================================== */
-.navmenu-lang {
-  padding: 10px 14px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.navmenu-lang-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: rgba(180, 205, 245, 0.45);
-}
-
-.navmenu-lang-btns {
-  display: flex;
-  gap: 6px;
-}
-
-.navmenu-lang-btn {
-  flex: 1;
-  padding: 7px 4px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(220, 235, 255, 0.65);
-  background: rgba(255, 255, 255, 0.05);
-  border: 0.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-
-.navmenu-lang-btn:hover {
-  background: rgba(255, 255, 255, 0.10);
-  color: #f0f6ff;
-}
-
-.navmenu-lang-btn--active {
-  background: rgba(96, 165, 250, 0.18);
-  border-color: rgba(96, 165, 250, 0.40);
-  color: #93c5fd;
-  font-weight: 600;
-}
-
-/* =====================================================================
    RTL SUPPORT (Arabic)
    ===================================================================== */
-[dir='rtl'] .navmenu-wrap {
-  left: unset;
-  right: 4vw;
-}
 
-[dir='rtl'] .navmenu-panel {
+/* Navbar RTL: prayer popover flips to right side */
+[dir='rtl'] .navbar-prayer-panel {
   left: unset;
-  right: 0;
+  right: 50%;
+  transform: translateX(50%);
 }
 
 [dir='rtl'] .prayer-toast {
-  left: unset;
-  right: calc(4vw + 56px);
+  right: unset;
+  left: 28px;
 }
 
 [dir='rtl'] .chat-widget {
