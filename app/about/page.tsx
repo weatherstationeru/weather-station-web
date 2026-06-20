@@ -14,7 +14,7 @@ const techStack = [
   {
     icon: '🌡️',
     name: 'Multi-Sensor Array',
-    desc: 'DHT22 (Temperature & Humidity), BMP280 (Barometric Pressure), ML8511 (UV Index), Rain Gauge, and Hall Effect Sensor A3144E x8 for an Anemometer + Wind Vane for wind speed & direction.',
+    desc: 'AHT20 (Temperature & Humidity), BMP280 (Barometric Pressure), ML8511 (UV Index), Rain Gauge, and Hall Effect Sensor A3144E x8 for an Anemometer + Wind Vane for wind speed & direction.',
     color: '#34d399',
   },
   {
@@ -101,8 +101,8 @@ export default function AboutPage() {
           >
             {tab === 'overview' ? '📋 Overview'
               : tab === 'hardware' ? '🔧 Hardware'
-              : tab === 'technology' ? '⚙️ Technology'
-              : '🗓️ Timeline'}
+                : tab === 'technology' ? '⚙️ Technology'
+                  : '🗓️ Timeline'}
           </button>
         ))}
       </nav>
@@ -223,8 +223,8 @@ export default function AboutPage() {
               {/* Zoom hint overlay */}
               <div className="about-wiring-zoom-hint">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                  <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                  <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                  <line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" />
                 </svg>
                 <span>Click to expand</span>
               </div>
@@ -243,7 +243,7 @@ export default function AboutPage() {
               </p>
               <p className="about-wiring-desc">
                 The wiring schematic above shows the full inter-connection:
-                the <strong>DHT22</strong> on the data bus for temperature and humidity,
+                the <strong>AHT20</strong> on the data bus for temperature and humidity,
                 the <strong>BMP280</strong> over I²C for barometric pressure,
                 the <strong>ML8511</strong> UV sensor through the ADC,
                 an omni-directional <strong>rain gauge</strong> on an interrupt pin,
@@ -252,7 +252,7 @@ export default function AboutPage() {
                 All sensors share a common 3.3 V regulated rail and ground plane.
               </p>
               <div className="about-wiring-tags">
-                {['ESP32', 'DHT22', 'BMP280', 'ML8511', 'A3144E × 8', 'I²C', 'ADC', '3.3 V Rail'].map((tag) => (
+                {['ESP32', 'AHT20', 'BMP280', 'ML8511', 'A3144E × 8', 'I²C', 'ADC', '3.3 V Rail'].map((tag) => (
                   <span key={tag} className="about-wiring-tag">{tag}</span>
                 ))}
               </div>
@@ -276,7 +276,7 @@ export default function AboutPage() {
             {/* Card 1 – Mission */}
             <div className="hw-bento-card hw-bento-card--wide hw-bento-card--accent">
               <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" /></svg>
               </div>
               <h3 className="hw-bento-title">Autonomous Operation</h3>
               <p className="hw-bento-desc">Powered by a 5 V solar panel → TP4056 charger → 18650 Li-ion battery → MT3608 boost converter (tuned to 5.0 V). Runs continuously with zero external power. Deep-sleep between transmissions extends battery life.</p>
@@ -285,7 +285,7 @@ export default function AboutPage() {
             {/* Card 2 – Sensors */}
             <div className="hw-bento-card">
               <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/><path d="M14 14h7v7h-7z"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h7v7H3z" /><path d="M14 3h7v7h-7z" /><path d="M3 14h7v7H3z" /><path d="M14 14h7v7h-7z" /></svg>
               </div>
               <h3 className="hw-bento-title">6-Sensor Array</h3>
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
@@ -304,7 +304,7 @@ export default function AboutPage() {
             {/* Card 3 – Wireless */}
             <div className="hw-bento-card hw-bento-card--purple">
               <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><circle cx="12" cy="20" r="1" /></svg>
               </div>
               <h3 className="hw-bento-title">ESP-NOW Wireless</h3>
               <p className="hw-bento-desc">Proprietary 2.4 GHz peer-to-peer link — no Wi-Fi router needed. Ultra-low latency, minimal overhead. Outdoor node transmits to Indoor Gateway ESP32 which bridges to cloud via HTTPS.</p>
@@ -313,7 +313,7 @@ export default function AboutPage() {
             {/* Card 4 – Power Live Status */}
             <div className="hw-bento-card hw-bento-card--power">
               <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
               </div>
               <h3 className="hw-bento-title">Power System</h3>
               <div className="hw-power-chain">
@@ -338,14 +338,14 @@ export default function AboutPage() {
             {/* Card 5 – Cloud Stack */}
             <div className="hw-bento-card hw-bento-card--wide">
               <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" /></svg>
               </div>
               <h3 className="hw-bento-title">Data Flow: Node → Cloud</h3>
               <div style={{ margin: '16px 0' }}>
                 <img src="/about/system_architecture.png" alt="System Architecture Diagram" className="hw-bento-img" />
               </div>
               <div className="hw-flow-row">
-                {['Outdoor ESP32\n+ Sensors','ESP-NOW\nWireless','Indoor Gateway\nESP32 + TFT','Wi-Fi HTTPS','Node.js\nAPI Server','Supabase\nPostgreSQL'].map((label, i, arr) => (
+                {['Outdoor ESP32\n+ Sensors', 'ESP-NOW\nWireless', 'Indoor Gateway\nESP32 + TFT', 'Wi-Fi HTTPS', 'Node.js\nAPI Server', 'Supabase\nPostgreSQL'].map((label, i, arr) => (
                   <div key={i} className="hw-flow-step">
                     <div className="hw-flow-bubble">{label.split('\n').map((l, j) => <span key={j}>{l}</span>)}</div>
                     {i < arr.length - 1 && <div className="hw-flow-arr">→</div>}
@@ -404,19 +404,19 @@ export default function AboutPage() {
 
             <div className="hw-bento-card">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
               </div>
               <h3 className="hw-bento-title">I²C Digital (3.3 V)</h3>
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
-                <img src="/about/dht_bmp.png" alt="DHT22 and BMP280 Sensors" className="hw-bento-img" />
+                <img src="/about/dht_bmp.png" alt="AHT20 and BMP280 Sensors" className="hw-bento-img" />
               </p>
-              <p className="hw-bento-desc"><strong>AHT20 / DHT22</strong> — 2.2–5.5 V VDD, 10 μF decoupling cap on VDD-GND, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
-              <p className="hw-bento-desc" style={{marginTop:'8px'}}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V, 10 μF decoupling. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
+              <p className="hw-bento-desc"><strong>AHT20 / AHT20</strong> — 2.2–5.5 V VDD, 10 μF decoupling cap on VDD-GND, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
+              <p className="hw-bento-desc" style={{ marginTop: '8px' }}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V, 10 μF decoupling. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
             </div>
 
             <div className="hw-bento-card">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
               </div>
               <h3 className="hw-bento-title">Analog UV (GY-ML8511)</h3>
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
@@ -427,14 +427,14 @@ export default function AboutPage() {
 
             <div className="hw-bento-card hw-bento-card--warn">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
               </div>
               <h3 className="hw-bento-title">Hall A3144 — CRITICAL</h3>
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
                 <img src="/about/hall_sensor.png" alt="A3144E Hall Sensor" className="hw-bento-img" />
               </p>
               <p className="hw-bento-desc">Unipolar open-collector switches, 4.5–24 V operation. Run at 5 V for clean digital signals. <strong>10 kΩ pull-up between VCC and OUT is MANDATORY</strong> — without it, output floats and data is noisy. 0.01–0.1 μF cap between VCC-GND per sensor.</p>
-              <p className="hw-bento-desc" style={{marginTop:'8px'}}>ESP32 GPIOs are NOT 5 V tolerant → two 4-channel BSS138 level shifters translate HV (5 V) to LV (3.3 V) for each Hall signal. I²C bus bypasses shifters (already 3.3 V).</p>
+              <p className="hw-bento-desc" style={{ marginTop: '8px' }}>ESP32 GPIOs are NOT 5 V tolerant → two 4-channel BSS138 level shifters translate HV (5 V) to LV (3.3 V) for each Hall signal. I²C bus bypasses shifters (already 3.3 V).</p>
             </div>
 
           </div>
@@ -445,7 +445,7 @@ export default function AboutPage() {
 
             <div className="hw-bento-card">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" /></svg>
               </div>
               <h3 className="hw-bento-title">Outdoor Node (C++)</h3>
               <p className="hw-bento-desc">setup(): init I²C + ESP-NOW. loop(): read AHT20/BMP280 via I²C, read UV ADC, count anemometer pulses, decode wind vane magnets, count rain tips. Package into struct → <code>esp_now_send()</code> to Gateway MAC → <code>esp_sleep()</code> 10 s.</p>
@@ -453,7 +453,7 @@ export default function AboutPage() {
 
             <div className="hw-bento-card">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2" /><rect x="2" y="14" width="20" height="8" rx="2" ry="2" /><line x1="6" y1="6" x2="6.01" y2="6" /><line x1="6" y1="18" x2="6.01" y2="18" /></svg>
               </div>
               <h3 className="hw-bento-title">Indoor Gateway (C++)</h3>
               <p className="hw-bento-desc">Boot → connect Wi-Fi + init TFT + register ESP-NOW receiver. On packet callback: parse readings → update TFT display (optionally render QR) → HTTP POST to Node.js REST API (HTTPS, API key auth) → optional SD card backup.</p>
@@ -461,11 +461,11 @@ export default function AboutPage() {
 
             <div className="hw-bento-card hw-bento-card--accent">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" /></svg>
               </div>
               <h3 className="hw-bento-title">Node.js + Supabase</h3>
               <p className="hw-bento-desc"><strong>Node.js (Express):</strong> POST /addReading endpoint (API-key protected) → inserts row into Supabase <code>sensor_data</code> table. Minimal code — Supabase auto-generates REST endpoints.</p>
-              <p className="hw-bento-desc" style={{marginTop:'8px'}}><strong>Table columns:</strong> id, device_id, timestamp, temperature, humidity, pressure, uv_index, wind_speed, wind_direction, rainfall. Dashboards subscribe via Supabase Realtime WebSocket.</p>
+              <p className="hw-bento-desc" style={{ marginTop: '8px' }}><strong>Table columns:</strong> id, device_id, timestamp, temperature, humidity, pressure, uv_index, wind_speed, wind_direction, rainfall. Dashboards subscribe via Supabase Realtime WebSocket.</p>
             </div>
 
           </div>
@@ -495,7 +495,7 @@ export default function AboutPage() {
 
             <div className="hw-bento-card">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
               </div>
               <h3 className="hw-bento-title">Deployment &amp; Maintenance</h3>
               <ul className="hw-bento-list">
@@ -509,7 +509,7 @@ export default function AboutPage() {
 
             <div className="hw-bento-card hw-bento-card--purple">
               <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
               </div>
               <h3 className="hw-bento-title">Suggested Improvements</h3>
               <ul className="hw-bento-list">
@@ -558,7 +558,7 @@ export default function AboutPage() {
               <div className="rm-card-glow" />
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--amber">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M2 12h4m12 0h4M12 2v4m0 12v4"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="2" /><path d="M2 12h4m12 0h4M12 2v4m0 12v4" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Automation · Priority</div>
@@ -575,7 +575,7 @@ export default function AboutPage() {
               <div className="rm-card-glow" />
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--amber">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z" /><circle cx="12" cy="9" r="2.5" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Automation · Priority</div>
@@ -593,7 +593,7 @@ export default function AboutPage() {
               <div className="rm-card-glow rm-card-glow--blue" />
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--blue">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Analytics · Priority</div>
@@ -610,7 +610,7 @@ export default function AboutPage() {
             <div className="rm-card rm-card--green" data-category="Applications">
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--green">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Applications</div>
@@ -626,7 +626,7 @@ export default function AboutPage() {
             <div className="rm-card rm-card--green" data-category="Applications">
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--green">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Applications</div>
@@ -642,7 +642,7 @@ export default function AboutPage() {
             <div className="rm-card rm-card--green" data-category="Applications">
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--green">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Applications</div>
@@ -658,7 +658,7 @@ export default function AboutPage() {
             <div className="rm-card rm-card--green" data-category="Applications">
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--green">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z" /><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" /><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z" /><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z" /><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z" /><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z" /><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z" /><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Applications</div>
@@ -676,7 +676,7 @@ export default function AboutPage() {
               <div className="rm-card-glow rm-card-glow--pink" />
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--pink">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/><path d="M12 7v4m-2-2h4"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" /><path d="M12 7v4m-2-2h4" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Industrial · Priority</div>
@@ -692,7 +692,7 @@ export default function AboutPage() {
             <div className="rm-card rm-card--pink" data-category="Industrial">
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--pink">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Industrial</div>
@@ -708,7 +708,7 @@ export default function AboutPage() {
             <div className="rm-card rm-card--pink" data-category="Industrial">
               <div className="rm-card-top">
                 <div className="rm-card-icon rm-card-icon--pink">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                 </div>
                 <div>
                   <div className="rm-card-cat">Industrial</div>
@@ -842,7 +842,7 @@ export default function AboutPage() {
             aria-label="Close"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
           {/* Image — stop propagation so clicking it doesn't close */}

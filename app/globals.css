@@ -381,7 +381,7 @@ body {
 .app {
   max-width: 420px;
   margin: 0 auto;
-  padding: 82px 18px 48px;
+  padding: 48px 18px 48px;
   min-height: 100vh;
   transition: max-width 0.4s ease, padding 0.4s ease;
 }
@@ -902,573 +902,303 @@ body {
   animation-delay: 0.50s;
 }
 
-/* ===== NAVBAR ===== */
+/* ===== NAV MENU (Dashboard pill + dropdown) ===== */
 
-.navbar {
+/* Fixed Dashboard button — top left */
+.navmenu-wrap {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 4vh;
+  left: 4vw;
   z-index: 120;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  height: 64px;
-  padding: 0 28px;
-  background: rgba(5, 12, 30, 0.50);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.09);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset,
-              0 4px 24px rgba(0, 0, 0, 0.28);
-  transition: background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-  will-change: transform;
-  transform: translateZ(0);
 }
 
-.navbar--scrolled {
-  background: rgba(3, 8, 22, 0.82);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset,
-              0 8px 36px rgba(0, 0, 0, 0.48);
-  border-bottom-color: rgba(255, 255, 255, 0.13);
-}
-
-/* ── Brand ──────────────────────────────────────────────────────────────────── */
-.navbar-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-  text-decoration: none;
-}
-
-.navbar-brand-logo {
+/* Dashboard pill button — replaces the old hamburger */
+.navmenu-dash-btn {
   position: relative;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(96,165,250,0.25), rgba(52,211,153,0.18));
-  border: 0.5px solid rgba(96,165,250,0.30);
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(96,165,250,0.15);
+  gap: 8px;
+  height: 42px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(200, 220, 255, 0.78);
+  letter-spacing: 0.15px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28),
+              0 0 0 0.5px rgba(255, 255, 255, 0.04) inset;
+  transition: background 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
 }
 
-.navbar-brand-logo-dot {
-  width: 9px;
-  height: 9px;
+.navmenu-dash-btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(225, 240, 255, 0.92);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35),
+              0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+}
+
+.navmenu-dash-btn--open {
+  background: rgba(96, 165, 250, 0.14);
+  border-color: rgba(96, 165, 250, 0.38);
+  color: #93c5fd;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35),
+              0 0 0 0.5px rgba(96, 165, 250, 0.10) inset;
+}
+
+.navmenu-dash-icon {
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.navmenu-dash-label {
+  line-height: 1;
+}
+
+/* Dropdown panel */
+.navmenu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: rgba(4, 11, 30, 0.88);
+  border: 0.5px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.60),
+              0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
+  will-change: transform, opacity;
+}
+
+/* Top shimmer stripe */
+.navmenu-shimmer {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20), transparent);
+  pointer-events: none;
+}
+
+/* Brand header inside panel */
+.navmenu-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 10px;
+}
+
+.navmenu-header-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #4ade80;
-  box-shadow: 0 0 10px #4ade80, 0 0 20px rgba(74,222,128,0.4);
+  box-shadow: 0 0 8px #4ade80;
   animation: navLivePulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
 @keyframes navLivePulse {
-  0%, 100% { opacity: 1;   transform: scale(1);   box-shadow: 0 0 10px #4ade80, 0 0 20px rgba(74,222,128,0.4); }
-  50%       { opacity: 0.6; transform: scale(0.75); box-shadow: 0 0 6px #4ade80; }
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.7); }
 }
 
-.navbar-brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.navbar-brand-name {
-  font-size: 13px;
+.navmenu-header-title {
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.2px;
-  color: rgba(225, 242, 255, 0.94);
-  white-space: nowrap;
-  line-height: 1.2;
+  color: rgba(200, 225, 255, 0.70);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
-.navbar-brand-clock {
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(147, 197, 253, 0.70);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.6px;
-  line-height: 1;
+/* Divider line */
+.navmenu-divider {
+  height: 0.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09) 40%, rgba(255,255,255,0.09) 60%, transparent);
+  margin: 2px 14px 4px;
 }
 
-/* ── Nav links (center) ─────────────────────────────────────────────────────── */
-.navbar-links {
+/* Nav items */
+.navmenu-item {
   display: flex;
   align-items: center;
-  gap: 2px;
-  flex: 1;
-  justify-content: center;
-}
-
-.navbar-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(200, 220, 255, 0.65);
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease;
-  overflow: visible;
-}
-
-.navbar-link:hover {
-  color: rgba(230, 242, 255, 0.92);
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.navbar-link--active {
-  color: #93c5fd;
-  background: rgba(96, 165, 250, 0.10);
-}
-.navbar-link--active:hover {
-  background: rgba(96, 165, 250, 0.16);
-  color: #bfdbfe;
-}
-
-.navbar-link--btn {
-  border: none;
-  background: none;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
   font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(200, 220, 255, 0.72);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.16s, color 0.16s;
 }
 
-.navbar-link-icon {
-  font-size: 14px;
-  line-height: 1;
+.navmenu-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(230, 245, 255, 0.92);
+}
+
+.navmenu-item-icon {
+  font-size: 15px;
+  width: 20px;
+  text-align: center;
   flex-shrink: 0;
 }
 
-.navbar-link-label {
-  line-height: 1;
+/* Prayer times toggle */
+.navmenu-prayer-toggle {
+  justify-content: flex-start;
 }
 
-/* Animated underline (Framer Motion layoutId) */
-.navbar-link-underline {
-  position: absolute;
-  bottom: -2px;
-  left: 14px;
-  right: 14px;
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #60a5fa, #34d399);
-  box-shadow: 0 0 8px rgba(96,165,250,0.6);
+.navmenu-prayer-toggle--open {
+  background: rgba(96, 165, 250, 0.08);
+  color: #93c5fd;
 }
 
-/* Chevron arrow */
-.navbar-chevron {
+.navmenu-chevron {
+  margin-left: auto;
   width: 8px;
   height: 8px;
   border-right: 1.5px solid rgba(180, 205, 245, 0.45);
   border-bottom: 1.5px solid rgba(180, 205, 245, 0.45);
   transform: rotate(45deg) translateY(-2px);
   transition: transform 0.22s ease, border-color 0.2s;
-  flex-shrink: 0;
-  margin-left: 2px;
 }
 
-.navbar-chevron--up {
+.navmenu-chevron--up {
   transform: rotate(-135deg) translateY(-2px);
   border-color: #93c5fd;
 }
 
-/* "Next in Xm" badge on the prayer button */
-.navbar-next-badge {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  color: #34d399;
-  background: rgba(52, 211, 153, 0.14);
-  border: 0.5px solid rgba(52, 211, 153, 0.30);
-  border-radius: 6px;
-  padding: 2px 6px;
-  line-height: 1.4;
-  flex-shrink: 0;
-  margin-left: 2px;
+/* Prayer rows inside accordion */
+.navmenu-prayer-list {
+  padding: 0 8px 6px;
 }
 
-/* ── Prayer popover ─────────────────────────────────────────────────────────── */
-.navbar-prayer-wrap {
-  position: relative;
-}
-
-.navbar-prayer-panel {
-  position: absolute;
-  top: calc(100% + 14px);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 260px;
-  background: rgba(4, 11, 30, 0.88);
-  border: 0.5px solid rgba(255, 255, 255, 0.13);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.60),
-              0 0 0 0.5px rgba(255, 255, 255, 0.05) inset;
-  will-change: transform, opacity;
-}
-
-/* Caret pointer */
-.navbar-prayer-panel::before {
-  content: '';
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 12px;
-  height: 12px;
-  background: rgba(4, 11, 30, 0.88);
-  border-top: 0.5px solid rgba(255,255,255,0.13);
-  border-left: 0.5px solid rgba(255,255,255,0.13);
-  border-radius: 2px 0 0 0;
-}
-
-.navbar-prayer-shimmer {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.20), transparent);
-  pointer-events: none;
-}
-
-.navbar-prayer-header {
+.navmenu-prayer-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px 10px;
   gap: 8px;
-}
-
-.navbar-prayer-header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.navbar-prayer-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(225, 240, 255, 0.92);
-  letter-spacing: 0.2px;
-}
-
-.navbar-prayer-city-tag {
-  font-size: 11px;
-  color: rgba(170, 200, 245, 0.50);
-  letter-spacing: 0.2px;
-}
-
-.navbar-prayer-next {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-.navbar-prayer-next-label {
-  font-size: 10px;
-  color: rgba(52, 211, 153, 0.70);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-}
-
-.navbar-prayer-next-time {
-  font-size: 16px;
-  font-weight: 700;
-  color: #34d399;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.3px;
-}
-
-.navbar-prayer-divider {
-  height: 0.5px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09) 40%, rgba(255,255,255,0.09) 60%, transparent);
-  margin: 0 14px 6px;
-}
-
-.navbar-prayer-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
+  padding: 7px 10px;
+  border-radius: 10px;
   transition: background 0.15s;
-  cursor: default;
 }
 
-.navbar-prayer-row:hover {
+.navmenu-prayer-row:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.navbar-prayer-row--active {
+.navmenu-prayer-row--active {
   background: rgba(96, 165, 250, 0.10);
 }
 
-.navbar-prayer-row--next {
-  background: rgba(52, 211, 153, 0.06);
-}
-
-.navbar-prayer-icon {
-  font-size: 15px;
-  width: 22px;
+.navmenu-prayer-icon {
+  font-size: 14px;
+  width: 20px;
   text-align: center;
   flex-shrink: 0;
 }
 
-.navbar-prayer-label {
+.navmenu-prayer-label {
   flex: 1;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(210, 230, 255, 0.78);
-}
-
-.navbar-prayer-time {
   font-size: 12.5px;
   font-weight: 500;
-  color: rgba(180, 210, 255, 0.60);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.3px;
+  color: rgba(200, 225, 255, 0.70);
 }
 
-.navbar-prayer-row--active .navbar-prayer-label { color: #93c5fd; font-weight: 600; }
-.navbar-prayer-row--active .navbar-prayer-time  { color: #bfdbfe; font-weight: 600; }
-.navbar-prayer-row--next .navbar-prayer-label   { color: #6ee7b7; }
-.navbar-prayer-row--next .navbar-prayer-time    { color: #34d399; }
+.navmenu-prayer-row--active .navmenu-prayer-label {
+  color: #93c5fd;
+  font-weight: 600;
+}
 
-.navbar-prayer-badge {
+.navmenu-prayer-time {
+  font-size: 12px;
+  color: rgba(170, 200, 255, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+.navmenu-prayer-row--active .navmenu-prayer-time { color: #bfdbfe; }
+
+.navmenu-prayer-now {
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  border-radius: 5px;
-  padding: 2px 6px;
-  flex-shrink: 0;
-}
-
-.navbar-prayer-badge--now {
+  letter-spacing: 0.5px;
   color: #93c5fd;
   background: rgba(96, 165, 250, 0.18);
   border: 0.5px solid rgba(96, 165, 250, 0.35);
+  border-radius: 5px;
+  padding: 2px 5px;
 }
 
-.navbar-prayer-badge--next {
-  color: #34d399;
-  background: rgba(52, 211, 153, 0.15);
-  border: 0.5px solid rgba(52, 211, 153, 0.30);
-}
-
-.navbar-prayer-msg {
+.navmenu-prayer-msg {
   font-size: 12px;
   color: rgba(190, 215, 255, 0.45);
   font-style: italic;
-  padding: 10px 16px 14px;
+  padding: 6px 10px;
 }
 
-.navbar-prayer-msg--err { color: #f87171; font-style: normal; }
+.navmenu-prayer-msg--err { color: #f87171; font-style: normal; }
 
-.navbar-prayer-loading {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 10px 16px 14px;
-  font-size: 12px;
-  color: rgba(190, 215, 255, 0.50);
-  font-style: italic;
-}
-
-.navbar-prayer-spinner {
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid rgba(96,165,250,0.25);
-  border-top-color: #60a5fa;
-  border-radius: 50%;
-  animation: navSpinner 0.75s linear infinite;
-  flex-shrink: 0;
-}
-
-@keyframes navSpinner {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Right section ──────────────────────────────────────────────────────────── */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-/* ── Language switcher ──────────────────────────────────────────────────────── */
-.navbar-lang {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-lang-track {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 0.5px solid rgba(255, 255, 255, 0.09);
-  border-radius: 12px;
-  padding: 3px;
-}
-
-.navbar-lang-btn {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 9px;
-  border-radius: 9px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(190, 215, 255, 0.55);
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s;
-  white-space: nowrap;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.navbar-lang-btn:hover {
-  color: rgba(225, 240, 255, 0.85);
-}
-
-.navbar-lang-btn--active {
-  color: #bfdbfe;
-  font-weight: 600;
-}
-
-/* Animated pill highlight behind active lang */
-.navbar-lang-pill {
-  position: absolute;
-  inset: 0;
-  border-radius: 9px;
-  background: rgba(96, 165, 250, 0.20);
-  border: 0.5px solid rgba(96, 165, 250, 0.35);
-  z-index: -1;
-}
-
-.navbar-lang-code {
+.navmenu-prayer-city {
   font-size: 11px;
-  letter-spacing: 0.3px;
+  color: rgba(150, 185, 255, 0.40);
+  padding: 4px 10px 2px;
+  letter-spacing: 0.2px;
 }
 
-/* ── Hamburger (mobile only) ────────────────────────────────────────────────── */
-.navbar-hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 36px;
-  height: 36px;
+/* Language switcher at bottom of panel */
+.navmenu-lang {
+  padding: 10px 14px 14px;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+}
+
+.navmenu-lang-btn {
+  flex: 1;
+  padding: 7px 4px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 0.5px solid rgba(255, 255, 255, 0.12);
-  padding: 0 8px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.navbar-hamburger:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.navbar-hamburger-bar {
-  display: block;
-  height: 1.5px;
-  border-radius: 2px;
-  background: rgba(210, 230, 255, 0.75);
-  transition: transform 0.25s ease, opacity 0.25s ease, width 0.25s ease;
-  transform-origin: center;
-}
-
-.navbar-hamburger--open .navbar-hamburger-bar:nth-child(1) {
-  transform: translateY(6.5px) rotate(45deg);
-}
-.navbar-hamburger--open .navbar-hamburger-bar:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.navbar-hamburger--open .navbar-hamburger-bar:nth-child(3) {
-  transform: translateY(-6.5px) rotate(-45deg);
-}
-
-/* ── Mobile slide-down panel ────────────────────────────────────────────────── */
-.navbar-mobile-panel {
-  position: fixed;
-  top: 64px;
-  left: 0; right: 0;
-  z-index: 115;
-  background: rgba(3, 8, 24, 0.92);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.10);
-  padding: 8px 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.50);
-}
-
-.navbar-mobile-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  font-size: 15px;
-  font-weight: 500;
-  color: rgba(200, 220, 255, 0.72);
-  text-decoration: none;
-  background: none;
-  border: none;
   font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(180, 210, 255, 0.55);
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid rgba(255, 255, 255, 0.09);
   cursor: pointer;
-  width: 100%;
-  text-align: left;
-  transition: background 0.18s, color 0.18s;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  text-align: center;
+  white-space: nowrap;
 }
 
-.navbar-mobile-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #f0f6ff;
+.navmenu-lang-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(220, 240, 255, 0.80);
 }
 
-.navbar-mobile-link--active {
-  background: rgba(96, 165, 250, 0.12);
+.navmenu-lang-btn--active {
+  background: rgba(96, 165, 250, 0.18);
+  border-color: rgba(96, 165, 250, 0.38);
   color: #93c5fd;
   font-weight: 600;
 }
 
-.navbar-mobile-divider {
-  height: 0.5px;
-  background: rgba(255, 255, 255, 0.08);
-  margin: 8px 0;
-}
-
-.navbar-mobile-lang {
-  display: flex;
-  gap: 8px;
-  padding: 4px 0;
-}
-
-/* ── Startup toast ──────────────────────────────────────────────────────────── */
+/* Startup toast */
 .prayer-toast {
   position: fixed;
-  top: 74px;
-  right: 28px;
+  top: 4vh;
+  right: 4vw;
   z-index: 200;
   display: flex;
   align-items: center;
@@ -1508,24 +1238,7 @@ body {
   color: #34d399;
   font-weight: 500;
   letter-spacing: 0.2px;
-}
-
-/* ── Mobile breakpoint ──────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .navbar { padding: 0 16px; height: 58px; }
-  .navbar-links { display: none; }
-  .navbar-hamburger { display: flex; }
-  .navbar-brand-clock { display: none; }
-  .navbar-lang-track { display: none; }
-  .navbar-mobile-panel { top: 58px; }
-  .prayer-toast { right: 16px; }
-}
-
-/* ── Tablet ──────────────────────────────────────────────────────────────────── */
-@media (min-width: 769px) {
-  .navbar-hamburger { display: none; }
-  .navbar-mobile-panel { display: none !important; }
-}
+} 
 
 .chat-widget {
   position: fixed;
