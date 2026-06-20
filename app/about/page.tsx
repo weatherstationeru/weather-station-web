@@ -273,50 +273,14 @@ export default function AboutPage() {
 
           <div className="hw-bento">
 
-            {/* Card 1 – Mission */}
+            {/* Card 1 – Autonomous Operation + Power System */}
             <div className="hw-bento-card hw-bento-card--wide hw-bento-card--accent">
               <div className="hw-bento-icon">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" /></svg>
               </div>
               <h3 className="hw-bento-title">Autonomous Operation</h3>
               <p className="hw-bento-desc">Powered by a 5 V solar panel → TP4056 charger → 18650 Li-ion battery → MT3608 boost converter (tuned to 5.0 V). Runs continuously with zero external power. Deep-sleep between transmissions extends battery life.</p>
-            </div>
-
-            {/* Card 2 – Sensors */}
-            <div className="hw-bento-card">
-              <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h7v7H3z" /><path d="M14 3h7v7h-7z" /><path d="M3 14h7v7H3z" /><path d="M14 14h7v7h-7z" /></svg>
-              </div>
-              <h3 className="hw-bento-title">6-Sensor Array</h3>
-              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
-                <img src="/about/sensor_array.png" alt="Sensor Array Circuit" className="hw-bento-img" />
-              </p>
-              <ul className="hw-bento-list">
-                <li>🌡️ AHT20 — Temperature &amp; Humidity (I²C, 3.3 V)</li>
-                <li>🔵 BMP280 — Barometric Pressure ±1.0 hPa (I²C)</li>
-                <li>☀️ GY-ML8511 — UV Index (Analog, GPIO32)</li>
-                <li>💨 A3144 ×4 — Wind Vane N/E/S/W (Hall, 5 V)</li>
-                <li>🌀 A3144 ×1 — Anemometer Speed (Hall, GPIO34)</li>
-                <li>🌧️ A3144 ×1 — Rain Gauge tips (Hall, GPIO35)</li>
-              </ul>
-            </div>
-
-            {/* Card 3 – Wireless */}
-            <div className="hw-bento-card hw-bento-card--purple">
-              <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><circle cx="12" cy="20" r="1" /></svg>
-              </div>
-              <h3 className="hw-bento-title">ESP-NOW Wireless</h3>
-              <p className="hw-bento-desc">Proprietary 2.4 GHz peer-to-peer link — no Wi-Fi router needed. Ultra-low latency, minimal overhead. Outdoor node transmits to Indoor Gateway ESP32 which bridges to cloud via HTTPS.</p>
-            </div>
-
-            {/* Card 4 – Power Live Status */}
-            <div className="hw-bento-card hw-bento-card--power">
-              <div className="hw-bento-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
-              </div>
-              <h3 className="hw-bento-title">Power System</h3>
-              <div className="hw-power-chain">
+              <div className="hw-power-chain" style={{ marginTop: '16px' }}>
                 <span className="hw-power-node">☀️ Solar 5 V</span>
                 <span className="hw-power-arrow">→</span>
                 <span className="hw-power-node">🔋 TP4056</span>
@@ -325,7 +289,7 @@ export default function AboutPage() {
                 <span className="hw-power-arrow">→</span>
                 <span className="hw-power-node">🟢 5.0 V Rail</span>
               </div>
-              <div style={{ marginBottom: '16px' }}>
+              <div style={{ margin: '14px 0' }}>
                 <img src="/about/power_flow.png" alt="Power System Diagram" className="hw-bento-img" />
               </div>
               <div className="hw-power-rails">
@@ -333,6 +297,15 @@ export default function AboutPage() {
                 <div className="hw-power-rail hw-power-rail--3v"><span>3.3 V Rail</span><span>AHT20 · BMP280 · GY-ML8511 · Shifter LV</span></div>
                 <div className="hw-power-rail hw-power-rail--gnd"><span>GND Rail</span><span>All sensor grounds · Battery (−)</span></div>
               </div>
+            </div>
+
+            {/* Card 2 – Wireless */}
+            <div className="hw-bento-card hw-bento-card--purple">
+              <div className="hw-bento-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M1.42 9a16 16 0 0 1 21.16 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><circle cx="12" cy="20" r="1" /></svg>
+              </div>
+              <h3 className="hw-bento-title">ESP-NOW Wireless</h3>
+              <p className="hw-bento-desc">Proprietary 2.4 GHz link — no Wi-Fi router needed. Ultra-low latency, minimal overhead. Outdoor node transmits to Indoor Gateway ESP32 which bridges to cloud via HTTPS.</p>
             </div>
 
             {/* Card 5 – Cloud Stack */}
@@ -356,47 +329,7 @@ export default function AboutPage() {
 
           </div>{/* /hw-bento */}
 
-          {/* ── GPIO Pin Mapping Table ── */}
-          <h2 className="about-section-title" style={{ marginTop: '40px' }}>GPIO Pin Mapping</h2>
-          <p className="about-section-sub">Interactive pin assignment table — hover rows to highlight. All Hall signals pass through 5V→3.3V level shifters before reaching the ESP32.</p>
 
-          <div className="hw-table-wrap">
-            <table className="hw-table">
-              <thead>
-                <tr>
-                  <th>Signal</th>
-                  <th>ESP32 Pin</th>
-                  <th>Sensor / Module</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { signal: '3.3 V Supply', pin: '3V3', module: 'AHT20 VCC, BMP280 VCC, UV VIN, Shifter LV', notes: '10 μF decouple between 3.3V–GND' },
-                  { signal: '5 V Supply', pin: 'VIN (or 5V)', module: 'TP4056 OUT+, Shifter HV, Hall VCC pins', notes: 'Boost module tuned to 5.00 V' },
-                  { signal: 'Ground', pin: 'GND', module: 'All sensor grounds, GND pins', notes: 'Common reference' },
-                  { signal: 'I²C SDA', pin: 'GPIO21', module: 'AHT20, BMP280 (SDA)', notes: 'Also connect to pull-ups (board)' },
-                  { signal: 'I²C SCL', pin: 'GPIO22', module: 'AHT20, BMP280 (SCL)', notes: '' },
-                  { signal: 'UV Sensor EN', pin: '3.3V (tie high)', module: 'GY-ML8511', notes: 'Always high (active)' },
-                  { signal: 'UV Sensor OUT', pin: 'GPIO32 (ADC)', module: 'GY-ML8511', notes: 'Analog input 0–3.3 V range' },
-                  { signal: 'Wind North', pin: 'GPIO25', module: 'Hall A3144 #1 (N)', notes: 'via Shifter1 LV1' },
-                  { signal: 'Wind East', pin: 'GPIO26', module: 'Hall A3144 #2 (E)', notes: 'via Shifter1 LV2' },
-                  { signal: 'Wind South', pin: 'GPIO27', module: 'Hall A3144 #3 (S)', notes: 'via Shifter1 LV3' },
-                  { signal: 'Wind West', pin: 'GPIO14', module: 'Hall A3144 #4 (W)', notes: 'via Shifter1 LV4' },
-                  { signal: 'Anemometer', pin: 'GPIO34', module: 'Hall A3144 #5 (speed)', notes: 'via Shifter2 LV1' },
-                  { signal: 'Rain Gauge', pin: 'GPIO35', module: 'Hall A3144 #6 (rain)', notes: 'via Shifter2 LV2' },
-                  { signal: 'Hall Pull-ups', pin: '5 V', module: '10 kΩ (one per A3144)', notes: 'One between VCC and OUT each — MANDATORY' },
-                ].map((row, i) => (
-                  <tr key={i} className="hw-table-row">
-                    <td className="hw-td hw-td--signal">{row.signal}</td>
-                    <td className="hw-td hw-td--pin"><code>{row.pin}</code></td>
-                    <td className="hw-td">{row.module}</td>
-                    <td className="hw-td hw-td--note">{row.notes}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
 
           {/* ── Sensor Interfacing ── */}
           <h2 className="about-section-title" style={{ marginTop: '40px' }}>Sensor Interfacing &amp; Level Shifting</h2>
