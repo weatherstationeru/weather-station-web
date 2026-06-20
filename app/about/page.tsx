@@ -406,12 +406,12 @@ export default function AboutPage() {
               <div className="hw-bento-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
               </div>
-              <h3 className="hw-bento-title">I²C Digital (3.3 V)</h3>
+              <h3 className="hw-bento-title">Temperature and Pressure Sensor</h3>
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
                 <img src="/about/dht_bmp.png" alt="AHT20 and BMP280 Sensors" className="hw-bento-img" />
               </p>
-              <p className="hw-bento-desc"><strong>AHT20 / AHT20</strong> — 2.2–5.5 V VDD, 10 μF decoupling cap on VDD-GND, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
-              <p className="hw-bento-desc" style={{ marginTop: '8px' }}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V, 10 μF decoupling. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
+              <p className="hw-bento-desc"><strong>AHT20</strong> — 2.2–5.5 V VDD, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
+              <p className="hw-bento-desc" style={{ marginTop: '8px' }}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V,. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
             </div>
 
             <div className="hw-bento-card">
@@ -422,7 +422,7 @@ export default function AboutPage() {
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
                 <img src="/about/uv_sensor.png" alt="ML8511 UV Sensor" className="hw-bento-img" />
               </p>
-              <p className="hw-bento-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate. OUT → GPIO32 ADC. 0.1 μF decoupling on VDD.</p>
+              <p className="hw-bento-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate.</p>
             </div>
 
             <div className="hw-bento-card hw-bento-card--warn">
@@ -433,7 +433,7 @@ export default function AboutPage() {
               <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
                 <img src="/about/hall_sensor.png" alt="A3144E Hall Sensor" className="hw-bento-img" />
               </p>
-              <p className="hw-bento-desc">Unipolar open-collector switches, 4.5–24 V operation. Run at 5 V for clean digital signals. <strong>10 kΩ pull-up between VCC and OUT is MANDATORY</strong> — without it, output floats and data is noisy. 0.01–0.1 μF cap between VCC-GND per sensor.</p>
+              <p className="hw-bento-desc">Unipolar open-collector switches, 4.5–24 V operation. Run at 5 V for clean digital signals. <strong>10 kΩ pull-up between VCC and OUT is MANDATORY</strong> — without it, output floats and data is noisy.</p>
               <p className="hw-bento-desc" style={{ marginTop: '8px' }}>ESP32 GPIOs are NOT 5 V tolerant → two 4-channel BSS138 level shifters translate HV (5 V) to LV (3.3 V) for each Hall signal. I²C bus bypasses shifters (already 3.3 V).</p>
             </div>
 
