@@ -323,9 +323,9 @@ export default function Dashboard() {
   const normalizedUv = rawUv !== null ? rawUv / 100 : null;
 
   const d = {
-    temp: liveData?.temp ?? '--',
-    humidity: liveData?.humidity ?? '--',
-    rainfall: liveData?.rainfall ?? '--',
+    temp: liveData?.temp != null ? Math.round(liveData.temp) : '--',
+    humidity: liveData?.humidity != null ? Math.round(liveData.humidity) : '--',
+    rainfall: liveData?.rainfall != null ? Math.round(liveData.rainfall) : '--',
     uvIndex: normalizedUv,
     windSpeed: liveData?.wind_speed ?? '--',
     windDir: liveData?.wind_dir ?? null,
@@ -491,7 +491,7 @@ export default function Dashboard() {
             <i className="fas fa-location-dot"></i>
             <span>{t('city')}</span>
           </div>
-          <div className="current-temp">{liveData?.temp != null ? liveData.temp.toFixed(1) : '--'}{liveData?.temp != null ? '°' : ''}</div>
+          <div className="current-temp">{liveData?.temp != null ? Math.round(liveData.temp) : '--'}{liveData?.temp != null ? '°' : ''}</div>
           <div className="condition">
             {isLoading ? t('loading') : liveData ? t('liveReading') : t('noData')}
           </div>
