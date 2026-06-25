@@ -88,7 +88,7 @@ export default function Sidebar() {
                   <span className="sidebar-nav-icon">
                     <Cpu size={16} strokeWidth={1.6} />
                   </span>
-                  <span>Live Dashboard</span>
+                  <span>Minue</span>
                   <span className="sidebar-live-dot" />
                 </button>
               </nav>

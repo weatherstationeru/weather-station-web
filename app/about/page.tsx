@@ -688,7 +688,7 @@ export default function AboutPage() {
               { label: 'ESP32', sub: 'Firmware (C++)', icon: '⚡' },
               { label: 'Supabase', sub: 'PostgreSQL + Realtime', icon: '🗄️' },
               { label: 'Next.js', sub: 'WebSocket subscription', icon: '▲' },
-              { label: 'You', sub: 'Live dashboard', icon: '🖥️' },
+              { label: 'You', sub: 'Minue', icon: '🖥️' },
             ].map((node, i, arr) => (
               <div key={node.label} className="about-flow-step">
                 <div className="about-flow-node">
