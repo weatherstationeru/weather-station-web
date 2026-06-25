@@ -18,7 +18,7 @@ import { sendChatMessage } from '../lib/chatApi';
 import type { ChatMessage } from '../lib/chatApi';
 import type { WeatherRow } from '../types/weather';
 import NavMenu from './components/NavMenu';
-import HeroOpening from './components/HeroOpening';
+
 import { useLanguage } from './components/LanguageProvider';
 import type { TranslationKey } from '../lib/i18n';
 import { SendHorizontal, Loader2 } from 'lucide-react';
@@ -346,8 +346,6 @@ export default function Dashboard() {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <>
-      {/* Cinematic opening overlay — shows once per session */}
-      <HeroOpening currentTemp={liveData?.temp ?? null} isLoading={isLoading} />
 
       {/* Nav Menu (burger + prayer times + startup toast) */}
       <NavMenu />
