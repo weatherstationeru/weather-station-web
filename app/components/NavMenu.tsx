@@ -137,7 +137,6 @@ export default function NavMenu() {
             <rect x="0" y="6"  width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
             <rect x="0" y="12" width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
           </svg>
-          <span className="navmenu-dash-label">{t('navDashboard')}</span>
         </button>
 
         {/* Dropdown panel */}
