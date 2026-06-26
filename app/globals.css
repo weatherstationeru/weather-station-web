@@ -910,6 +910,7 @@ body {
   top: 4vh;
   left: 4vw;
   z-index: 120;
+  overflow: visible;
 }
 
 /* Dashboard pill button — replaces the old hamburger */
@@ -1196,17 +1197,17 @@ body {
   font-weight: 600;
 }
 
-/* Startup toast */
+/* Startup toast — pops out from below the menu button */
 .prayer-toast {
-  position: fixed;
-  top: 4vh;
-  right: 4vw;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
   z-index: 200;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
-  background: rgba(4, 12, 32, 0.80);
+  background: rgba(4, 12, 32, 0.85);
   border: 0.5px solid rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -2242,10 +2243,7 @@ body {
   transform: translateX(50%);
 }
 
-[dir='rtl'] .prayer-toast {
-  right: unset;
-  left: 28px;
-}
+/* toast is now anchored to navmenu-wrap; no RTL override needed */
 
 [dir='rtl'] .chat-widget {
   right: unset;

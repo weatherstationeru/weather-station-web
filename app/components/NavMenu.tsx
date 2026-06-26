@@ -112,18 +112,37 @@ export default function NavMenu() {
   const activePrayer = timings ? getActive(timings) : null;
 
   return (
-    <>
+    <div className="navmenu-wrap" ref={menuRef}>
+      {/* ── Prayer toast — pops from the menu button ──────────────────────── */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            className="prayer-toast"
+            initial={{ opacity: 0, y: -6, scale: 0.88 }}
+            animate={{ opacity: 1, y: 0,  scale: 1 }}
+            exit={{    opacity: 0, y: -6, scale: 0.88 }}
+            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
+            aria-live="polite"
+          >
+            <span className="prayer-toast-mosque">🕌</span>
+            <div className="prayer-toast-text">
+              <span className="prayer-toast-ar">مواقيت الصلاة</span>
+              <span className="prayer-toast-sub">Cairo · Egypt</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ── Dashboard button + dropdown ──────────────────────────────────────── */}
-      <div className="navmenu-wrap" ref={menuRef}>
-        {/* Dashboard button */}
-        <button
-          id="nav-burger-btn"
-          className={`navmenu-dash-btn ${isMenuOpen ? 'navmenu-dash-btn--open' : ''}`}
-          onClick={toggleMenu}
-          aria-expanded={isMenuOpen}
-          aria-haspopup="menu"
-          aria-label="Open Dashboard menu"
-        >
+      {/* Dashboard button */}
+      <button
+        id="nav-burger-btn"
+        className={`navmenu-dash-btn ${isMenuOpen ? 'navmenu-dash-btn--open' : ''}`}
+        onClick={toggleMenu}
+        aria-expanded={isMenuOpen}
+        aria-haspopup="menu"
+        aria-label="Open Dashboard menu"
+      >
           {/* Hamburger icon */}
           <svg
             width="18"
@@ -244,26 +263,6 @@ export default function NavMenu() {
           )}
         </AnimatePresence>
       </div>
-
-      {/* ── Startup toast ────────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {showToast && (
-          <motion.div
-            className="prayer-toast"
-            initial={{ opacity: 0, x: 20, scale: 0.88 }}
-            animate={{ opacity: 1, x: 0,  scale: 1 }}
-            exit={{    opacity: 0, x: 20, scale: 0.88 }}
-            transition={{ type: 'spring', stiffness: 340, damping: 28 }}
-            aria-live="polite"
-          >
-            <span className="prayer-toast-mosque">🕌</span>
-            <div className="prayer-toast-text">
-              <span className="prayer-toast-ar">مواقيت الصلاة</span>
-              <span className="prayer-toast-sub">Cairo · Egypt</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+    </div>
   );
 }
