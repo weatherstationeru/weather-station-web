@@ -1203,12 +1203,14 @@ body {
   top: calc(100% + 10px);
   left: 0;
   width: max-content;
+  min-width: 140px;
   z-index: 200;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 10px 18px;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 20px;
   background: rgba(4, 12, 32, 0.85);
   border: 0.5px solid rgba(255, 255, 255, 0.16);
   backdrop-filter: blur(24px) saturate(180%);
@@ -1222,27 +1224,33 @@ body {
   white-space: nowrap;
 }
 
-.prayer-toast-mosque { font-size: 18px; }
+.prayer-toast-mosque {
+  font-size: 24px;
+  line-height: 1;
+}
 
 .prayer-toast-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 4px;
 }
 
 .prayer-toast-ar {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #f0f6ff;
   direction: rtl;
   letter-spacing: 0.3px;
+  text-align: center;
 }
 
 .prayer-toast-sub {
-  font-size: 11px;
+  font-size: 12px;
   color: #34d399;
   font-weight: 500;
   letter-spacing: 0.2px;
+  text-align: center;
 } 
 
 .chat-widget {
