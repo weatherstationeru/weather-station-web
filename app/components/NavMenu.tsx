@@ -3,6 +3,11 @@
 /**
  * NavMenu.tsx — Fixed corner "Dashboard" pill button that opens a slide-down
  * dropdown panel containing nav links, prayer times, and a language switcher.
+ *
+ * Structure inside navmenu-wrap:
+ *   1. Prayer toast (absolute, pops below the button on page load)
+ *   2. Burger button
+ *   3. Dropdown panel (AnimatePresence)
  */
 
 import { useState, useEffect, useRef } from 'react';
@@ -56,11 +61,11 @@ function getActive(timings: PrayerTimings): keyof PrayerTimings | null {
 export default function NavMenu() {
   const { t, lang, setLang } = useLanguage();
 
-  const [isMenuOpen,   setIsMenuOpen]   = useState(false);
-  const [showPrayer,   setShowPrayer]   = useState(false);
-  const [showToast,    setShowToast]    = useState(false);
-  const [timings,      setTimings]      = useState<PrayerTimings | null>(null);
-  const [prayerError,  setPrayerError]  = useState<string | null>(null);
+  const [isMenuOpen,  setIsMenuOpen]  = useState(false);
+  const [showPrayer,  setShowPrayer]  = useState(false);
+  const [showToast,   setShowToast]   = useState(false);
+  const [timings,     setTimings]     = useState<PrayerTimings | null>(null);
+  const [prayerError, setPrayerError] = useState<string | null>(null);
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -80,10 +85,10 @@ export default function NavMenu() {
       .catch(() => setPrayerError('Network error.'));
   }, []);
 
-  // ── Startup toast ────────────────────────────────────────────────────────────
+  // ── Startup toast (appears after 0.8 s, hides after 4 s) ────────────────────
   useEffect(() => {
     const show = setTimeout(() => setShowToast(true), 800);
-    const hide  = setTimeout(() => setShowToast(false), 4000);
+    const hide = setTimeout(() => setShowToast(false), 4000);
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
 
@@ -113,7 +118,8 @@ export default function NavMenu() {
 
   return (
     <div className="navmenu-wrap" ref={menuRef}>
-      {/* ── Prayer toast — pops from the menu button ──────────────────────── */}
+
+      {/* ── 1. Prayer toast — pops below the menu button on load ──────────── */}
       <AnimatePresence>
         {showToast && (
           <motion.div
@@ -133,8 +139,7 @@ export default function NavMenu() {
         )}
       </AnimatePresence>
 
-      {/* ── Dashboard button + dropdown ──────────────────────────────────────── */}
-      {/* Dashboard button */}
+      {/* ── 2. Burger button ──────────────────────────────────────────────── */}
       <button
         id="nav-burger-btn"
         className={`navmenu-dash-btn ${isMenuOpen ? 'navmenu-dash-btn--open' : ''}`}
@@ -143,126 +148,126 @@ export default function NavMenu() {
         aria-haspopup="menu"
         aria-label="Open Dashboard menu"
       >
-          {/* Hamburger icon */}
-          <svg
-            width="18"
-            height="14"
-            viewBox="0 0 18 14"
-            fill="none"
-            aria-hidden="true"
-            className="navmenu-dash-icon"
+        <svg
+          width="18"
+          height="14"
+          viewBox="0 0 18 14"
+          fill="none"
+          aria-hidden="true"
+          className="navmenu-dash-icon"
+        >
+          <rect x="0" y="0"  width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
+          <rect x="0" y="6"  width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
+          <rect x="0" y="12" width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
+        </svg>
+      </button>
+
+      {/* ── 3. Dropdown panel ─────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className="navmenu-panel"
+            role="menu"
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0,  scale: 1 }}
+            exit={{    opacity: 0, y: -8, scale: 0.96 }}
+            transition={{ type: 'spring', stiffness: 380, damping: 30 }}
           >
-            <rect x="0" y="0"  width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
-            <rect x="0" y="6"  width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
-            <rect x="0" y="12" width="18" height="2" rx="1" fill="currentColor" opacity="0.9"/>
-          </svg>
-        </button>
+            {/* Shimmer top edge */}
+            <div className="navmenu-shimmer" aria-hidden="true" />
 
-        {/* Dropdown panel */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              className="navmenu-panel"
-              role="menu"
-              initial={{ opacity: 0, y: -8, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0,  scale: 1 }}
-              exit={{    opacity: 0, y: -8, scale: 0.96 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+            {/* Brand header */}
+            <div className="navmenu-header">
+              <span className="navmenu-header-dot" />
+              <span className="navmenu-header-title">ERU Weather Station</span>
+            </div>
+
+            <div className="navmenu-divider" />
+
+            {/* Nav links */}
+            <nav aria-label="Main navigation">
+              <Link href="/"      className="navmenu-item" role="menuitem" onClick={() => setIsMenuOpen(false)}>
+                <span className="navmenu-item-icon">📡</span>
+                <span>{t('navDashboard')}</span>
+              </Link>
+              <Link href="/team"  className="navmenu-item" role="menuitem" onClick={() => setIsMenuOpen(false)}>
+                <span className="navmenu-item-icon">👥</span>
+                <span>{t('navTeam')}</span>
+              </Link>
+              <Link href="/about" className="navmenu-item" role="menuitem" onClick={() => setIsMenuOpen(false)}>
+                <span className="navmenu-item-icon">ℹ️</span>
+                <span>{t('navAbout')}</span>
+              </Link>
+            </nav>
+
+            <div className="navmenu-divider" />
+
+            {/* Prayer Times accordion toggle */}
+            <button
+              id="nav-prayer-toggle"
+              className={`navmenu-item navmenu-prayer-toggle ${showPrayer ? 'navmenu-prayer-toggle--open' : ''}`}
+              onClick={() => setShowPrayer(v => !v)}
+              aria-expanded={showPrayer}
             >
-              {/* Shimmer top edge */}
-              <div className="navmenu-shimmer" aria-hidden="true" />
+              <span className="navmenu-item-icon">🕌</span>
+              <span>{t('navPrayer')}</span>
+              <span className={`navmenu-chevron ${showPrayer ? 'navmenu-chevron--up' : ''}`} aria-hidden="true" />
+            </button>
 
-              {/* Brand header */}
-              <div className="navmenu-header">
-                <span className="navmenu-header-dot" />
-                <span className="navmenu-header-title">ERU Weather Station</span>
-              </div>
+            {/* Prayer Times accordion body */}
+            <AnimatePresence>
+              {showPrayer && (
+                <motion.div
+                  className="navmenu-prayer-list"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{    height: 0, opacity: 0 }}
+                  transition={{ duration: 0.26, ease: 'easeInOut' }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  {!timings && !prayerError && (
+                    <p className="navmenu-prayer-msg">Loading…</p>
+                  )}
+                  {prayerError && (
+                    <p className="navmenu-prayer-msg navmenu-prayer-msg--err">⚠ {prayerError}</p>
+                  )}
+                  {timings && PRAYERS.map(({ key, label, icon }) => (
+                    <div
+                      key={key}
+                      className={`navmenu-prayer-row ${key === activePrayer ? 'navmenu-prayer-row--active' : ''}`}
+                    >
+                      <span className="navmenu-prayer-icon">{icon}</span>
+                      <span className="navmenu-prayer-label">{label}</span>
+                      <span className="navmenu-prayer-time">{fmt12(timings[key])}</span>
+                      {key === activePrayer && <span className="navmenu-prayer-now">Now</span>}
+                    </div>
+                  ))}
+                  <p className="navmenu-prayer-city">📍 Cairo, Egypt</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-              <div className="navmenu-divider" />
+            <div className="navmenu-divider" />
 
-              {/* Nav links */}
-              <nav aria-label="Main navigation">
-                <Link href="/"      className="navmenu-item" role="menuitem" onClick={() => setIsMenuOpen(false)}>
-                  <span className="navmenu-item-icon">📡</span>
-                  <span>{t('navDashboard')}</span>
-                </Link>
-                <Link href="/team"  className="navmenu-item" role="menuitem" onClick={() => setIsMenuOpen(false)}>
-                  <span className="navmenu-item-icon">👥</span>
-                  <span>{t('navTeam')}</span>
-                </Link>
-                <Link href="/about" className="navmenu-item" role="menuitem" onClick={() => setIsMenuOpen(false)}>
-                  <span className="navmenu-item-icon">ℹ️</span>
-                  <span>{t('navAbout')}</span>
-                </Link>
-              </nav>
+            {/* Language switcher */}
+            <div className="navmenu-lang" role="group" aria-label="Language selection">
+              {(['en', 'ar', 'ru'] as Lang[]).map((l) => (
+                <button
+                  key={l}
+                  id={`nav-lang-${l}`}
+                  className={`navmenu-lang-btn ${lang === l ? 'navmenu-lang-btn--active' : ''}`}
+                  onClick={() => { setLang(l); }}
+                  aria-pressed={lang === l}
+                  title={l === 'en' ? 'English' : l === 'ar' ? 'Arabic' : 'Russian'}
+                >
+                  {l === 'en' ? '🇬🇧 EN' : l === 'ar' ? '🇪🇬 عر' : '🇷🇺 RU'}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-              <div className="navmenu-divider" />
-
-              {/* Prayer Times accordion */}
-              <button
-                id="nav-prayer-toggle"
-                className={`navmenu-item navmenu-prayer-toggle ${showPrayer ? 'navmenu-prayer-toggle--open' : ''}`}
-                onClick={() => setShowPrayer(v => !v)}
-                aria-expanded={showPrayer}
-              >
-                <span className="navmenu-item-icon">🕌</span>
-                <span>{t('navPrayer')}</span>
-                <span className={`navmenu-chevron ${showPrayer ? 'navmenu-chevron--up' : ''}`} aria-hidden="true" />
-              </button>
-
-              <AnimatePresence>
-                {showPrayer && (
-                  <motion.div
-                    className="navmenu-prayer-list"
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{    height: 0, opacity: 0 }}
-                    transition={{ duration: 0.26, ease: 'easeInOut' }}
-                    style={{ overflow: 'hidden' }}
-                  >
-                    {!timings && !prayerError && (
-                      <p className="navmenu-prayer-msg">Loading…</p>
-                    )}
-                    {prayerError && (
-                      <p className="navmenu-prayer-msg navmenu-prayer-msg--err">⚠ {prayerError}</p>
-                    )}
-                    {timings && PRAYERS.map(({ key, label, icon }) => (
-                      <div
-                        key={key}
-                        className={`navmenu-prayer-row ${key === activePrayer ? 'navmenu-prayer-row--active' : ''}`}
-                      >
-                        <span className="navmenu-prayer-icon">{icon}</span>
-                        <span className="navmenu-prayer-label">{label}</span>
-                        <span className="navmenu-prayer-time">{fmt12(timings[key])}</span>
-                        {key === activePrayer && <span className="navmenu-prayer-now">Now</span>}
-                      </div>
-                    ))}
-                    <p className="navmenu-prayer-city">📍 Cairo, Egypt</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <div className="navmenu-divider" />
-
-              {/* Language switcher */}
-              <div className="navmenu-lang" role="group" aria-label="Language selection">
-                {(['en', 'ar', 'ru'] as Lang[]).map((l) => (
-                  <button
-                    key={l}
-                    id={`nav-lang-${l}`}
-                    className={`navmenu-lang-btn ${lang === l ? 'navmenu-lang-btn--active' : ''}`}
-                    onClick={() => { setLang(l); }}
-                    aria-pressed={lang === l}
-                    title={l === 'en' ? 'English' : l === 'ar' ? 'Arabic' : 'Russian'}
-                  >
-                    {l === 'en' ? '🇬🇧 EN' : l === 'ar' ? '🇪🇬 عر' : '🇷🇺 RU'}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
     </div>
   );
 }
