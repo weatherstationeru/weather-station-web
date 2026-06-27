@@ -333,41 +333,211 @@ export default function AboutPage() {
 
           {/* ── Sensor Interfacing ── */}
           <h2 className="about-section-title" style={{ marginTop: '40px' }}>Sensor Interfacing &amp; Level Shifting</h2>
-          <div className="hw-bento hw-bento--3col">
+          <p className="about-section-sub">All hardware components used in the ERU Weather Station — from environmental sensors to power management and display modules.</p>
+          <div className="hw-components-grid">
 
-            <div className="hw-bento-card">
-              <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+            {/* 1 – AHT20 */}
+            <div className="hw-comp-card">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/1.jpeg" alt="AHT20 Temperature & Humidity Sensor" className="hw-comp-img" />
+                <div className="hw-comp-index">01</div>
               </div>
-              <h3 className="hw-bento-title">Temperature and Pressure Sensor</h3>
-              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
-                <img src="/about/dht_bmp.png" alt="AHT20 and BMP280 Sensors" className="hw-bento-img" />
-              </p>
-              <p className="hw-bento-desc"><strong>AHT20</strong> — 2.2–5.5 V VDD, SDA → GPIO21, SCL → GPIO22. 10 kΩ pull-up resistors on bus lines.</p>
-              <p className="hw-bento-desc" style={{ marginTop: '8px' }}><strong>BMP280</strong> — I²C address 0x76/0x77, 3.3 V,. Same SDA/SCL bus. Accuracy: ±1.0 hPa.</p>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">AHT20 Sensor</h3>
+                <p className="hw-comp-desc">High-precision digital temperature &amp; humidity sensor. Operates on I²C (address 0x38), 2.2–5.5 V VDD, with SDA → GPIO21 and SCL → GPIO22. Requires 10 kΩ pull-up resistors on bus lines.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">I²C</span>
+                  <span className="hw-comp-tag">3.3 V</span>
+                  <span className="hw-comp-tag">Temp &amp; Humidity</span>
+                </div>
+              </div>
             </div>
 
-            <div className="hw-bento-card">
-              <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" /></svg>
+            {/* 2 – BMP280 */}
+            <div className="hw-comp-card">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/2.jpg" alt="BMP280 Barometric Pressure Sensor" className="hw-comp-img" />
+                <div className="hw-comp-index">02</div>
               </div>
-              <h3 className="hw-bento-title">Analog UV (GY-ML8511)</h3>
-              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
-                <img src="/about/uv_sensor.png" alt="ML8511 UV Sensor" className="hw-bento-img" />
-              </p>
-              <p className="hw-bento-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate.</p>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">BMP280 Sensor</h3>
+                <p className="hw-comp-desc">Barometric pressure &amp; temperature sensor over I²C (address 0x76/0x77). Runs at 3.3 V on the shared SDA/SCL bus. Pressure accuracy: ±1.0 hPa — ideal for altitude estimation and weather trending.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">I²C</span>
+                  <span className="hw-comp-tag">3.3 V</span>
+                  <span className="hw-comp-tag">Pressure</span>
+                </div>
+              </div>
             </div>
 
-            <div className="hw-bento-card hw-bento-card--warn">
-              <div className="hw-bento-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+            {/* 3 – Hall Effect */}
+            <div className="hw-comp-card hw-comp-card--warn">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/3.jpeg" alt="A3144E Hall Effect Sensor" className="hw-comp-img" />
+                <div className="hw-comp-index">03</div>
               </div>
-              <h3 className="hw-bento-title">Hall A3144 — CRITICAL</h3>
-              <p className="hw-bento-desc" style={{ marginBottom: '12px' }}>
-                <img src="/about/hall_sensor.png" alt="A3144E Hall Sensor" className="hw-bento-img" />
-              </p>
-              <p className="hw-bento-desc">Unipolar open-collector switches, 4.5–24 V operation. Run at 5 V for clean digital signals. <strong>10 kΩ pull-up between VCC and OUT is MANDATORY</strong> — without it, output floats and data is noisy.</p>
-              <p className="hw-bento-desc" style={{ marginTop: '8px' }}>ESP32 GPIOs are NOT 5 V tolerant → two 4-channel BSS138 level shifters translate HV (5 V) to LV (3.3 V) for each Hall signal. I²C bus bypasses shifters (already 3.3 V).</p>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">Hall Effect Sensor (A3144E)</h3>
+                <p className="hw-comp-desc">Unipolar open-collector switch, 4.5–24 V. Operates at 5 V for clean digital pulses. <strong>10 kΩ pull-up to VCC is MANDATORY</strong>. Used ×8 for anemometer cup counting and wind-vane direction encoding. Requires level shifting before ESP32 GPIOs.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag hw-comp-tag--warn">5 V</span>
+                  <span className="hw-comp-tag hw-comp-tag--warn">Level Shift Required</span>
+                  <span className="hw-comp-tag hw-comp-tag--warn">Open-Collector</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 4 – GY-ML8511 UV */}
+            <div className="hw-comp-card">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/4.jpg" alt="GY-ML8511 UV Sensor" className="hw-comp-img" />
+                <div className="hw-comp-index">04</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">GY-ML8511 UV Sensor</h3>
+                <p className="hw-comp-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate. Output fed directly to ESP32 ADC for UV index calculation.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">Analog</span>
+                  <span className="hw-comp-tag">3.3 V</span>
+                  <span className="hw-comp-tag">UV Index</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 5 – I2C Logic Level Converter */}
+            <div className="hw-comp-card hw-comp-card--accent">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/5.jpg" alt="4-Channel I2C Logic Level Converter" className="hw-comp-img" />
+                <div className="hw-comp-index">05</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">4-Channel I²C Logic Level Converter</h3>
+                <p className="hw-comp-desc">BSS138-based bidirectional level shifter. Translates HV (5 V) Hall sensor outputs to LV (3.3 V) safe for ESP32 GPIOs. Two modules used — one per 4-channel group of Hall sensors. I²C bus bypasses shifters (already 3.3 V).</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">5 V → 3.3 V</span>
+                  <span className="hw-comp-tag">BSS138</span>
+                  <span className="hw-comp-tag">Bidirectional</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 6 – ESP32 */}
+            <div className="hw-comp-card hw-comp-card--accent">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/6.jpg" alt="ESP32 Microcontroller" className="hw-comp-img" />
+                <div className="hw-comp-index">06</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">ESP32</h3>
+                <p className="hw-comp-desc">Dual-core 240 MHz microcontroller with integrated 2.4 GHz Wi-Fi &amp; Bluetooth. Acts as the brain of both the outdoor sensor node and the indoor gateway. Reads I²C sensors, ADC, digital interrupts, and transmits via ESP-NOW and HTTPS.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">Wi-Fi</span>
+                  <span className="hw-comp-tag">ESP-NOW</span>
+                  <span className="hw-comp-tag">Dual-Core</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 7 – TFT Screen */}
+            <div className="hw-comp-card">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/7.jpeg" alt="TFT Screen Monitor" className="hw-comp-img" />
+                <div className="hw-comp-index">07</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">TFT Screen Monitor</h3>
+                <p className="hw-comp-desc">Colour TFT display connected to the indoor gateway ESP32 via SPI. Renders live sensor readings, system status, and optionally a QR code for quick dashboard access. Updated every time a new data packet arrives from the outdoor node.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">SPI</span>
+                  <span className="hw-comp-tag">Indoor Gateway</span>
+                  <span className="hw-comp-tag">Live Display</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 8 – Solar Panel */}
+            <div className="hw-comp-card hw-comp-card--green">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/8.jpg" alt="5.5V 4W Solar Panel" className="hw-comp-img" />
+                <div className="hw-comp-index">08</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">5.5 V 4 W Solar Panel</h3>
+                <p className="hw-comp-desc">Monocrystalline solar panel providing renewable energy to the outdoor node. Outputs up to 5.5 V / 4 W under full sun, feeding the TP4056 charger module to top up the lithium battery. Enables completely off-grid autonomous operation.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">5.5 V</span>
+                  <span className="hw-comp-tag">4 W</span>
+                  <span className="hw-comp-tag">Off-Grid</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 9 – MT3608 Boost Converter */}
+            <div className="hw-comp-card hw-comp-card--green">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/9.jpg" alt="MT3608 Boost Converter" className="hw-comp-img" />
+                <div className="hw-comp-index">09</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">MT3608 Boost Converter</h3>
+                <p className="hw-comp-desc">Step-up DC-DC converter that boosts the 3.7 V Li-ion battery output to a stable 5.0 V rail. Adjusted via onboard trimmer potentiometer. Supplies the ESP32 VIN, Hall sensor VCC, and the level-shifter HV side. Efficiency up to 93%.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">3.7 V → 5 V</span>
+                  <span className="hw-comp-tag">Boost</span>
+                  <span className="hw-comp-tag">93% Efficiency</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 10 – P4056 Charger */}
+            <div className="hw-comp-card hw-comp-card--green">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/10.jpg" alt="P4056 Charger Module" className="hw-comp-img" />
+                <div className="hw-comp-index">10</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">P4056 Charger Module</h3>
+                <p className="hw-comp-desc">Li-ion / LiPo single-cell charging IC (TP4056-based). Accepts 5 V input from the solar panel and safely charges the 18650 battery at up to 1 A. Includes over-charge, over-discharge, and short-circuit protection for safe outdoor deployment.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">TP4056</span>
+                  <span className="hw-comp-tag">1 A Charge</span>
+                  <span className="hw-comp-tag">Protection IC</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 11 – Lithium Battery */}
+            <div className="hw-comp-card hw-comp-card--green">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/11.jpg" alt="18650 Lithium Battery" className="hw-comp-img" />
+                <div className="hw-comp-index">11</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">Lithium Battery</h3>
+                <p className="hw-comp-desc">18650 Li-ion rechargeable cell (3.7 V nominal, ~2000–3400 mAh). Stores energy harvested from the solar panel and powers the outdoor node during low-light periods or at night. Replace after ~2 years (when resting voltage drops below 2.9 V).</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">3.7 V</span>
+                  <span className="hw-comp-tag">18650</span>
+                  <span className="hw-comp-tag">Rechargeable</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 12 – ESP32 Terminal Adapter */}
+            <div className="hw-comp-card hw-comp-card--accent">
+              <div className="hw-comp-img-wrap">
+                <img src="/about/12.jpg" alt="ESP32 Terminal Adapter Board" className="hw-comp-img" />
+                <div className="hw-comp-index">12</div>
+              </div>
+              <div className="hw-comp-body">
+                <h3 className="hw-comp-title">ESP32 Terminal Adapter Board</h3>
+                <p className="hw-comp-desc">Breakout board with screw terminals for every ESP32 GPIO. Eliminates breadboard-wire instability in the outdoor enclosure — each sensor wire is securely clamped. Greatly simplifies field wiring, troubleshooting, and sensor replacement without soldering.</p>
+                <div className="hw-comp-tags">
+                  <span className="hw-comp-tag">Screw Terminals</span>
+                  <span className="hw-comp-tag">Breakout</span>
+                  <span className="hw-comp-tag">Field-Ready</span>
+                </div>
+              </div>
             </div>
 
           </div>
