@@ -3869,7 +3869,7 @@ body {
 /* ── Bento Grid ── */
 .hw-bento {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   margin-top: 20px;
 }
@@ -3877,6 +3877,7 @@ body {
 .hw-bento--2col { grid-template-columns: 1fr; }
 
 @media (min-width: 640px) {
+  .hw-bento { grid-template-columns: repeat(2, 1fr); }
   .hw-bento--3col { grid-template-columns: repeat(2, 1fr); }
   .hw-bento--2col { grid-template-columns: repeat(2, 1fr); }
 }
