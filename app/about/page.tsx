@@ -344,7 +344,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">AHT20 Sensor</h3>
-                <p className="hw-comp-desc">High-precision digital temperature &amp; humidity sensor. Operates on I²C (address 0x38), 2.2–5.5 V VDD, with SDA → GPIO21 and SCL → GPIO22. Requires 10 kΩ pull-up resistors on bus lines.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Accurately measures ambient Temperature and Relative Humidity.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">I²C</span>
                   <span className="hw-comp-tag">3.3 V</span>
@@ -361,7 +361,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">BMP280 Sensor</h3>
-                <p className="hw-comp-desc">Barometric pressure &amp; temperature sensor over I²C (address 0x76/0x77). Runs at 3.3 V on the shared SDA/SCL bus. Pressure accuracy: ±1.0 hPa — ideal for altitude estimation and weather trending.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Measures Barometric Pressure and Temperature; essential for weather forecasting and altitude estimation.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">I²C</span>
                   <span className="hw-comp-tag">3.3 V</span>
@@ -378,8 +378,15 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">Hall Effect Sensor (A3144E)</h3>
-                <p className="hw-comp-desc">Unipolar open-collector switch, 4.5–24 V. Operates at 5 V for clean digital pulses. <strong>10 kΩ pull-up to VCC is MANDATORY</strong>. Used ×8 for anemometer cup counting and wind-vane direction encoding. Requires level shifting before ESP32 GPIOs.</p>
-                <div className="hw-comp-tags">
+                <div className="hw-comp-desc">
+                  <strong>Core Function:</strong> A digital sensor that detects magnetic fields, utilized in three mechanical parts:
+                  <ul style={{ paddingLeft: '20px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <li><strong>Wind Speed:</strong> Calculates speed by counting the rotations of the anemometer via a passing magnet.</li>
+                    <li><strong>Wind Direction:</strong> Identifies the exact wind direction using a magnetic wind vane setup.</li>
+                    <li><strong>Rain Detector:</strong> Measures rainfall volume by tracking the movements of a tipping bucket mechanism.</li>
+                  </ul>
+                </div>
+                <div className="hw-comp-tags" style={{ marginTop: 'auto' }}>
                   <span className="hw-comp-tag hw-comp-tag--warn">5 V</span>
                   <span className="hw-comp-tag hw-comp-tag--warn">Level Shift Required</span>
                   <span className="hw-comp-tag hw-comp-tag--warn">Open-Collector</span>
@@ -395,7 +402,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">GY-ML8511 UV Sensor</h3>
-                <p className="hw-comp-desc">UV photodiode + op-amp outputting 0–3.6 V proportional to UVA intensity. VIN = 3.3 V, EN pin must be tied HIGH (3.3 V) to activate. Output fed directly to ESP32 ADC for UV index calculation.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Measures Ultraviolet (UV) light intensity to monitor the current UV Index.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">Analog</span>
                   <span className="hw-comp-tag">3.3 V</span>
@@ -412,7 +419,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">4-Channel I²C Logic Level Converter</h3>
-                <p className="hw-comp-desc">BSS138-based bidirectional level shifter. Translates HV (5 V) Hall sensor outputs to LV (3.3 V) safe for ESP32 GPIOs. Two modules used — one per 4-channel group of Hall sensors. I²C bus bypasses shifters (already 3.3 V).</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Safely steps up/down voltage levels (e.g., between 5V and 3.3V) to protect the microcontroller and ensure stable I²C communication.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">5 V → 3.3 V</span>
                   <span className="hw-comp-tag">BSS138</span>
@@ -429,7 +436,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">ESP32</h3>
-                <p className="hw-comp-desc">Dual-core 240 MHz microcontroller with integrated 2.4 GHz Wi-Fi &amp; Bluetooth. Acts as the brain of both the outdoor sensor node and the indoor gateway. Reads I²C sensors, ADC, digital interrupts, and transmits via ESP-NOW and HTTPS.</p>
+                <p className="hw-comp-desc"><strong>Core Function:</strong> The main brain of the system; processes all sensor data and uses its built-in Wi-Fi/Bluetooth to transmit data to the IoT dashboard.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">Wi-Fi</span>
                   <span className="hw-comp-tag">ESP-NOW</span>
@@ -446,7 +453,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">TFT Screen Monitor</h3>
-                <p className="hw-comp-desc">Colour TFT display connected to the indoor gateway ESP32 via SPI. Renders live sensor readings, system status, and optionally a QR code for quick dashboard access. Updated every time a new data packet arrives from the outdoor node.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Provides a local graphical user interface (GUI) to display real-time weather readings and system status clearly.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">SPI</span>
                   <span className="hw-comp-tag">Indoor Gateway</span>
@@ -463,7 +470,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">5.5 V 4 W Solar Panel</h3>
-                <p className="hw-comp-desc">Monocrystalline solar panel providing renewable energy to the outdoor node. Outputs up to 5.5 V / 4 W under full sun, feeding the TP4056 charger module to top up the lithium battery. Enables completely off-grid autonomous operation.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Harvests solar energy to provide a sustainable, off-grid power source for the entire weather station.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">5.5 V</span>
                   <span className="hw-comp-tag">4 W</span>
@@ -480,7 +487,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">MT3608 Boost Converter</h3>
-                <p className="hw-comp-desc">Step-up DC-DC converter that boosts the 3.7 V Li-ion battery output to a stable 5.0 V rail. Adjusted via onboard trimmer potentiometer. Supplies the ESP32 VIN, Hall sensor VCC, and the level-shifter HV side. Efficiency up to 93%.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Steps up the Voltage from the battery (e.g., from 3.7V to 5V) to meet the power requirements of specific components like the TFT screen.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">3.7 V → 5 V</span>
                   <span className="hw-comp-tag">Boost</span>
@@ -497,7 +504,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">P4056 Charger Module</h3>
-                <p className="hw-comp-desc">Li-ion / LiPo single-cell charging IC (TP4056-based). Accepts 5 V input from the solar panel and safely charges the 18650 battery at up to 1 A. Includes over-charge, over-discharge, and short-circuit protection for safe outdoor deployment.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Safely manages the charging of the lithium battery from the solar panel, featuring built-in protection against overcharging and over-discharging.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">TP4056</span>
                   <span className="hw-comp-tag">1 A Charge</span>
@@ -514,7 +521,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">Lithium Battery</h3>
-                <p className="hw-comp-desc">18650 Li-ion rechargeable cell (3.7 V nominal, ~2000–3400 mAh). Stores energy harvested from the solar panel and powers the outdoor node during low-light periods or at night. Replace after ~2 years (when resting voltage drops below 2.9 V).</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Acts as the primary energy storage, ensuring the station remains fully operational continuously during the night or on cloudy days.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">3.7 V</span>
                   <span className="hw-comp-tag">18650</span>
@@ -531,7 +538,7 @@ export default function AboutPage() {
               </div>
               <div className="hw-comp-body">
                 <h3 className="hw-comp-title">ESP32 Terminal Adapter Board</h3>
-                <p className="hw-comp-desc">Breakout board with screw terminals for every ESP32 GPIO. Eliminates breadboard-wire instability in the outdoor enclosure — each sensor wire is securely clamped. Greatly simplifies field wiring, troubleshooting, and sensor replacement without soldering.</p>
+                <p className="hw-comp-desc"><strong>Function:</strong> Provides an organized, solder-free interface to connect external sensor and power wires securely to the ESP32 pins via robust screw terminals.</p>
                 <div className="hw-comp-tags">
                   <span className="hw-comp-tag">Screw Terminals</span>
                   <span className="hw-comp-tag">Breakout</span>
