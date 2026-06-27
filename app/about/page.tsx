@@ -53,7 +53,6 @@ const timeline = [
 ];
 
 export default function AboutPage() {
-  const [activeSection, setActiveSection] = useState<string>('overview');
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   return (
@@ -94,22 +93,21 @@ export default function AboutPage() {
       {/* ── Tab navigation ── */}
       <nav className="about-tabs" aria-label="Page sections">
         {(['overview', 'hardware', 'technology', 'timeline'] as const).map((tab) => (
-          <button
+          <a
             key={tab}
-            className={`about-tab ${activeSection === tab ? 'about-tab--active' : ''}`}
-            onClick={() => setActiveSection(tab)}
+            href={`#${tab}`}
+            className="about-tab"
           >
             {tab === 'overview' ? '📋 Overview'
               : tab === 'hardware' ? '🔧 Hardware'
                 : tab === 'technology' ? '⚙️ Technology'
                   : '🗓️ Timeline'}
-          </button>
+          </a>
         ))}
       </nav>
 
       {/* ══════════════════════════════════════════ OVERVIEW ══ */}
-      {activeSection === 'overview' && (
-        <div className="about-section">
+      <div id="overview" className="about-section">
 
           {/* ── Project Explainer Video ── */}
           <div className="about-video-card">
@@ -260,12 +258,9 @@ export default function AboutPage() {
           </div>
 
         </div>
-      )}
-
 
       {/* ══════════════════════════════════════════ HARDWARE ══ */}
-      {activeSection === 'hardware' && (
-        <div className="about-section">
+      <div id="hardware" className="about-section">
 
           {/* ── Bento Grid: System Overview ── */}
           <h2 className="about-section-title">System Architecture</h2>
@@ -836,11 +831,9 @@ export default function AboutPage() {
           <p className="rm-scroll-hint">← Scroll to explore all improvements →</p>
 
         </div>
-      )}
 
       {/* ══════════════════════════════════════════ TECHNOLOGY ══ */}
-      {activeSection === 'technology' && (
-        <div className="about-section">
+      <div id="technology" className="about-section">
           <h2 className="about-section-title">Technology Stack</h2>
           <p className="about-section-sub">
             The system is built on a modern, event-driven architecture — from embedded C++ firmware on the microcontroller
@@ -880,11 +873,9 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-      )}
 
       {/* ══════════════════════════════════════════ TIMELINE ══ */}
-      {activeSection === 'timeline' && (
-        <div className="about-section">
+      <div id="timeline" className="about-section">
           <h2 className="about-section-title">Development Timeline</h2>
           <p className="about-section-sub">
             The project was completed in five phases, each building on the previous.
@@ -926,7 +917,6 @@ export default function AboutPage() {
             </a>
           </div>
         </div>
-      )}
 
       {/* ── Footer ── */}
       <footer className="about-footer">
